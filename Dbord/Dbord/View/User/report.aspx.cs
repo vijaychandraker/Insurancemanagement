@@ -1,0 +1,160 @@
+﻿using Dbord.helpers;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace Dbord.View.User
+{
+    public partial class report : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                BindPolicies();
+            }
+        }
+
+        private void BindPolicies()
+        {
+            DataTable dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", new SqlParameter[] { });
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            SetFooterTotal(dt.Rows.Count);
+        }
+
+        private void BindPoliciesWithSearch()
+        {
+            // Get previous search values
+            Dictionary<string, string> searchValues = ViewState["SearchValues"] as Dictionary<string, string> ?? new Dictionary<string, string>();
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            foreach (var kvp in searchValues)
+            {
+                if (!string.IsNullOrEmpty(kvp.Value))
+                {
+                    parameters.Add(new SqlParameter("@" + kvp.Key, kvp.Value));
+                }
+            }
+
+            DataTable dt = new DatabaseHelper().ExecuteQuery("sp_getsearch", parameters.ToArray());
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            SetFooterTotal(dt.Rows.Count);
+        }
+
+
+        private void SetFooterTotal(int total)
+        {
+            if (GridView1.FooterRow != null)
+            {
+                TableCell footerCell = GridView1.FooterRow.Cells[0];
+                footerCell.ColumnSpan = GridView1.Columns.Count;
+                footerCell.Text = "Total Records: " + total;
+                for (int i = 1; i < GridView1.FooterRow.Cells.Count; i++)
+                    GridView1.FooterRow.Cells[i].Visible = false;
+                footerCell.CssClass = "grid-footer";
+            }
+        }
+
+        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+
+            // Rebind data with existing search filters
+            BindPoliciesWithSearch();
+        }
+
+
+        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                int serial = e.Row.RowIndex + 1 + (GridView1.PageIndex * GridView1.PageSize);
+                Label lblSerial = (Label)e.Row.FindControl("lblSerial");
+                if (lblSerial != null) lblSerial.Text = serial.ToString();
+            }
+        }
+
+        protected void SearchTextChanged(object sender, EventArgs e)
+        {
+            // Capture all header search box values
+            Dictionary<string, string> searchValues = new Dictionary<string, string>
+            {
+                ["Name"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchName"))?.Text.Trim() ?? "",
+                ["OwnerName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchOwner"))?.Text.Trim() ?? "",
+                ["Address"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchAddress"))?.Text.Trim() ?? "",
+                ["VehicleNo"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchVehicle"))?.Text.Trim() ?? "",
+                ["Particular"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchParticular"))?.Text.Trim() ?? "",
+                ["SumInsured"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchSumInsured"))?.Text.Trim() ?? "",
+                ["Premium"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchPremium"))?.Text.Trim() ?? "",
+                ["NCB"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchNCB"))?.Text.Trim() ?? "",
+                ["PolicyNo"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchPolicyNo"))?.Text.Trim() ?? "",
+                ["InsuredDate"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchStartDate"))?.Text.Trim() ?? "",
+                ["ExpireDate"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchEndDate"))?.Text.Trim() ?? "",
+                ["CompanyID"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCompany"))?.Text.Trim() ?? "",
+                ["CategoryID"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCategory"))?.Text.Trim() ?? ""
+            };
+
+            ViewState["SearchValues"] = searchValues;
+
+            // Reset to first page
+            GridView1.PageIndex = 0;
+            BindPoliciesWithSearch();
+        }
+
+
+        protected void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            GridView1.AllowPaging = false;
+            if (ViewState["SearchValues"] != null)
+                BindPoliciesWithSearch();
+            else
+                BindPolicies();
+
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment;filename=PolicyReport.xls");
+            Response.Charset = "";
+            Response.ContentType = "application/vnd.ms-excel";
+
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                {
+                    GridView1.RenderControl(hw);
+                    Response.Output.Write(sw.ToString());
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+        }
+
+        public override void VerifyRenderingInServerForm(Control control) { }
+
+        protected void btnRefresh_Click(object sender, EventArgs e)
+        {
+            // Clear search filters
+            ViewState["SearchValues"] = null;
+
+            // Clear all header textboxes
+            foreach (TableCell cell in GridView1.HeaderRow.Cells)
+            {
+                foreach (Control ctl in cell.Controls)
+                {
+                    if (ctl is TextBox txt)
+                        txt.Text = string.Empty;
+                }
+            }
+
+            // Reset page and bind full data
+            GridView1.PageIndex = 0;
+            BindPolicies();
+        }
+
+    }
+}
