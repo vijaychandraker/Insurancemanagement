@@ -9,127 +9,136 @@ namespace Dbord.View.User
 {
     public partial class User : System.Web.UI.Page
     {
+        private readonly DatabaseHelper db = new DatabaseHelper();
         protected void Page_Load(object sender, EventArgs e)
         {
             ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+            if (!IsPostBack)
+            {
+                LoadCompanies();
+                LoadCategories();
+            }
         }
 
         protected void btnSubmit_Click1(object sender, EventArgs e)
         {
             // Basic validation
-            if (string.IsNullOrWhiteSpace(txtPolicyNumber.Text) ||
-                string.IsNullOrWhiteSpace(txtCustomerName.Text) ||
-                string.IsNullOrWhiteSpace(txtPremiumAmount.Text) ||
+            if (string.IsNullOrWhiteSpace(txtName.Text) ||
+                string.IsNullOrWhiteSpace(txtOwnerName.Text) ||
+                string.IsNullOrWhiteSpace(txtAddress.Text) ||
+                string.IsNullOrWhiteSpace(txtVehicleNo.Text) ||
+                string.IsNullOrWhiteSpace(txtParticular.Text) ||
+                string.IsNullOrWhiteSpace(txtSumInsured.Text) ||
+                string.IsNullOrWhiteSpace(txtPremium.Text) ||
+                string.IsNullOrWhiteSpace(txtPolicyNo.Text) ||
                 string.IsNullOrWhiteSpace(txtStartDate.Text) ||
                 string.IsNullOrWhiteSpace(txtEndDate.Text) ||
-                string.IsNullOrWhiteSpace(ddlPolicyType.SelectedValue) ||
-                string.IsNullOrWhiteSpace(txtAgentName.Text) ||
-                string.IsNullOrWhiteSpace(txtCoverageAmount.Text) ||
-                string.IsNullOrWhiteSpace(ddlStatus.SelectedValue))
+                string.IsNullOrWhiteSpace(ddlCompany.SelectedValue) ||
+                string.IsNullOrWhiteSpace(ddlCategory.SelectedValue))
             {
                 lblMessage.Text = "Please fill all required fields.";
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 return;
             }
 
-            // Validate numeric fields
-            if (!decimal.TryParse(txtPremiumAmount.Text, out decimal premium))
-            {
-                lblMessage.Text = "Invalid premium amount.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
-                return;
-            }
-
-            if (!decimal.TryParse(txtCoverageAmount.Text, out decimal coverage))
-            {
-                lblMessage.Text = "Invalid coverage amount.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
-                return;
-            }
-
             // Validate dates
-            if (!DateTime.TryParse(txtStartDate.Text, out DateTime startDate))
+            if (!DateTime.TryParse(txtStartDate.Text, out DateTime insuredDate))
             {
-                lblMessage.Text = "Invalid start date.";
+                lblMessage.Text = "Invalid insured date.";
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 return;
             }
 
-            if (!DateTime.TryParse(txtEndDate.Text, out DateTime endDate))
+            if (!DateTime.TryParse(txtEndDate.Text, out DateTime expireDate))
             {
-                lblMessage.Text = "Invalid end date.";
+                lblMessage.Text = "Invalid expire date.";
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 return;
             }
 
-            if (endDate < startDate)
+            if (expireDate < insuredDate)
             {
-                lblMessage.Text = "End date must be after start date.";
+                lblMessage.Text = "Expire date must be after insured date.";
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 return;
             }
 
-            // If validation passes, insert into DB
+            // Insert into DB
             try
             {
-                DatabaseHelper db = new DatabaseHelper();
-
-                SqlParameter outputId = new SqlParameter("@NewPolicyId", SqlDbType.Int)
-                {
-                    Direction = ParameterDirection.Output
-                };
-
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@PolicyNumber", txtPolicyNumber.Text),
-                    new SqlParameter("@CustomerName", txtCustomerName.Text),
-                    new SqlParameter("@PremiumAmount", premium),
-                    new SqlParameter("@StartDate", startDate),
-                    new SqlParameter("@EndDate", endDate),
-                    new SqlParameter("@PolicyType", ddlPolicyType.SelectedValue),
-                    new SqlParameter("@AgentName", txtAgentName.Text),
-                    new SqlParameter("@CoverageAmount", coverage),
-                    new SqlParameter("@Status", ddlStatus.SelectedValue),
-                    new SqlParameter("@Remarks", txtRemarks.Text),
-                    outputId
+            new SqlParameter("@Name", txtName.Text.Trim()),
+            new SqlParameter("@OwnerName", txtOwnerName.Text.Trim()),
+            new SqlParameter("@Address", txtAddress.Text.Trim()),
+            new SqlParameter("@VehicleNo", txtVehicleNo.Text.Trim()),
+            new SqlParameter("@Particular", txtParticular.Text.Trim()),
+            new SqlParameter("@SumInsured", txtSumInsured.Text.Trim()),
+            new SqlParameter("@Premium", txtPremium.Text.Trim()),
+            new SqlParameter("@NCB", txtNCB.Text.Trim()),
+            new SqlParameter("@PolicyNo", txtPolicyNo.Text.Trim()),
+            new SqlParameter("@InsuredDate", insuredDate),
+            new SqlParameter("@ExpireDate", expireDate),
+            new SqlParameter("@CompanyID", ddlCompany.SelectedValue),
+            new SqlParameter("@CategoryID", ddlCategory.SelectedValue),
+
+            // OUTPUT parameter
+            new SqlParameter("@NewPolicyId", SqlDbType.Int) { Direction = ParameterDirection.Output }
                 };
 
-                db.ExecuteNonQuery("sp_InsertPolicyScheme", parameters);
+                db.ExecuteNonQuery("InsertInsurancePolicy", parameters);
 
-                // Check success from Output Parameter
-                if (outputId.Value != DBNull.Value && Convert.ToInt32(outputId.Value) > 0)
+                int newPolicyId = (int)parameters[parameters.Length - 1].Value;
+
+                if (newPolicyId > 0)
                 {
-                    int newId = Convert.ToInt32(outputId.Value);
-                    ScriptManager.RegisterStartupScript(this, GetType(), "successAlert", $@"
-                        Swal.fire({{
-                            icon: 'success',
-                            title: 'Inserted Successfully!',
-                            text: 'New Policy ID: {newId}'
-                        }});", true);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "successAlert",
+                        "<script>Swal.fire({ icon: 'success', title: 'Inserted Successfully!', text: 'New policy saved with ID: " + newPolicyId + "' });</script>",
+                        false);
 
                     ClearForm();
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert", @"
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Failed to insert record.'
-                        });", true);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert",
+                        "<script>Swal.fire({ icon: 'error', title: 'Error!', text: 'Failed to insert record.' });</script>",
+                        false);
                 }
+
             }
             catch (Exception ex)
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert", @"
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'An unexpected error occurred.'
-                    });", true);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'An unexpected error occurred.'
+            });", true);
+
                 lblMessage.Text = "Error: " + ex.Message;
                 lblMessage.ForeColor = System.Drawing.Color.Red;
             }
+        }
+
+
+        private void LoadCompanies()
+        {
+            DataTable dt = db.ExecuteQuery("sp_GetAllCompanies", null);
+            ddlCompany.DataSource = dt;
+            ddlCompany.DataTextField = "CompanyName";
+            ddlCompany.DataValueField = "c_id";
+            ddlCompany.DataBind();
+            ddlCompany.Items.Insert(0, new ListItem("-- Select Company --", ""));
+        }
+
+        private void LoadCategories()
+        {
+            DataTable dt = db.ExecuteQuery("sp_GetAllCategories", null);
+            ddlCategory.DataSource = dt;
+            ddlCategory.DataTextField = "CategoryName";
+            ddlCategory.DataValueField = "c_id";
+            ddlCategory.DataBind();
+            ddlCategory.Items.Insert(0, new ListItem("-- Select Category --", ""));
         }
 
         protected void btnClear_Click(object sender, EventArgs e)
@@ -139,21 +148,21 @@ namespace Dbord.View.User
 
         private void ClearForm()
         {
-            // Clear all textboxes
-            txtPolicyNumber.Text = "";
-            txtCustomerName.Text = "";
-            txtPremiumAmount.Text = "";
+            txtName.Text = "";
+            txtOwnerName.Text = "";
+            txtAddress.Text = "";
+            txtVehicleNo.Text = "";
+            txtParticular.Text = "";
+            txtSumInsured.Text = "";
+            txtPremium.Text = "";
+            txtNCB.Text = "";
+            txtPolicyNo.Text = "";
             txtStartDate.Text = "";
             txtEndDate.Text = "";
-            txtAgentName.Text = "";
-            txtCoverageAmount.Text = "";
-            txtRemarks.Text = "";
 
-            // Reset dropdowns
-            ddlPolicyType.SelectedIndex = 0;
-            ddlStatus.SelectedIndex = 0;
+            ddlCompany.SelectedIndex = 0;
+            ddlCategory.SelectedIndex = 0;
 
-            // Clear message
             lblMessage.Text = "";
         }
     }

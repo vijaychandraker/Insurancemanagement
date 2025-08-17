@@ -23,7 +23,7 @@ namespace Dbord.View.Admin
             try
             {
                 DatabaseHelper db = new DatabaseHelper();
-                DataTable dt = db.ExecuteQuery("sp_GetAllPolicies", new SqlParameter[] { });
+                DataTable dt = db.ExecuteQuery("GetAllInsurancePolicies", new SqlParameter[] { });
                 gvPolicies.DataSource = dt;
                 gvPolicies.DataBind();
             }
@@ -50,34 +50,44 @@ namespace Dbord.View.Admin
             try
             {
                 int id = Convert.ToInt32(gvPolicies.DataKeys[e.RowIndex].Value);
-
                 GridViewRow row = gvPolicies.Rows[e.RowIndex];
 
-                string policyNumber = ((TextBox)row.FindControl("txtPolicyNumber")).Text;
-                string customerName = ((TextBox)row.FindControl("txtCustomerName")).Text;
-                decimal premium = Convert.ToDecimal(((TextBox)row.FindControl("txtPremium")).Text);
-                DateTime startDate = Convert.ToDateTime(((TextBox)row.FindControl("txtStartDate")).Text);
-                DateTime endDate = Convert.ToDateTime(((TextBox)row.FindControl("txtEndDate")).Text);
-                string policyType = ((TextBox)row.FindControl("txtPolicyType")).Text;
-                string agentName = ((TextBox)row.FindControl("txtAgentName")).Text;
-                decimal coverage = Convert.ToDecimal(((TextBox)row.FindControl("txtCoverage")).Text);
-                string status = ((DropDownList)row.FindControl("ddlStatus")).SelectedValue;
-                string remarks = ((TextBox)row.FindControl("txtRemarks")).Text;
+                string Name = ((TextBox)row.FindControl("txtName")).Text.Trim();
+                string OwnerName = ((TextBox)row.FindControl("txtOwnerName")).Text.Trim();
+                string Address = ((TextBox)row.FindControl("txtAddress")).Text.Trim();
+                string VehicleNo = ((TextBox)row.FindControl("txtVehicleNo")).Text.Trim();
+                string Particular = ((TextBox)row.FindControl("txtParticular")).Text.Trim();
+                string SumInsured = ((TextBox)row.FindControl("txtSumInsured")).Text.Trim();
+                string Premium = ((TextBox)row.FindControl("txtPremium")).Text.Trim();
+                string NCB = ((TextBox)row.FindControl("txtNCB")).Text.Trim();
+                string PolicyNo = ((TextBox)row.FindControl("txtPolicyNo")).Text.Trim();
+                DateTime InsuredDate;
+                DateTime.TryParse(((TextBox)row.FindControl("txtStartDate")).Text.Trim(), out InsuredDate);
+                DateTime ExpireDate;
+                DateTime.TryParse(((TextBox)row.FindControl("txtEndDate")).Text.Trim(), out ExpireDate);
+                int CompanyID = 0;
+                int.TryParse(((TextBox)row.FindControl("txtCompanyID")).Text.Trim(), out CompanyID);
+
+                int CategoryID = 0;
+                int.TryParse(((TextBox)row.FindControl("txtCategoryID")).Text.Trim(), out CategoryID);
 
                 DatabaseHelper db = new DatabaseHelper();
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@PolicyId", id),
-                    new SqlParameter("@PolicyNumber", policyNumber),
-                    new SqlParameter("@CustomerName", customerName),
-                    new SqlParameter("@PremiumAmount", premium),
-                    new SqlParameter("@StartDate", startDate),
-                    new SqlParameter("@EndDate", endDate),
-                    new SqlParameter("@PolicyType", policyType),
-                    new SqlParameter("@AgentName", agentName),
-                    new SqlParameter("@CoverageAmount", coverage),
-                    new SqlParameter("@Status", status),
-                    new SqlParameter("@Remarks", remarks)
+            new SqlParameter("@PolicyID", id),
+            new SqlParameter("@Name", Name),
+            new SqlParameter("@OwnerName", OwnerName),
+            new SqlParameter("@Address", Address),
+            new SqlParameter("@VehicleNo", VehicleNo),
+            new SqlParameter("@Particular", Particular),
+            new SqlParameter("@SumInsured", SumInsured),
+            new SqlParameter("@Premium", Premium),
+            new SqlParameter("@NCB", NCB),
+            new SqlParameter("@PolicyNo", PolicyNo),
+            new SqlParameter("@InsuredDate", (object)InsuredDate ?? DBNull.Value),
+            new SqlParameter("@ExpireDate", (object)ExpireDate ?? DBNull.Value),
+            new SqlParameter("@CompanyID", CompanyID),
+            new SqlParameter("@CategoryID", CategoryID)
                 };
 
                 db.ExecuteNonQuery("sp_UpdatePolicyScheme", parameters);
@@ -91,6 +101,8 @@ namespace Dbord.View.Admin
                 ShowError("Error updating record: " + ex.Message);
             }
         }
+
+
 
         protected void gvPolicies_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
@@ -198,9 +210,9 @@ namespace Dbord.View.Admin
                 if (!string.IsNullOrEmpty(searchText))
                 {
                     // Filter DataTable in memory
-                    string filterExpression = $"Convert(PolicyNumber, 'System.String') LIKE '%{searchText}%' OR " +
-                                              $"CustomerName LIKE '%{searchText}%' OR " +
-                                              $"Status LIKE '%{searchText}%'";
+                    string filterExpression = $"Convert(PolicyNo, 'System.String') LIKE '%{searchText}%' OR " +
+                                              $"Name LIKE '%{searchText}%' OR " +
+                                             $"Convert(VehicleNo, 'System.String') LIKE '%{searchText}%'";
                     DataRow[] filteredRows = dt.Select(filterExpression);
 
                     if (filteredRows.Length > 0)
