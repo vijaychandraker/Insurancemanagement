@@ -61,7 +61,7 @@
                     </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:BoundField DataField="PolicyID" HeaderText="Policy ID" ReadOnly="true" />
+                <asp:BoundField DataField="PolicyID" HeaderText="Policy ID" ReadOnly="true" Visible="false" />
 
                 <asp:TemplateField HeaderText="Customer Name">
                     <ItemTemplate><%# Eval("Name") %></ItemTemplate>

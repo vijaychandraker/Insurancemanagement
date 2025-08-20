@@ -1,4 +1,4 @@
-﻿using Dbord.helpers;
+using Dbord.helpers;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,43 +10,37 @@ namespace Dbord.View.Admin
     public partial class showdata : System.Web.UI.Page
     {
         private readonly DatabaseHelper db = new DatabaseHelper();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+
             if (!IsPostBack)
-            {
                 BindGrid();
-            }
         }
 
         private void BindGrid(string searchText = "")
         {
             try
             {
-             
                 DataTable dt = db.ExecuteQuery("sp_GetAllPolicies", null);
 
+                // 🔎 Apply search filter
                 if (!string.IsNullOrEmpty(searchText))
                 {
-                    string filterExpression =
-                        $"Convert(PolicyNo, 'System.String') LIKE '%{searchText}%' OR " +
-                        $"Name LIKE '%{searchText}%' OR " +
-                        $"Convert(VehicleNo, 'System.String') LIKE '%{searchText}%' OR " +
-                        $"CompanyName LIKE '%{searchText}%' OR " +
-                        $"CategoryName LIKE '%{searchText}%'";
-
-                    DataRow[] filteredRows = dt.Select(filterExpression);
-
-                    if (filteredRows.Length > 0)
-                        dt = filteredRows.CopyToDataTable();
-                    else
-                        dt.Clear();
+                    string filter = $"Convert(PolicyNo, 'System.String') LIKE '%{searchText}%' OR " +
+                                    $"Name LIKE '%{searchText}%' OR " +
+                                    $"Convert(VehicleNo, 'System.String') LIKE '%{searchText}%' OR " +
+                                    $"CompanyName LIKE '%{searchText}%' OR " +
+                                    $"CategoryName LIKE '%{searchText}%'";
+                    DataRow[] filtered = dt.Select(filter);
+                    dt = filtered.Length > 0 ? filtered.CopyToDataTable() : dt.Clone();
                 }
 
                 gvPolicies.DataSource = dt;
                 gvPolicies.DataBind();
 
-                // ✅ Save data to ViewState for search/paging
+                // ✅ Save filtered data in ViewState
                 ViewState["GridData"] = dt;
             }
             catch (Exception ex)
@@ -58,22 +52,23 @@ namespace Dbord.View.Admin
         protected void gvPolicies_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvPolicies.EditIndex = e.NewEditIndex;
-            BindGrid();
+            RebindFromViewState();
         }
 
         protected void gvPolicies_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvPolicies.EditIndex = -1;
-            BindGrid();
+            RebindFromViewState();
         }
 
         protected void gvPolicies_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             try
             {
-                int id = Convert.ToInt32(gvPolicies.DataKeys[e.RowIndex].Value);
+                int id = Convert.ToInt32(gvPolicies.DataKeys[e.RowIndex]["PolicyID"]);
                 GridViewRow row = gvPolicies.Rows[e.RowIndex];
 
+                // Text fields
                 string Name = ((TextBox)row.FindControl("txtName")).Text.Trim();
                 string OwnerName = ((TextBox)row.FindControl("txtOwnerName")).Text.Trim();
                 string Address = ((TextBox)row.FindControl("txtAddress")).Text.Trim();
@@ -84,24 +79,18 @@ namespace Dbord.View.Admin
                 string NCB = ((TextBox)row.FindControl("txtNCB")).Text.Trim();
                 string PolicyNo = ((TextBox)row.FindControl("txtPolicyNo")).Text.Trim();
 
-                DateTime InsuredDate;
-                DateTime.TryParse(((TextBox)row.FindControl("txtStartDate")).Text.Trim(), out InsuredDate);
+                DateTime.TryParse(((TextBox)row.FindControl("txtStartDate")).Text.Trim(), out DateTime InsuredDate);
+                DateTime.TryParse(((TextBox)row.FindControl("txtEndDate")).Text.Trim(), out DateTime ExpireDate);
 
-                DateTime ExpireDate;
-                DateTime.TryParse(((TextBox)row.FindControl("txtEndDate")).Text.Trim(), out ExpireDate);
-
-                int CompanyID = 0;
+                // Dropdowns
                 DropDownList ddlCompany = (DropDownList)row.FindControl("ddlCompany");
-                if (ddlCompany != null)
-                    int.TryParse(ddlCompany.SelectedValue, out CompanyID);
-
-                int CategoryID = 0;
                 DropDownList ddlCategory = (DropDownList)row.FindControl("ddlCategory");
-                if (ddlCategory != null)
-                    int.TryParse(ddlCategory.SelectedValue, out CategoryID);
 
-                DatabaseHelper db = new DatabaseHelper();
-                SqlParameter[] parameters = new SqlParameter[]
+                int.TryParse(ddlCompany?.SelectedValue, out int CompanyID);
+                int.TryParse(ddlCategory?.SelectedValue, out int CategoryID);
+
+                // Update DB
+                SqlParameter[] parameters =
                 {
                     new SqlParameter("@PolicyID", id),
                     new SqlParameter("@Name", Name),
@@ -122,7 +111,7 @@ namespace Dbord.View.Admin
                 db.ExecuteNonQuery("sp_UpdatePolicyScheme", parameters);
 
                 gvPolicies.EditIndex = -1;
-                BindGrid();
+                BindGrid(txtSearch.Text.Trim()); // ✅ reload with current filter
                 ShowSuccess("Record updated successfully.");
             }
             catch (Exception ex)
@@ -133,11 +122,11 @@ namespace Dbord.View.Admin
 
         protected void gvPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow && (e.Row.RowState & DataControlRowState.Edit) > 0)
+            if (e.Row.RowType == DataControlRowType.DataRow &&
+                (e.Row.RowState & DataControlRowState.Edit) > 0)
             {
+                // Company Dropdown
                 DropDownList ddlCompany = (DropDownList)e.Row.FindControl("ddlCompany");
-                DropDownList ddlCategory = (DropDownList)e.Row.FindControl("ddlCategory");
-
                 if (ddlCompany != null)
                 {
                     DataTable dtCompany = db.ExecuteQuery("sp_GetAllCompanies", null);
@@ -151,6 +140,8 @@ namespace Dbord.View.Admin
                         ddlCompany.SelectedValue = currentCompany;
                 }
 
+                // Category Dropdown
+                DropDownList ddlCategory = (DropDownList)e.Row.FindControl("ddlCategory");
                 if (ddlCategory != null)
                 {
                     DataTable dtCategory = db.ExecuteQuery("sp_GetAllCategories", null);
@@ -166,21 +157,16 @@ namespace Dbord.View.Admin
             }
         }
 
-
-
-
-
         protected void gvPolicies_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             try
             {
-                int id = Convert.ToInt32(gvPolicies.DataKeys[e.RowIndex].Value);
-
-                DatabaseHelper db = new DatabaseHelper();
+                int id = Convert.ToInt32(gvPolicies.DataKeys[e.RowIndex]["PolicyID"]);
                 SqlParameter[] parameters = { new SqlParameter("@PolicyID", id) };
+
                 db.ExecuteNonQuery("sp_DeletePolicyScheme", parameters);
 
-                BindGrid();
+                BindGrid(txtSearch.Text.Trim());
                 ShowSuccess("Record deleted successfully.");
             }
             catch (Exception ex)
@@ -192,13 +178,12 @@ namespace Dbord.View.Admin
         protected void gvPolicies_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvPolicies.PageIndex = e.NewPageIndex;
-            BindGrid();
+            RebindFromViewState();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            string searchText = txtSearch.Text.Trim();
-            BindGrid(searchText);
+            BindGrid(txtSearch.Text.Trim());
         }
 
         protected void btnClearSearch_Click(object sender, EventArgs e)
@@ -207,6 +192,21 @@ namespace Dbord.View.Admin
             BindGrid();
         }
 
+        private void RebindFromViewState()
+        {
+            if (ViewState["GridData"] != null)
+            {
+                DataTable dt = (DataTable)ViewState["GridData"];
+                gvPolicies.DataSource = dt;
+                gvPolicies.DataBind();
+            }
+            else
+            {
+                BindGrid();
+            }
+        }
+
+        // Alerts
         private void ShowSuccess(string message)
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "successAlert", $@"
