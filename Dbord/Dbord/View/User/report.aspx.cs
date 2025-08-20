@@ -96,8 +96,8 @@ namespace Dbord.View.User
                 ["PolicyNo"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchPolicyNo"))?.Text.Trim() ?? "",
                 ["InsuredDate"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchStartDate"))?.Text.Trim() ?? "",
                 ["ExpireDate"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchEndDate"))?.Text.Trim() ?? "",
-                ["CompanyID"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCompany"))?.Text.Trim() ?? "",
-                ["CategoryID"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCategory"))?.Text.Trim() ?? ""
+                ["CompanyName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCompany"))?.Text.Trim() ?? "",
+                ["CategoryName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCategory"))?.Text.Trim() ?? ""
             };
 
             ViewState["SearchValues"] = searchValues;

@@ -92,18 +92,19 @@ namespace Dbord.View.User
 
                 if (newPolicyId > 0)
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "successAlert",
-                        "<script>Swal.fire({ icon: 'success', title: 'Inserted Successfully!', text: 'New policy saved with ID: " + newPolicyId + "' });</script>",
-                        false);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "successAlert",
+                        "Swal.fire({ icon: 'success', title: 'Inserted Successfully!', text: 'New policy saved with ID: " + newPolicyId + "' });",
+                        true);
 
                     ClearForm();
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert",
-                        "<script>Swal.fire({ icon: 'error', title: 'Error!', text: 'Failed to insert record.' });</script>",
-                        false);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "errorAlert",
+                        "Swal.fire({ icon: 'error', title: 'Error!', text: 'Failed to insert record.' });",
+                        true);
                 }
+
 
             }
             catch (Exception ex)

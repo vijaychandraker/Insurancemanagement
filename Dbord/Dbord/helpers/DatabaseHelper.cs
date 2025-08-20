@@ -32,7 +32,7 @@ namespace Dbord.helpers
         }
 
         public DataTable ExecuteQuery(string storedProcedure, SqlParameter[] parameters)
-        {
+                {
             DataTable dt = new DataTable();
 
             using (SqlConnection conn = new SqlConnection(_connectionString))

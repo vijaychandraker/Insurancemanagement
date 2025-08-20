@@ -185,7 +185,7 @@
                             Company<br /><br />
                             <asp:TextBox ID="txtSearchCompany" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                         </HeaderTemplate>
-                        <ItemTemplate><%# Eval("CompanyID") %></ItemTemplate>
+                        <ItemTemplate><%# Eval("CompanyName") %></ItemTemplate>
                     </asp:TemplateField>
 
                    
@@ -194,7 +194,7 @@
                             Category<br /><br />
                             <asp:TextBox ID="txtSearchCategory" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                         </HeaderTemplate>
-                        <ItemTemplate><%# Eval("CategoryID") %></ItemTemplate>
+                        <ItemTemplate><%# Eval("CategoryName") %></ItemTemplate>
                     </asp:TemplateField>
 
                 </Columns>

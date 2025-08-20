@@ -9,6 +9,7 @@ namespace Dbord.View.Admin
 {
     public partial class showdata : System.Web.UI.Page
     {
+        private readonly DatabaseHelper db = new DatabaseHelper();
         protected void Page_Load(object sender, EventArgs e)
         {
             ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
@@ -18,14 +19,35 @@ namespace Dbord.View.Admin
             }
         }
 
-        private void BindGrid()
+        private void BindGrid(string searchText = "")
         {
             try
             {
-                DatabaseHelper db = new DatabaseHelper();
-                DataTable dt = db.ExecuteQuery("GetAllInsurancePolicies", new SqlParameter[] { });
+             
+                DataTable dt = db.ExecuteQuery("sp_GetAllPolicies", null);
+
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    string filterExpression =
+                        $"Convert(PolicyNo, 'System.String') LIKE '%{searchText}%' OR " +
+                        $"Name LIKE '%{searchText}%' OR " +
+                        $"Convert(VehicleNo, 'System.String') LIKE '%{searchText}%' OR " +
+                        $"CompanyName LIKE '%{searchText}%' OR " +
+                        $"CategoryName LIKE '%{searchText}%'";
+
+                    DataRow[] filteredRows = dt.Select(filterExpression);
+
+                    if (filteredRows.Length > 0)
+                        dt = filteredRows.CopyToDataTable();
+                    else
+                        dt.Clear();
+                }
+
                 gvPolicies.DataSource = dt;
                 gvPolicies.DataBind();
+
+                // ✅ Save data to ViewState for search/paging
+                ViewState["GridData"] = dt;
             }
             catch (Exception ex)
             {
@@ -61,33 +83,40 @@ namespace Dbord.View.Admin
                 string Premium = ((TextBox)row.FindControl("txtPremium")).Text.Trim();
                 string NCB = ((TextBox)row.FindControl("txtNCB")).Text.Trim();
                 string PolicyNo = ((TextBox)row.FindControl("txtPolicyNo")).Text.Trim();
+
                 DateTime InsuredDate;
                 DateTime.TryParse(((TextBox)row.FindControl("txtStartDate")).Text.Trim(), out InsuredDate);
+
                 DateTime ExpireDate;
                 DateTime.TryParse(((TextBox)row.FindControl("txtEndDate")).Text.Trim(), out ExpireDate);
+
                 int CompanyID = 0;
-                int.TryParse(((TextBox)row.FindControl("txtCompanyID")).Text.Trim(), out CompanyID);
+                DropDownList ddlCompany = (DropDownList)row.FindControl("ddlCompany");
+                if (ddlCompany != null)
+                    int.TryParse(ddlCompany.SelectedValue, out CompanyID);
 
                 int CategoryID = 0;
-                int.TryParse(((TextBox)row.FindControl("txtCategoryID")).Text.Trim(), out CategoryID);
+                DropDownList ddlCategory = (DropDownList)row.FindControl("ddlCategory");
+                if (ddlCategory != null)
+                    int.TryParse(ddlCategory.SelectedValue, out CategoryID);
 
                 DatabaseHelper db = new DatabaseHelper();
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-            new SqlParameter("@PolicyID", id),
-            new SqlParameter("@Name", Name),
-            new SqlParameter("@OwnerName", OwnerName),
-            new SqlParameter("@Address", Address),
-            new SqlParameter("@VehicleNo", VehicleNo),
-            new SqlParameter("@Particular", Particular),
-            new SqlParameter("@SumInsured", SumInsured),
-            new SqlParameter("@Premium", Premium),
-            new SqlParameter("@NCB", NCB),
-            new SqlParameter("@PolicyNo", PolicyNo),
-            new SqlParameter("@InsuredDate", (object)InsuredDate ?? DBNull.Value),
-            new SqlParameter("@ExpireDate", (object)ExpireDate ?? DBNull.Value),
-            new SqlParameter("@CompanyID", CompanyID),
-            new SqlParameter("@CategoryID", CategoryID)
+                    new SqlParameter("@PolicyID", id),
+                    new SqlParameter("@Name", Name),
+                    new SqlParameter("@OwnerName", OwnerName),
+                    new SqlParameter("@Address", Address),
+                    new SqlParameter("@VehicleNo", VehicleNo),
+                    new SqlParameter("@Particular", Particular),
+                    new SqlParameter("@SumInsured", SumInsured),
+                    new SqlParameter("@Premium", Premium),
+                    new SqlParameter("@NCB", NCB),
+                    new SqlParameter("@PolicyNo", PolicyNo),
+                    new SqlParameter("@InsuredDate", InsuredDate == DateTime.MinValue ? (object)DBNull.Value : InsuredDate),
+                    new SqlParameter("@ExpireDate", ExpireDate == DateTime.MinValue ? (object)DBNull.Value : ExpireDate),
+                    new SqlParameter("@CompanyID", CompanyID),
+                    new SqlParameter("@CategoryID", CategoryID)
                 };
 
                 db.ExecuteNonQuery("sp_UpdatePolicyScheme", parameters);
@@ -102,6 +131,43 @@ namespace Dbord.View.Admin
             }
         }
 
+        protected void gvPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow && (e.Row.RowState & DataControlRowState.Edit) > 0)
+            {
+                DropDownList ddlCompany = (DropDownList)e.Row.FindControl("ddlCompany");
+                DropDownList ddlCategory = (DropDownList)e.Row.FindControl("ddlCategory");
+
+                if (ddlCompany != null)
+                {
+                    DataTable dtCompany = db.ExecuteQuery("sp_GetAllCompanies", null);
+                    ddlCompany.DataSource = dtCompany;
+                    ddlCompany.DataTextField = "CompanyName";
+                    ddlCompany.DataValueField = "c_id";
+                    ddlCompany.DataBind();
+
+                    string currentCompany = gvPolicies.DataKeys[e.Row.RowIndex]["CompanyID"].ToString();
+                    if (ddlCompany.Items.FindByValue(currentCompany) != null)
+                        ddlCompany.SelectedValue = currentCompany;
+                }
+
+                if (ddlCategory != null)
+                {
+                    DataTable dtCategory = db.ExecuteQuery("sp_GetAllCategories", null);
+                    ddlCategory.DataSource = dtCategory;
+                    ddlCategory.DataTextField = "CategoryName";
+                    ddlCategory.DataValueField = "c_id";
+                    ddlCategory.DataBind();
+
+                    string currentCategory = gvPolicies.DataKeys[e.Row.RowIndex]["CategoryID"].ToString();
+                    if (ddlCategory.Items.FindByValue(currentCategory) != null)
+                        ddlCategory.SelectedValue = currentCategory;
+                }
+            }
+        }
+
+
+
 
 
         protected void gvPolicies_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -111,11 +177,7 @@ namespace Dbord.View.Admin
                 int id = Convert.ToInt32(gvPolicies.DataKeys[e.RowIndex].Value);
 
                 DatabaseHelper db = new DatabaseHelper();
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@PolicyId", id)
-                };
-
+                SqlParameter[] parameters = { new SqlParameter("@PolicyID", id) };
                 db.ExecuteNonQuery("sp_DeletePolicyScheme", parameters);
 
                 BindGrid();
@@ -127,27 +189,21 @@ namespace Dbord.View.Admin
             }
         }
 
-        protected void gvPolicies_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            if (e.CommandName == "DeleteRecord")
-            {
-                int index = Convert.ToInt32(e.CommandArgument);
-                int id = Convert.ToInt32(gvPolicies.DataKeys[index].Value);
-
-                DatabaseHelper db = new DatabaseHelper();
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@PolicyId", id)
-                };
-                db.ExecuteNonQuery("sp_DeletePolicyScheme", parameters);
-                BindGrid();
-                ShowSuccess("Record deleted successfully.");
-            }
-        }
-
         protected void gvPolicies_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvPolicies.PageIndex = e.NewPageIndex;
+            BindGrid();
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchText = txtSearch.Text.Trim();
+            BindGrid(searchText);
+        }
+
+        protected void btnClearSearch_Click(object sender, EventArgs e)
+        {
+            txtSearch.Text = string.Empty;
             BindGrid();
         }
 
@@ -170,77 +226,5 @@ namespace Dbord.View.Admin
                     text: '{message}'
                 }});", true);
         }
-
-        protected void gvPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow && e.Row.RowState.HasFlag(DataControlRowState.Edit))
-            {
-                DropDownList ddlStatus = (DropDownList)e.Row.FindControl("ddlStatus");
-                if (ddlStatus != null)
-                {
-                    // Populate dropdown items
-                    if (ddlStatus.Items.Count == 0) // Prevent duplicate items on postback
-                    {
-                        ddlStatus.Items.Add(new ListItem("-- Select --", ""));
-                        ddlStatus.Items.Add(new ListItem("Active", "Active"));
-                        ddlStatus.Items.Add(new ListItem("Pending", "Pending"));
-                        ddlStatus.Items.Add(new ListItem("Expired", "Expired"));
-                    }
-
-                    // Set selected value
-                    string currentStatus = DataBinder.Eval(e.Row.DataItem, "Status")?.ToString();
-                    if (!string.IsNullOrEmpty(currentStatus))
-                    {
-                        ListItem item = ddlStatus.Items.FindByValue(currentStatus);
-                        if (item != null)
-                        {
-                            ddlStatus.SelectedValue = currentStatus;
-                        }
-                    }
-                }
-            }
-        }
-        private void BindGrid(string searchText = "")
-        {
-            try
-            {
-                DatabaseHelper db = new DatabaseHelper();
-                DataTable dt = db.ExecuteQuery("sp_GetAllPolicies", new SqlParameter[] { });
-
-                if (!string.IsNullOrEmpty(searchText))
-                {
-                    // Filter DataTable in memory
-                    string filterExpression = $"Convert(PolicyNo, 'System.String') LIKE '%{searchText}%' OR " +
-                                              $"Name LIKE '%{searchText}%' OR " +
-                                             $"Convert(VehicleNo, 'System.String') LIKE '%{searchText}%'";
-                    DataRow[] filteredRows = dt.Select(filterExpression);
-
-                    if (filteredRows.Length > 0)
-                        dt = filteredRows.CopyToDataTable();
-                    else
-                        dt.Clear();
-                }
-
-                gvPolicies.DataSource = dt;
-                gvPolicies.DataBind();
-            }
-            catch (Exception ex)
-            {
-                ShowError("Error loading data: " + ex.Message);
-            }
-        }
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            string searchText = txtSearch.Text.Trim();
-            BindGrid(searchText);
-        }
-
-        protected void btnClearSearch_Click(object sender, EventArgs e)
-        {
-            txtSearch.Text = "";
-            BindGrid();
-        }
-
-
     }
 }
