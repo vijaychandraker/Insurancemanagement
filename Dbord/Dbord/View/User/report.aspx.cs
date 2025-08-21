@@ -14,9 +14,7 @@ namespace Dbord.View.User
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-            {
                 BindPolicies();
-            }
         }
 
         private void BindPolicies()
@@ -24,29 +22,27 @@ namespace Dbord.View.User
             DataTable dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", new SqlParameter[] { });
             GridView1.DataSource = dt;
             GridView1.DataBind();
-            SetFooterTotal(dt.Rows.Count);
+            if (dt.Rows.Count > 0)
+                SetFooterTotal(dt.Rows.Count);
         }
 
         private void BindPoliciesWithSearch()
         {
-            // Get previous search values
             Dictionary<string, string> searchValues = ViewState["SearchValues"] as Dictionary<string, string> ?? new Dictionary<string, string>();
-
             List<SqlParameter> parameters = new List<SqlParameter>();
+
             foreach (var kvp in searchValues)
             {
                 if (!string.IsNullOrEmpty(kvp.Value))
-                {
                     parameters.Add(new SqlParameter("@" + kvp.Key, kvp.Value));
-                }
             }
 
             DataTable dt = new DatabaseHelper().ExecuteQuery("sp_getsearch", parameters.ToArray());
             GridView1.DataSource = dt;
             GridView1.DataBind();
-            SetFooterTotal(dt.Rows.Count);
+            if (dt.Rows.Count > 0)
+                SetFooterTotal(dt.Rows.Count);
         }
-
 
         private void SetFooterTotal(int total)
         {
@@ -64,11 +60,8 @@ namespace Dbord.View.User
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
-
-            // Rebind data with existing search filters
             BindPoliciesWithSearch();
         }
-
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -82,7 +75,6 @@ namespace Dbord.View.User
 
         protected void SearchTextChanged(object sender, EventArgs e)
         {
-            // Capture all header search box values
             Dictionary<string, string> searchValues = new Dictionary<string, string>
             {
                 ["Name"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchName"))?.Text.Trim() ?? "",
@@ -94,19 +86,16 @@ namespace Dbord.View.User
                 ["Premium"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchPremium"))?.Text.Trim() ?? "",
                 ["NCB"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchNCB"))?.Text.Trim() ?? "",
                 ["PolicyNo"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchPolicyNo"))?.Text.Trim() ?? "",
-                ["InsuredDate"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchStartDate"))?.Text.Trim() ?? "",
-                ["ExpireDate"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchEndDate"))?.Text.Trim() ?? "",
+                ["InsuredDateSearch"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchStartDate"))?.Text.Trim() ?? "",
+                ["ExpireDateSearch"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchEndDate"))?.Text.Trim() ?? "",
                 ["CompanyName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCompany"))?.Text.Trim() ?? "",
                 ["CategoryName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCategory"))?.Text.Trim() ?? ""
             };
 
             ViewState["SearchValues"] = searchValues;
-
-            // Reset to first page
             GridView1.PageIndex = 0;
             BindPoliciesWithSearch();
         }
-
 
         protected void btnExportExcel_Click(object sender, EventArgs e)
         {
@@ -123,14 +112,12 @@ namespace Dbord.View.User
             Response.ContentType = "application/vnd.ms-excel";
 
             using (StringWriter sw = new StringWriter())
+            using (HtmlTextWriter hw = new HtmlTextWriter(sw))
             {
-                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
-                {
-                    GridView1.RenderControl(hw);
-                    Response.Output.Write(sw.ToString());
-                    Response.Flush();
-                    Response.End();
-                }
+                GridView1.RenderControl(hw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
             }
         }
 
@@ -141,13 +128,16 @@ namespace Dbord.View.User
             // Clear search filters
             ViewState["SearchValues"] = null;
 
-            // Clear all header textboxes
-            foreach (TableCell cell in GridView1.HeaderRow.Cells)
+            // Clear all header textboxes only if HeaderRow exists
+            if (GridView1.HeaderRow != null)
             {
-                foreach (Control ctl in cell.Controls)
+                foreach (TableCell cell in GridView1.HeaderRow.Cells)
                 {
-                    if (ctl is TextBox txt)
-                        txt.Text = string.Empty;
+                    foreach (Control ctl in cell.Controls)
+                    {
+                        if (ctl is TextBox txt)
+                            txt.Text = string.Empty;
+                    }
                 }
             }
 

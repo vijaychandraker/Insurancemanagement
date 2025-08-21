@@ -3,28 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|c:\\users\\ql968pk\\source\\repos\\dbord\\dbord\\view\\admin\\showdata.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\showdata.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\admin\\dashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\dashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\user\\report.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\report.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\admin\\showdata.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\showdata.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\helpers\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\helpers\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|c:\\users\\ql968pk\\source\\repos\\dbord\\dbord\\view\\admin\\dashboard.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\dashboard.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\user\\user.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\user.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\admin\\showdata.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\showdata.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\user\\user.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\user.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\user\\report.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\report.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\user\\report.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\report.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\user\\user.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\user.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\QL968PK\\AppData\\Local\\Temp\\.vsdbgsrc\\bc4444e838425e166378449a2d689bf9cdf745ffca45fe688a9d99a4162a7e10\\report.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -36,14 +48,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\login\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\login\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\admin\\dashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\dashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\view\\admin\\dashboard.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\dashboard.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\source\\repos\\Dbord\\dbord\\helpers\\captcha.ashx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -77,60 +81,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Login.aspx",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\login\\Login.aspx",
-              "RelativeDocumentMoniker": "Dbord\\login\\Login.aspx",
-              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\login\\Login.aspx",
-              "RelativeToolTip": "Dbord\\login\\Login.aspx",
+              "DocumentIndex": 0,
+              "Title": "Dashboard.aspx",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx",
+              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\Dashboard.aspx",
+              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx",
+              "RelativeToolTip": "Dbord\\View\\Admin\\Dashboard.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-08-15T05:19:10.793Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "showdata.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\showdata.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\showdata.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\showdata.aspx.cs",
-              "RelativeToolTip": "Dbord\\View\\Admin\\showdata.aspx.cs",
-              "ViewState": "AQIAAMsAAAAAAAAAAAAIwOYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-15T13:46:22.348Z",
+              "WhenOpened": "2025-08-15T06:22:35.569Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "report.aspx",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\report.aspx",
-              "RelativeDocumentMoniker": "Dbord\\View\\User\\report.aspx",
-              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\report.aspx",
-              "RelativeToolTip": "Dbord\\View\\User\\report.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-08-16T13:21:29.374Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "User.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\User.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\View\\User\\User.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\User.aspx.cs",
-              "RelativeToolTip": "Dbord\\View\\User\\User.aspx.cs",
-              "ViewState": "AQIAAHoAAAAAAAAAAAAAAIUAAAAAAAAA",
+              "Title": "Dashboard.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\Dashboard.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx.cs",
+              "RelativeToolTip": "Dbord\\View\\Admin\\Dashboard.aspx.cs",
+              "ViewState": "AQIAALAAAAAAAAAAAAAAALsAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-15T10:36:30.091Z"
+              "WhenOpened": "2025-08-15T10:40:28.067Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "showdata.aspx",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\showdata.aspx",
               "RelativeDocumentMoniker": "Dbord\\View\\Admin\\showdata.aspx",
@@ -143,45 +124,106 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DatabaseHelper.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\helpers\\DatabaseHelper.cs",
-              "RelativeDocumentMoniker": "Dbord\\helpers\\DatabaseHelper.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\helpers\\DatabaseHelper.cs",
-              "RelativeToolTip": "Dbord\\helpers\\DatabaseHelper.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAgwCMAAAAMAAAA",
+              "DocumentIndex": 4,
+              "Title": "showdata.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\showdata.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\showdata.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\showdata.aspx.cs",
+              "RelativeToolTip": "Dbord\\View\\Admin\\showdata.aspx.cs",
+              "ViewState": "AQIAAK4AAAAAAAAAAAAAAMEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-17T16:08:34.458Z",
+              "WhenOpened": "2025-08-15T13:46:22.348Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "report.aspx",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\report.aspx",
+              "RelativeDocumentMoniker": "Dbord\\View\\User\\report.aspx",
+              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\report.aspx",
+              "RelativeToolTip": "Dbord\\View\\User\\report.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-08-16T13:21:29.374Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "User.aspx",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\User.aspx",
+              "RelativeDocumentMoniker": "Dbord\\View\\User\\User.aspx",
+              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\User.aspx",
+              "RelativeToolTip": "Dbord\\View\\User\\User.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-08-20T08:51:34.716Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "report.aspx.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\report.aspx.cs",
               "RelativeDocumentMoniker": "Dbord\\View\\User\\report.aspx.cs",
               "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\report.aspx.cs",
               "RelativeToolTip": "Dbord\\View\\User\\report.aspx.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAAAJUAAAAwAAAA",
+              "ViewState": "AQIAAHkAAAAAAAAAAADwv5MAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-16T13:33:18.853Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\Web.config",
+              "RelativeDocumentMoniker": "Dbord\\Web.config",
+              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\Web.config",
+              "RelativeToolTip": "Dbord\\Web.config",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-08-20T10:35:38.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "User.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\User.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\View\\User\\User.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\User\\User.aspx.cs",
+              "RelativeToolTip": "Dbord\\View\\User\\User.aspx.cs",
+              "ViewState": "AQIAAHoAAAAAAAAAAAAAAIUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-15T10:36:30.091Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Login.aspx",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\login\\Login.aspx",
+              "RelativeDocumentMoniker": "Dbord\\login\\Login.aspx",
+              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\login\\Login.aspx",
+              "RelativeToolTip": "Dbord\\login\\Login.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-08-15T05:19:10.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "report.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\AppData\\Local\\Temp\\.vsdbgsrc\\bc4444e838425e166378449a2d689bf9cdf745ffca45fe688a9d99a4162a7e10\\report.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\bc4444e838425e166378449a2d689bf9cdf745ffca45fe688a9d99a4162a7e10\\report.cs",
               "ToolTip": "C:\\Users\\QL968PK\\AppData\\Local\\Temp\\.vsdbgsrc\\bc4444e838425e166378449a2d689bf9cdf745ffca45fe688a9d99a4162a7e10\\report.cs [Read Only]",
               "RelativeToolTip": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\bc4444e838425e166378449a2d689bf9cdf745ffca45fe688a9d99a4162a7e10\\report.cs [Read Only]",
-              "ViewState": "AQIAAMAAAAAAAAAAAAAkwM4AAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-17T17:18:43.563Z",
               "EditorCaption": " [Read Only]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "Site1.Master",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\Site1.Master",
               "RelativeDocumentMoniker": "Dbord\\Site1.Master",
@@ -194,31 +236,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Dashboard.aspx",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx",
-              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\Dashboard.aspx",
-              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx",
-              "RelativeToolTip": "Dbord\\View\\Admin\\Dashboard.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-08-15T06:22:35.569Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Dashboard.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\Dashboard.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx.cs",
-              "RelativeToolTip": "Dbord\\View\\Admin\\Dashboard.aspx.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAA4AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-15T10:40:28.067Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Global.asax.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\Global.asax.cs",
               "RelativeDocumentMoniker": "Dbord\\Global.asax.cs",
@@ -230,7 +248,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Login.aspx.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\login\\Login.aspx.cs",
               "RelativeDocumentMoniker": "Dbord\\login\\Login.aspx.cs",
@@ -242,7 +260,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Captcha.ashx.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\helpers\\Captcha.ashx.cs",
               "RelativeDocumentMoniker": "Dbord\\helpers\\Captcha.ashx.cs",
@@ -254,7 +272,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Site1.Master.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\Site1.Master.cs",
               "RelativeDocumentMoniker": "Dbord\\Site1.Master.cs",
@@ -266,7 +284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Regristration.aspx.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\login\\Regristration.aspx.cs",
               "RelativeDocumentMoniker": "Dbord\\login\\Regristration.aspx.cs",
@@ -278,7 +296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "Regristration.aspx",
               "DocumentMoniker": "C:\\Users\\QL968PK\\source\\repos\\Dbord\\Dbord\\login\\Regristration.aspx",
               "RelativeDocumentMoniker": "Dbord\\login\\Regristration.aspx",

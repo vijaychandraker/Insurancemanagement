@@ -39,6 +39,7 @@
         .btn { padding: 6px 12px; margin-right: 5px; border-radius: 4px; border: none; cursor: pointer; }
         .btn-primary { background-color: #007bff; color: #fff; }
         .btn-secondary { background-color: #6c757d; color: #fff; }
+        .no-data { color: red; font-weight: bold; text-align: center; padding: 15px; }
     </style>
 </asp:Content>
 
@@ -52,158 +53,155 @@
 
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
-<asp:UpdatePanel ID="UpdatePanel1" runat="server">
-    <ContentTemplate>
-        <asp:Button ID="btnExportExcel" runat="server" Text="Download Excel" CssClass="btn btn-primary" OnClick="btnExportExcel_Click" />
-        <asp:Button ID="btnRefresh" runat="server" Text="Refresh" CssClass="btn btn-secondary" OnClick="btnRefresh_Click" />
-        <br /><br />
-        <div class="table-responsive">
-            <asp:GridView ID="GridView1"
-                runat="server"
-                AutoGenerateColumns="false"
-                CssClass="table grid-wrap"
-                AllowPaging="true"
-                PageSize="10"
-                ShowFooter="true"
-                OnPageIndexChanging="GridView1_PageIndexChanging"
-                PagerSettings-Mode="NumericFirstLast"
-                PagerStyle-CssClass="grid-pager"
-                DataKeyNames="PolicyID">
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+                    <asp:Button ID="btnExportExcel" runat="server" Text="Download Excel" CssClass="btn btn-primary" OnClick="btnExportExcel_Click" />
+                    <asp:Button ID="btnRefresh" runat="server" Text="Refresh" CssClass="btn btn-secondary" OnClick="btnRefresh_Click" />
+                    <br /><br />
+                    <div class="table-responsive">
+                        <asp:GridView ID="GridView1"
+                            runat="server"
+                            AutoGenerateColumns="false"
+                            CssClass="table grid-wrap"
+                            AllowPaging="true"
+                            PageSize="10"
+                            ShowFooter="true"
+                            OnPageIndexChanging="GridView1_PageIndexChanging"
+                            OnRowDataBound="GridView1_RowDataBound"
+                            PagerSettings-Mode="NumericFirstLast"
+                            PagerStyle-CssClass="grid-pager"
+                            DataKeyNames="PolicyID">
 
-                <Columns>
-                  
-                    <asp:TemplateField HeaderText="S.No">
-                        <ItemTemplate>
-                            <%# ((GridViewRow)Container).RowIndex + 1 + (GridView1.PageIndex * GridView1.PageSize) %>
-                        </ItemTemplate>
-                    </asp:TemplateField>
+                            <Columns>
+                                <asp:TemplateField HeaderText="S.No">
+                                    <ItemTemplate>
+                                        <%# ((GridViewRow)Container).RowIndex + 1 + (GridView1.PageIndex * GridView1.PageSize) %>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
 
-                   
-                    <asp:BoundField DataField="PolicyID" HeaderText="Policy ID" Visible="false" />
+                                <asp:BoundField DataField="PolicyID" HeaderText="Policy ID" Visible="false" />
 
-                  
-                    <asp:TemplateField HeaderText="Customer Name">
-                        <HeaderTemplate>
-                            Name<br /><br />
-                            <asp:TextBox ID="txtSearchName" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true"  OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("Name") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Customer Name">
+                                    <HeaderTemplate>
+                                        Name<br />
+                                        <asp:TextBox ID="txtSearchName" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("Name") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                    
-                    <asp:TemplateField HeaderText="Owner">
-                        <HeaderTemplate>
-                            Owner<br /><br />
-                            <asp:TextBox ID="txtSearchOwner" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("OwnerName") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Owner">
+                                    <HeaderTemplate>
+                                        Owner<br />
+                                        <asp:TextBox ID="txtSearchOwner" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("OwnerName") %></ItemTemplate>
+                                </asp:TemplateField>
 
+                                <asp:TemplateField HeaderText="Address">
+                                    <HeaderTemplate>
+                                        Address<br />
+                                        <asp:TextBox ID="txtSearchAddress" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("Address") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Address">
-                        <HeaderTemplate>
-                            Address<br /><br />
-                            <asp:TextBox ID="txtSearchAddress" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("Address") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Vehicle No">
+                                    <HeaderTemplate>
+                                        Vehicle No<br />
+                                        <asp:TextBox ID="txtSearchVehicle" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("VehicleNo") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                   
-                    <asp:TemplateField HeaderText="Vehicle No">
-                        <HeaderTemplate>
-                            Vehicle No<br /><br />
-                            <asp:TextBox ID="txtSearchVehicle" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("VehicleNo") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Particular">
+                                    <HeaderTemplate>
+                                        Particular<br />
+                                        <asp:TextBox ID="txtSearchParticular" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("Particular") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                    
-                    <asp:TemplateField HeaderText="Particular">
-                        <HeaderTemplate>
-                            Particular<br /><br />
-                            <asp:TextBox ID="txtSearchParticular" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("Particular") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Sum Insured">
+                                    <HeaderTemplate>
+                                        Sum Insured<br />
+                                        <asp:TextBox ID="txtSearchSumInsured" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("SumInsured") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                   
-                    <asp:TemplateField HeaderText="Sum Insured">
-                        <HeaderTemplate>
-                            Sum Insured<br />
-                            <asp:TextBox ID="txtSearchSumInsured" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("SumInsured") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Premium">
+                                    <HeaderTemplate>
+                                        Premium<br />
+                                        <asp:TextBox ID="txtSearchPremium" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("Premium") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Premium">
-                        <HeaderTemplate>
-                            Premium<br /><br />
-                            <asp:TextBox ID="txtSearchPremium" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("Premium") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="NCB">
+                                    <HeaderTemplate>
+                                        NCB<br />
+                                        <asp:TextBox ID="txtSearchNCB" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("NCB") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                   
-                    <asp:TemplateField HeaderText="NCB">
-                        <HeaderTemplate>
-                            NCB<br /><br />
-                            <asp:TextBox ID="txtSearchNCB" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("NCB") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Policy No">
+                                    <HeaderTemplate>
+                                        Policy No<br />
+                                        <asp:TextBox ID="txtSearchPolicyNo" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("PolicyNo") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                    
-                    <asp:TemplateField HeaderText="Policy No">
-                        <HeaderTemplate>
-                            Policy No<br /><br />
-                            <asp:TextBox ID="txtSearchPolicyNo" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("PolicyNo") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Start Date">
+                                    <HeaderTemplate>
+                                        Start Date<br />
+                                        <asp:TextBox ID="txtSearchStartDate" runat="server" Placeholder="YYYY-MM-DD" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("InsuredDate", "{0:dd/MM/yyyy}") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                  
-                    <asp:TemplateField HeaderText="Start Date">
-                        <HeaderTemplate>
-                            Start Date<br />
-                            <asp:TextBox ID="txtSearchStartDate" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("InsuredDate", "{0:dd/MM/yyyy}") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="End Date">
+                                    <HeaderTemplate>
+                                        End Date<br />  
+                                        <asp:TextBox ID="txtSearchEndDate" runat="server" Placeholder="YYYY-MM-DD" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("ExpireDate", "{0:dd/MM/yyyy}") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                    
-                    <asp:TemplateField HeaderText="End Date">
-                        <HeaderTemplate>
-                            End Date<br />  
-                            <asp:TextBox ID="txtSearchEndDate" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("ExpireDate", "{0:dd/MM/yyyy}") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Company">
+                                    <HeaderTemplate>
+                                        Company<br />
+                                        <asp:TextBox ID="txtSearchCompany" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("CompanyName") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                   
-                    <asp:TemplateField HeaderText="Company">
-                        <HeaderTemplate>
-                            Company<br /><br />
-                            <asp:TextBox ID="txtSearchCompany" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("CompanyName") %></ItemTemplate>
-                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Category">
+                                    <HeaderTemplate>
+                                        Category<br />
+                                        <asp:TextBox ID="txtSearchCategory" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate><%# Eval("CategoryName") %></ItemTemplate>
+                                </asp:TemplateField>
 
-                   
-                    <asp:TemplateField HeaderText="Category">
-                        <HeaderTemplate>
-                            Category<br /><br />
-                            <asp:TextBox ID="txtSearchCategory" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-                        </HeaderTemplate>
-                        <ItemTemplate><%# Eval("CategoryName") %></ItemTemplate>
-                    </asp:TemplateField>
+                            </Columns>
 
-                </Columns>
+                            <FooterStyle CssClass="grid-footer" />
 
-                <FooterStyle CssClass="grid-footer" />
-            </asp:GridView>
-        </div>
-    </ContentTemplate>
-</asp:UpdatePanel>
+                            
+                            <EmptyDataTemplate>
+                                <tr>
+                                    <td colspan="<%# GridView1.Columns.Count %>" class="no-data">
+                                        No records found.
+                                    </td>
+                                </tr>
+                            </EmptyDataTemplate>
+
+                        </asp:GridView>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
 
         </div>
     </section>
