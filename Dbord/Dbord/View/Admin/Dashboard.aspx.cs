@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data;                // Required for DataTable
+using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using Dbord.helpers;
@@ -11,7 +11,6 @@ namespace Dbord.View.Admin
     public partial class Dashboard : System.Web.UI.Page
     {
         private readonly DatabaseHelper db = new DatabaseHelper();
-        // Get connection string from Web.config
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -22,18 +21,16 @@ namespace Dbord.View.Admin
                 BindCategoryChart();
                 BindTotalPolicyCard();
                 Bindmorethenone();
-                    BindGrid();
+                BindGrid();
             }
         }
 
         private void BindCompanyChart()
         {
-            // Create a DataTable to store company-wise policy counts
-            System.Data.DataTable dtCompany = new System.Data.DataTable();
+            DataTable dtCompany = new DataTable();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-
                 string sql = @"
                     SELECT c.CompanyName, COUNT(ip.PolicyID) AS Count
                     FROM InsurancePolicy ip
@@ -47,21 +44,19 @@ namespace Dbord.View.Admin
                     da.Fill(dtCompany);
                 }
             }
-         // Store data in ViewState for use in ASPX Chart.js script
             ViewState["CompanyData"] = dtCompany;
         }
+
         private void BindCategoryChart()
         {
-            // Create a DataTable to store company-wise policy counts
-            System.Data.DataTable dtcategory = new System.Data.DataTable();
+            DataTable dtcategory = new DataTable();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-
                 string sql = @"
                     SELECT c.CategoryName, COUNT(ip.PolicyID) AS Count
-                    FROM   InsurancePolicy AS ip INNER JOIN
-                    mst_category AS c ON ip.CategoryID = c.c_id
+                    FROM   InsurancePolicy AS ip 
+                    INNER JOIN mst_category AS c ON ip.CategoryID = c.c_id
                     GROUP BY c.CategoryName
                     ORDER BY Count DESC";
 
@@ -71,54 +66,40 @@ namespace Dbord.View.Admin
                     da.Fill(dtcategory);
                 }
             }
-            // Store data in ViewState for use in ASPX Chart.js script
             ViewState["CategoryData"] = dtcategory;
         }
 
         private void BindTotalPolicyCard()
         {
-            int totalowner = 0; // default value
-
+            int totalowner = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-
                 string sql = "SELECT COUNT(PolicyID) FROM InsurancePolicy";
-
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     object resultowner = cmd.ExecuteScalar();
                     if (resultowner != null && resultowner != DBNull.Value)
-                    {
                         totalowner = Convert.ToInt32(resultowner);
-                    }
                 }
             }
-
-            // Store the total in ViewState or directly bind to a Label on the card
             lbltotal.Text = totalowner.ToString();
         }
+
         private void Bindmorethenone()
         {
-            int totalPolicies = 0; // default value
-
+            int totalPolicies = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-
-                string sql = "SELECT COUNT(DISTINCT OwnerName) AS OwnerCount FROM   InsurancePolicy";
-
+                string sql = "SELECT COUNT(DISTINCT OwnerName) AS OwnerCount FROM InsurancePolicy";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     object result = cmd.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
-                    {
                         totalPolicies = Convert.ToInt32(result);
-                    }
                 }
             }
-
-            // Store the total in ViewState or directly bind to a Label on the card
             lblowner.Text = totalPolicies.ToString();
         }
 
@@ -143,7 +124,9 @@ namespace Dbord.View.Admin
                 gvdashboard.DataSource = dt;
                 gvdashboard.DataBind();
 
-                // ✅ Save filtered data in ViewState
+                if (dt.Rows.Count > 0)
+                    SetFooterTotal(dt.Rows.Count);
+
                 ViewState["GridDatadashboard"] = dt;
             }
             catch (Exception ex)
@@ -151,6 +134,7 @@ namespace Dbord.View.Admin
                 ShowError("Error loading data: " + ex.Message);
             }
         }
+
         private void ShowError(string message)
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert", $@"
@@ -160,6 +144,7 @@ namespace Dbord.View.Admin
                     text: '{message}'
                 }});", true);
         }
+
         protected void gvdashboard_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvdashboard.PageIndex = e.NewPageIndex;
@@ -173,10 +158,33 @@ namespace Dbord.View.Admin
                 DataTable dt = (DataTable)ViewState["GridDatadashboard"];
                 gvdashboard.DataSource = dt;
                 gvdashboard.DataBind();
+                if (dt.Rows.Count > 0)
+                    SetFooterTotal(dt.Rows.Count);
             }
             else
             {
                 BindGrid();
+            }
+        }
+
+        // ✅ Footer showing only total record count
+        private void SetFooterTotal(int total)
+        {
+            if (gvdashboard.FooterRow != null)
+            {
+                gvdashboard.FooterRow.Cells[0].Text = "Total Records: " + total;
+                gvdashboard.FooterRow.Cells[0].HorizontalAlign = HorizontalAlign.Center;
+
+                // Merge all columns into one cell
+                gvdashboard.FooterRow.Cells[0].ColumnSpan = gvdashboard.Columns.Count;
+
+                // Hide remaining cells
+                for (int i = 1; i < gvdashboard.FooterRow.Cells.Count; i++)
+                    gvdashboard.FooterRow.Cells[i].Visible = false;
+
+                // Style footer
+                gvdashboard.FooterRow.Font.Bold = true;
+                gvdashboard.FooterRow.BackColor = System.Drawing.Color.LightGray;
             }
         }
 
@@ -190,7 +198,18 @@ namespace Dbord.View.Admin
             txtSearch.Text = string.Empty;
             BindGrid();
         }
-
-
+        protected void gvdashboard_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.Footer)
+            {
+                e.Row.Cells[0].ColumnSpan = gvdashboard.Columns.Count;
+                for (int i = 1; i < gvdashboard.Columns.Count; i++)
+                {
+                    e.Row.Cells[i].Visible = false;
+                }
+                e.Row.Cells[0].Text = "Total Records: " + gvdashboard.Rows.Count;
+                e.Row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@
             table-layout: fixed;
         }
         .table th {
-            background-color: #4CAF50;
+            background-color: #2d5f72;
             color: white;
             text-align: center;
             padding: 8px;
@@ -33,10 +33,30 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+        <section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Update/Delete Record</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>">Home</a></li>
+                    <li class="breadcrumb-item active">Update-Delete</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
     <br />
     <asp:ScriptManager runat="server" ID="ScriptManager1" />
-    <hr />
+   
 
+    <div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Update/Delete Policy</h3>
+    </div>
+    <div class="card-body">
     <div>
         <div style="margin-bottom:10px; display: flex; align-items: center; gap: 5px;">
             <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" />
@@ -180,4 +200,6 @@
             </Columns>
         </asp:GridView>
     </div>
+        </div>
+        </div>
 </asp:Content>

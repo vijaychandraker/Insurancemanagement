@@ -28,6 +28,7 @@
         .table tr:hover { background-color: #ddd; }
         .btn-icon { margin-right: 5px; }
         .form-control { width: 100%; padding: 5px; box-sizing: border-box; }
+        .d-none { display: none; }
     </style>
 </asp:Content>
 
@@ -40,7 +41,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>">Home</a></li>
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div>
@@ -82,7 +83,7 @@
                     <div class="small-box bg-danger">
                         <div class="inner">
                             <h3><asp:Label ID="lblincomplete" runat="server" Text="0"></asp:Label></h3>
-                            <p>कुल अपूर्ण पत्र (Incomplete Policies)</p>
+                            <p>Others</p>
                         </div>
                         <div class="icon">
                             <i class="far fa-file"></i>
@@ -135,35 +136,39 @@
                                         <asp:Button ID="btnClearSearch_dash" runat="server" Text="Clear" OnClick="btnClearSearch_dash_Click" CssClass="btn btn-secondary" />
                                     </div>
 
-                                    <asp:GridView ID="gvdashboard" runat="server" AutoGenerateColumns="False"
-                                        DataKeyNames="PolicyID" CssClass="table"
-                                        AllowPaging="True" PageSize="5"
-                                        OnPageIndexChanging="gvdashboard_PageIndexChanging">
+                                     <asp:GridView ID="gvdashboard" runat="server" AutoGenerateColumns="False"
+    DataKeyNames="PolicyID" CssClass="table"
+    AllowPaging="True" PageSize="5"
+    PagerSettings-Mode="NumericFirstLast"
+    ShowFooter="true"
+    PagerStyle-CssClass="grid-pager"
+    OnPageIndexChanging="gvdashboard_PageIndexChanging"
+    OnRowDataBound="gvdashboard_RowDataBound">
+    
+    <Columns>
+        <asp:TemplateField HeaderText="S.No">
+            <ItemTemplate>
+                <%# ((GridViewRow)Container).RowIndex + 1 + (gvdashboard.PageIndex * gvdashboard.PageSize) %>
+            </ItemTemplate>
+        </asp:TemplateField>
 
-                                        <Columns>
-                                            <asp:TemplateField HeaderText="S.No">
-                                                <ItemTemplate>
-                                                    <%# ((GridViewRow)Container).RowIndex + 1 + (gvdashboard.PageIndex * gvdashboard.PageSize) %>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+     
+        <asp:BoundField DataField="Name" HeaderText="Customer Name" />
+        <asp:BoundField DataField="OwnerName" HeaderText="Owner" />
+        <asp:BoundField DataField="Address" HeaderText="Address" />
+        <asp:BoundField DataField="VehicleNo" HeaderText="Vehicle No" />
+        <asp:BoundField DataField="Particular" HeaderText="Particular" />
+        <asp:BoundField DataField="SumInsured" HeaderText="Sum Insured" />
+        <asp:BoundField DataField="Premium" HeaderText="Premium" />
+        <asp:BoundField DataField="NCB" HeaderText="NCB" />
+        <asp:BoundField DataField="PolicyNo" HeaderText="Policy No" />
+        <asp:BoundField DataField="InsuredDate" HeaderText="Start Date" DataFormatString="{0:dd/MM/yyyy}" />
+        <asp:BoundField DataField="ExpireDate" HeaderText="End Date" DataFormatString="{0:dd/MM/yyyy}" />
+        <asp:BoundField DataField="CompanyName" HeaderText="Company" />
+        <asp:BoundField DataField="CategoryName" HeaderText="Category" />
+    </Columns>
+</asp:GridView>
 
-                                            <asp:BoundField DataField="PolicyID" HeaderText="Policy ID" ReadOnly="true" Visible="false" />
-
-                                            <asp:BoundField DataField="Name" HeaderText="Customer Name" />
-                                            <asp:BoundField DataField="OwnerName" HeaderText="Owner" />
-                                            <asp:BoundField DataField="Address" HeaderText="Address" />
-                                            <asp:BoundField DataField="VehicleNo" HeaderText="Vehicle No" />
-                                            <asp:BoundField DataField="Particular" HeaderText="Particular" />
-                                            <asp:BoundField DataField="SumInsured" HeaderText="Sum Insured" />
-                                            <asp:BoundField DataField="Premium" HeaderText="Premium" />
-                                            <asp:BoundField DataField="NCB" HeaderText="NCB" />
-                                            <asp:BoundField DataField="PolicyNo" HeaderText="Policy No" />
-                                            <asp:BoundField DataField="InsuredDate" HeaderText="Start Date" DataFormatString="{0:dd/MM/yyyy}" />
-                                            <asp:BoundField DataField="ExpireDate" HeaderText="End Date" DataFormatString="{0:dd/MM/yyyy}" />
-                                            <asp:BoundField DataField="CompanyName" HeaderText="Company" />
-                                            <asp:BoundField DataField="CategoryName" HeaderText="Category" />
-                                        </Columns>
-                                    </asp:GridView>
                                 </div>
                             </ContentTemplate>
                         </asp:UpdatePanel>

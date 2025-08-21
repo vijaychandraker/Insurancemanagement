@@ -9,7 +9,7 @@
             table-layout: auto;
         }
         .grid-wrap th {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            background: #2d5f72;
             color: #fff;
             text-align: center;
             padding: 10px;
@@ -28,10 +28,10 @@
         .grid-wrap tr:nth-child(odd) td { background-color: #f0faff; }
         .grid-wrap tr:hover td { background-color: #ffe9d6; transition: 0.3s ease; }
         .grid-footer td {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            background: linear-gradient(45deg, #00c6ff, #2d5f72);
             color: #fff;
             font-weight: bold;
-            text-align: right;
+            text-align: center;
             padding: 10px;
         }
         .table-responsive { width: 100%; overflow-x: auto; }
@@ -44,13 +44,30 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+            <section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Report</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>">Home</a></li>
+                    <li class="breadcrumb-item active">Report</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
     <section class="content">
         <div class="container-fluid">
-            <br />
-            <h3 style="background:linear-gradient(45deg, #4facfe, #00f2fe); color:#fff; padding:10px; border-radius:6px; text-transform:uppercase;">
-                Policy Report
-            </h3>
+            
 
+            <div class="card card-info">
+<div class="card-header">
+    <h3 class="card-title">Policy Report</h3>
+</div>
+<div class="card-body">
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -83,7 +100,7 @@
 
                                 <asp:TemplateField HeaderText="Customer Name">
                                     <HeaderTemplate>
-                                        Name<br />
+                                        Name<br /><br />
                                         <asp:TextBox ID="txtSearchName" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("Name") %></ItemTemplate>
@@ -91,7 +108,7 @@
 
                                 <asp:TemplateField HeaderText="Owner">
                                     <HeaderTemplate>
-                                        Owner<br />
+                                        Owner<br /><br />
                                         <asp:TextBox ID="txtSearchOwner" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("OwnerName") %></ItemTemplate>
@@ -99,7 +116,7 @@
 
                                 <asp:TemplateField HeaderText="Address">
                                     <HeaderTemplate>
-                                        Address<br />
+                                        Address<br /><br />
                                         <asp:TextBox ID="txtSearchAddress" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("Address") %></ItemTemplate>
@@ -107,7 +124,7 @@
 
                                 <asp:TemplateField HeaderText="Vehicle No">
                                     <HeaderTemplate>
-                                        Vehicle No<br />
+                                        Vehicle No<br /><br />
                                         <asp:TextBox ID="txtSearchVehicle" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("VehicleNo") %></ItemTemplate>
@@ -115,7 +132,7 @@
 
                                 <asp:TemplateField HeaderText="Particular">
                                     <HeaderTemplate>
-                                        Particular<br />
+                                        Particular<br /><br />
                                         <asp:TextBox ID="txtSearchParticular" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("Particular") %></ItemTemplate>
@@ -131,7 +148,7 @@
 
                                 <asp:TemplateField HeaderText="Premium">
                                     <HeaderTemplate>
-                                        Premium<br />
+                                        Premium<br /><br />
                                         <asp:TextBox ID="txtSearchPremium" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("Premium") %></ItemTemplate>
@@ -139,7 +156,7 @@
 
                                 <asp:TemplateField HeaderText="NCB">
                                     <HeaderTemplate>
-                                        NCB<br />
+                                        NCB<br /><br />
                                         <asp:TextBox ID="txtSearchNCB" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("NCB") %></ItemTemplate>
@@ -147,7 +164,7 @@
 
                                 <asp:TemplateField HeaderText="Policy No">
                                     <HeaderTemplate>
-                                        Policy No<br />
+                                        Policy No<br /><br />
                                         <asp:TextBox ID="txtSearchPolicyNo" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("PolicyNo") %></ItemTemplate>
@@ -171,7 +188,7 @@
 
                                 <asp:TemplateField HeaderText="Company">
                                     <HeaderTemplate>
-                                        Company<br />
+                                        Company<br /><br />
                                         <asp:TextBox ID="txtSearchCompany" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("CompanyName") %></ItemTemplate>
@@ -179,7 +196,7 @@
 
                                 <asp:TemplateField HeaderText="Category">
                                     <HeaderTemplate>
-                                        Category<br />
+                                        Category<br /><br />
                                         <asp:TextBox ID="txtSearchCategory" runat="server" Placeholder="Search" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("CategoryName") %></ItemTemplate>
@@ -202,7 +219,8 @@
                     </div>
                 </ContentTemplate>
             </asp:UpdatePanel>
-
+    </div>
+                </div>
         </div>
     </section>
 </asp:Content>

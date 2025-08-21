@@ -24,6 +24,21 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+     <section class="content-header">
+     <div class="container-fluid">
+         <div class="row mb-2">
+             <div class="col-sm-6">
+                 <h1>Add New</h1>
+             </div>
+             <div class="col-sm-6">
+                 <ol class="breadcrumb float-sm-right">
+                     <li class="breadcrumb-item"><a href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>">Home</a></li>
+                     <li class="breadcrumb-item active">Add New</li>
+                 </ol>
+             </div>
+         </div>
+     </div>
+ </section>
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <br />
 
