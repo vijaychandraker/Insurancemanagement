@@ -125,7 +125,15 @@ namespace Dbord.View.Admin
                 gvdashboard.DataBind();
 
                 if (dt.Rows.Count > 0)
+                {
+                    lblMessage.Visible = false;
                     SetFooterTotal(dt.Rows.Count);
+                }
+                else
+                {
+                    lblMessage.Text = "No data found.";
+                    lblMessage.Visible = true;
+                }
 
                 ViewState["GridDatadashboard"] = dt;
             }
@@ -134,6 +142,7 @@ namespace Dbord.View.Admin
                 ShowError("Error loading data: " + ex.Message);
             }
         }
+
 
         private void ShowError(string message)
         {

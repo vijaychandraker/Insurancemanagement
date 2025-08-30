@@ -11,8 +11,10 @@ namespace Dbord
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-          
-
+            if (!IsPostBack)
+            {
+                
+            }
         }
 
         protected void btnLogout_Click(object sender, EventArgs e)

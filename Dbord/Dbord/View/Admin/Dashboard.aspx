@@ -31,6 +31,7 @@
         .d-none { display: none; }
     </style>
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <section class="content-header">
         <div class="container-fluid">
@@ -50,6 +51,11 @@
 
     <section class="content">
         <div class="container-fluid">
+
+            <div id="loading" style="display:none; text-align:center; margin:10px;">
+    <img src="~/Content/images/loading.gif" alt="Loading..." width="40" height="40" />
+    <p>Loading, please wait...</p>
+</div>
             <!-- Summary Cards -->
             <div class="row">
                 <div class="col-lg-4 sm-12">
@@ -167,7 +173,7 @@
         <asp:BoundField DataField="CategoryName" HeaderText="Category" />
     </Columns>
 </asp:GridView>
-
+<asp:Label ID="lblMessage" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
                                 </div>
                             </ContentTemplate>
                         </asp:UpdatePanel>
@@ -302,4 +308,21 @@
             plugins: [ChartDataLabels]
         });
     </script>
+    <script type="text/javascript">
+        function ShowLoading() {
+            document.getElementById("loading").style.display = "block";
+        }
+        function HideLoading() {
+            document.getElementById("loading").style.display = "none";
+        }
+
+        // Attach to UpdatePanel events
+        Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(function () {
+            ShowLoading();
+        });
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+            HideLoading();
+        });
+    </script>
+
 </asp:Content>
