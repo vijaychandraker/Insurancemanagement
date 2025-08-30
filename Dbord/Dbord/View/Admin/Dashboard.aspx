@@ -31,7 +31,6 @@
         .d-none { display: none; }
     </style>
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <section class="content-header">
         <div class="container-fluid">
