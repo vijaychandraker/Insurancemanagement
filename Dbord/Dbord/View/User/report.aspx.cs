@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ClosedXML.Excel;
+using System.Web;
 
 namespace Dbord.View.User
 {
@@ -99,29 +101,74 @@ namespace Dbord.View.User
 
         protected void btnExportExcel_Click(object sender, EventArgs e)
         {
-            GridView1.AllowPaging = false;
+            // Get data (search or full list)
+            DataTable dt;
             if (ViewState["SearchValues"] != null)
-                BindPoliciesWithSearch();
+                dt = new DatabaseHelper().ExecuteQuery("sp_getsearch", BuildSearchParameters());
             else
-                BindPolicies();
+                dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", new SqlParameter[] { });
 
-            Response.Clear();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment;filename=PolicyReport.xls");
-            Response.Charset = "";
-            Response.ContentType = "application/vnd.ms-excel";
-
-            using (StringWriter sw = new StringWriter())
-            using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+            if (dt == null || dt.Rows.Count == 0)
             {
-                GridView1.RenderControl(hw);
-                Response.Output.Write(sw.ToString());
-                Response.Flush();
-                Response.End();
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('No records to export');", true);
+                return;
+            }
+
+            using (ClosedXML.Excel.XLWorkbook wb = new ClosedXML.Excel.XLWorkbook())
+            {
+                var ws = wb.Worksheets.Add(dt, "Policies");
+
+                // Format header
+                var headerRow = ws.Row(1);
+                headerRow.Style.Font.Bold = true;
+                headerRow.Style.Fill.BackgroundColor = ClosedXML.Excel.XLColor.LightGray;
+                headerRow.Style.Alignment.Horizontal = ClosedXML.Excel.XLAlignmentHorizontalValues.Center;
+
+                // Auto adjust column widths
+                ws.Columns().AdjustToContents();
+
+                using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+                {
+                    wb.SaveAs(stream);
+
+                    Response.Clear();
+                    Response.Buffer = true;
+                    Response.Charset = "";
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;filename=PolicyReport.xlsx");
+
+                    Response.BinaryWrite(stream.ToArray());
+                    Response.Flush();
+
+                    // Important: avoids ThreadAbortException
+                    HttpContext.Current.ApplicationInstance.CompleteRequest();
+                }
             }
         }
 
-        public override void VerifyRenderingInServerForm(Control control) { }
+        // Helper to reuse search params
+        private SqlParameter[] BuildSearchParameters()
+        {
+            Dictionary<string, string> searchValues = ViewState["SearchValues"] as Dictionary<string, string>;
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            if (searchValues != null)
+            {
+                foreach (var kvp in searchValues)
+                {
+                    if (!string.IsNullOrWhiteSpace(kvp.Value))
+                        parameters.Add(new SqlParameter("@" + kvp.Key, kvp.Value));
+                }
+            }
+
+            return parameters.ToArray();
+        }
+
+
+        private void ShowMessage(string msg)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", $"alert('{msg}');", true);
+        }
 
         protected void btnRefresh_Click(object sender, EventArgs e)
         {

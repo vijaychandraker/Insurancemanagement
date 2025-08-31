@@ -23,6 +23,13 @@
     <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Scripts/sweetalert.css") %>">
     <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/css/glassmorphism.css") %>">
 
+    <style>
+        .logout-icon i {
+    color: white !important;
+    font-size: 18px; /* optional: adjust size */
+}
+    </style>
+
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
 
@@ -45,17 +52,17 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <span>
-                            <b>Welcome:- <asp:Label ID="lblusername" runat="server" Text="Label"></asp:Label></b>
+                            <b style="color:white">Welcome:- <asp:Label ID="lblusername"  runat="server" Text="Label"></asp:Label></b>
                         </span>
                         &nbsp;&nbsp;&nbsp;
-                        <i role="button" class="fas fa-sign-out-alt"></i>
-                        <asp:Button 
-                            ID="btnLogout" 
-                            runat="server" 
-                            Text="Logout" 
-                            CssClass="btn btn-danger glass-btn" 
-                            OnClick="btnLogout_Click"
-                            OnClientClick="return confirm('Are you sure you want to logout?');"/>
+                      <asp:LinkButton 
+    ID="btnLogoutIcon" 
+    runat="server" 
+    OnClick="btnLogout_Click" 
+    OnClientClick="return confirm('Are you sure you want to logout?');"
+    CssClass="logout-icon">
+    <i class="fas fa-sign-out-alt"></i>
+</asp:LinkButton>
                     </li>
                 </ul>
             </nav>
@@ -72,26 +79,26 @@
                 <div class="sidebar">
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li class="nav-item">
-                                <a id="lnkDashboard" href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>" class="nav-link">
+                            <li id="lnkDashboard" runat="server" class="nav-item">
+                                <a  href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Dashboard</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a id="lnkUser" href="<%= ResolveUrl("~/View/User/user.aspx") %>" class="nav-link">
+                            <li id="lnkUser" runat="server" class="nav-item">
+                                <a  href="<%= ResolveUrl("~/View/User/user.aspx") %>" class="nav-link">
                                     <i class="nav-icon far fa-envelope"></i>
                                     <p>Add New Record</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a id="lnkShowData" href="<%= ResolveUrl("~/View/Admin/showdata.aspx") %>" class="nav-link">
+                            <li id="lnkShowData" runat="server" class="nav-item">
+                                <a  href="<%= ResolveUrl("~/View/Admin/showdata.aspx") %>" class="nav-link">
                                     <i class="nav-icon far fa-envelope"></i>
                                     <p>Update/Delete Record</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a id="lnkReport" href="<%= ResolveUrl("~/View/User/report.aspx") %>" class="nav-link">
+                            <li  id="lnkReport" runat="server" class="nav-item">
+                                <a  href="<%= ResolveUrl("~/View/User/report.aspx") %>" class="nav-link">
                                     <i class="nav-icon far fa-envelope"></i>
                                     <p>Report</p>
                                 </a>

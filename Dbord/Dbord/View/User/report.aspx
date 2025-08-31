@@ -69,11 +69,19 @@
 </div>
 <div class="card-body">
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
-
+      <asp:LinkButton ID="btnExportExcel" runat="server" 
+            CssClass="btn btn-primary" 
+            OnClick="btnExportExcel_Click">
+            <i class="fas fa-file-excel"></i> Download Excel
+        </asp:LinkButton>              
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
-                    <asp:Button ID="btnExportExcel" runat="server" Text="Download Excel" CssClass="btn btn-primary" OnClick="btnExportExcel_Click" />
-                    <asp:Button ID="btnRefresh" runat="server" Text="Refresh" CssClass="btn btn-secondary" OnClick="btnRefresh_Click" />
+                   
+                    <asp:LinkButton ID="btnRefresh" runat="server" 
+            CssClass="btn btn-secondary" 
+            OnClick="btnRefresh_Click">
+            <i class="fas fa-sync-alt"></i> Refresh
+        </asp:LinkButton>
                     <br /><br />
                     <div class="table-responsive">
                         <asp:GridView ID="GridView1"

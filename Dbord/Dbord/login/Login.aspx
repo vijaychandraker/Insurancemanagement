@@ -1,20 +1,23 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Dbord.login.Login" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Dbord.login.Login" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
-     <!-- Google Font: Source Sans Pro -->
+    <title>Login</title>
+    <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"/>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/Assets/plugins/fontawesome-free/css/all.min.css"/>
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/fontawesome-free/css/all.min.css") %>" />
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="~/Assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/icheck-bootstrap/icheck-bootstrap.min.css") %>" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="~/Assets/dist/css/adminlte.min.css"/>
-    <link href="~/Assets/Scripts/sweetalert.css" rel="stylesheet" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/dist/css/adminlte.min.css") %>" />
+    <!-- Glassmorphism theme overrides -->
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/css/glassmorphism.css") %>" />
+    <link href="<%= ResolveUrl("~/Assets/Scripts/sweetalert.css") %>" rel="stylesheet" />
+
     <style>
     #loader {
         position: fixed;
@@ -38,7 +41,7 @@
         animation: spin 2s linear infinite;
     }
 
-    @@keyframes spin {
+    @keyframes spin {
         0% {
             transform: rotate(0deg);
         }
@@ -49,65 +52,74 @@
     }
 </style>
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background: var(--primary-gradient);">
     <form id="form1" runat="server">
-      <div class="login-box">
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Login</p>
-        <div class="input-group mb-3">
-          <asp:TextBox ID="txtEmail" runat="server" class="form-control" placeholder="Email"></asp:TextBox>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+      <div class="login-box glass-fade-in">
+        <div class="card glass-login">
+          <div class="card-body login-card-body glass-login-body">
+            <p class="login-box-msg">Login</p>
+
+            <div class="input-group mb-3">
+              <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control glass-input" placeholder="Email" TextMode="Email"></asp:TextBox>
+              <div class="input-group-append">
+                <div class="input-group-text glass-addon">
+                  <span class="fas fa-envelope"></span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-                   <asp:TextBox ID="txtPassword" runat="server" class="form-control" placeholder="Password"></asp:TextBox>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+
+            <div class="input-group mb-3">
+              <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control glass-input" placeholder="Password" TextMode="Password"></asp:TextBox>
+              <div class="input-group-append">
+                <div class="input-group-text glass-addon">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
             </div>
+
+            <div class="mb-3 text-center">
+              <img src='<%= ResolveUrl("~/helpers/Captcha.ashx") %>' id="imgCaptcha" alt="captcha" class="mb-2" />
+              <div>
+                <a href="javascript:void(0);" onclick="refreshCaptcha()">Refresh</a>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <asp:TextBox ID="txtCaptcha" runat="server" CssClass="form-control glass-input" Placeholder="Enter Captcha"></asp:TextBox>
+              <div class="input-group-append">
+                <div class="input-group-text glass-addon">
+                  <span class="fas fa-shield-alt"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row align-items-center">
+              <div class="col-12 text-right">
+                <asp:Button ID="btnSignIn" runat="server" Text="Sign In" CssClass="btn btn-primary glass-btn" OnClick="btnSignIn_Click" />
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              function refreshCaptcha() {
+                document.getElementById('imgCaptcha').src = '<%= ResolveUrl("~/helpers/Captcha.ashx") %>?t=' + new Date().getTime();
+              }
+            </script>
+
           </div>
         </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="icheck-primary">
-            <!-- Captcha -->
-<img src='<%= ResolveUrl("~/helpers/Captcha.ashx") %>' id="imgCaptcha" alt="captcha" />
-<a href="javascript:void(0);" onclick="refreshCaptcha()">Refresh</a>
-<asp:TextBox ID="txtCaptcha" runat="server" CssClass="form-control" Placeholder="Enter Captcha"></asp:TextBox>
-<script type="text/javascript">
-    function refreshCaptcha() {
-        document.getElementById("imgCaptcha").src =
-            '<%= ResolveUrl("~/helpers/Captcha.ashx") %>?t=' + new Date().getTime();
-    }
-</script>
-</div>
-          </div>
-          <div class="col-4">
-              <asp:Button ID="btnSignIn" runat="server" Text="Sign In" CssClass="btn btn-primary" OnClick="btnSignIn_Click" />
-          </div>
-        </div>
-   
-    </div>
-  </div>
-</div>
+      </div>
+
         <div id="loader" style="display:none;">
     <div class="loader"></div>
 </div>
-  <!-- Bootstrap 4 -->
-  <!-- AdminLTE App -->
-  <script src="~/Assets/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-  <script src="~/Assets/Scripts/sweetalert.js"></script>
+  <!-- Scripts -->
+  <script src="<%= ResolveUrl("~/Assets/Admin/jquery/jquery.min.js") %>"></script>
+  <script src="<%= ResolveUrl("~/Assets/Admin/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
+  <script src="<%= ResolveUrl("~/Assets/dist/js/adminlte.min.js") %>"></script>
+  <script src="<%= ResolveUrl("~/Assets/Scripts/jquery.unobtrusive-ajax.min.js") %>"></script>
+  <script src="<%= ResolveUrl("~/Assets/Scripts/sweetalert.js") %>"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="~/Assets/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="~/Assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<%= ResolveUrl("~/Assets/plugins/jquery/jquery.min.js") %>"></script>
-<script src="<%= ResolveUrl("~/Assets/plugins/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
-<script src="<%= ResolveUrl("~/Assets/dist/js/adminlte.min.js") %>"></script>
+  <script src="<%= ResolveUrl("~/Assets/plugins/jquery-validation/jquery.validate.min.js") %>"></script>
+  <script src="<%= ResolveUrl("~/Assets/plugins/jquery-validation/additional-methods.min.js") %>"></script>
 
          <script>
              $(document).ready(function () {

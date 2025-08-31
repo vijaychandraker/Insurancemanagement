@@ -67,7 +67,7 @@
                         <div class="icon">
                             <i class="far fa-envelope"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -80,20 +80,20 @@
                         <div class="icon">
                             <i class="far fa-user"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
                 <div class="col-lg-4 sm-12">
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3><asp:Label ID="lblincomplete" runat="server" Text="0"></asp:Label></h3>
-                            <p>Others</p>
+                            <h3><asp:Label ID="lblexpired" runat="server" Text="0"></asp:Label></h3>
+                            <p>Expire in one Month</p>
                         </div>
                         <div class="icon">
                             <i class="far fa-file"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -225,7 +225,7 @@
                         anchor: 'end',
                         align: 'end',
                         color: '#000',
-                        font: { weight: 'bold', size: 12 },
+                        font: { weight: 'bold', size: 10 },
                         formatter: function (value) { return value; }
                     },
                     legend: { display: false }
@@ -286,7 +286,7 @@
                         anchor: 'end',
                         align: 'end',
                         color: '#000',
-                        font: { weight: 'bold', size: 12 },
+                        font: { weight: 'bold', size: 10 },
                         formatter: function (value) { return value; }
                     },
                     legend: { display: false }

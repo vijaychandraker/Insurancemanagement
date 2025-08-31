@@ -13,7 +13,47 @@ namespace Dbord
         {
             if (!IsPostBack)
             {
-                
+
+                if (Session["Username"] != null)
+                { 
+                lblusername.Text = Session["Username"].ToString();
+                if (Session["RoleID"] != null)
+                {
+                    string roleId = Session["RoleID"].ToString();
+
+                    // Hide all menus by default
+                    lnkDashboard.Visible = false;
+                    lnkUser.Visible = false;
+                    lnkShowData.Visible = false;
+                    lnkReport.Visible = false;
+
+                    // Example role-based logic
+                    switch (roleId)
+                    {
+                        case "1": // Admin
+                            lnkDashboard.Visible = true;
+                            lnkShowData.Visible = true;
+                            lnkReport.Visible = true;
+                            break;
+
+                        case "2": // Data Entry User
+                            lnkDashboard.Visible = true;
+                            lnkUser.Visible = true;
+                            lnkReport.Visible = true;
+                            break;
+                    }
+                }
+                else
+                {
+                    // If no role, redirect to login
+                    Response.Redirect("~/login/Login.aspx");
+                }
+            }
+                else
+                {
+                    // If no role, redirect to login
+                    Response.Redirect("~/login/Login.aspx");
+                }
             }
         }
 

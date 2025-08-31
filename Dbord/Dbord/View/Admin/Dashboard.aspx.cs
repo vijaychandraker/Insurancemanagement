@@ -22,6 +22,7 @@ namespace Dbord.View.Admin
                 BindTotalPolicyCard();
                 Bindmorethenone();
                 BindGrid();
+                BindonmentExp();
             }
         }
 
@@ -102,6 +103,30 @@ namespace Dbord.View.Admin
             }
             lblowner.Text = totalPolicies.ToString();
         }
+
+
+        private void BindonmentExp()
+        {
+            int totalExp = 0;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "SELECT COUNT(*) AS Total FROM   InsurancePolicy WHERE (ExpireDate BETWEEN GETDATE() AND DATEADD(MONTH, 1, GETDATE()))";
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                        totalExp = Convert.ToInt32(result);
+                }
+            }
+            lblexpired.Text = totalExp.ToString();
+        }
+
+
+
+
+
+
 
         private void BindGrid(string searchText = "")
         {
