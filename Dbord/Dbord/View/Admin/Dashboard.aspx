@@ -67,7 +67,7 @@
                         <div class="icon">
                             <i class="far fa-envelope"></i>
                         </div>
-                        <a href="#" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<%= ResolveUrl("~/View/User/report.aspx") %>" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -93,7 +93,9 @@
                         <div class="icon">
                             <i class="far fa-file"></i>
                         </div>
-                        <a href="#" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
+
+                
+                        <a href="<%= ResolveUrl("~/View/Common/detailreport.aspx") %>" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>

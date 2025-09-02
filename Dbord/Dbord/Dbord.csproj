@@ -792,6 +792,7 @@
     <Content Include="login\Regristration.aspx" />
     <Content Include="View\Admin\Dashboard.aspx" />
     <Content Include="View\Admin\showdata.aspx" />
+    <Content Include="View\Common\detailreport.aspx" />
     <Content Include="View\User\report.aspx" />
     <Content Include="View\User\User.aspx" />
     <Content Include="Web.config" />
@@ -840,6 +841,13 @@
     </Compile>
     <Compile Include="View\Admin\showdata.aspx.designer.cs">
       <DependentUpon>showdata.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\detailreport.aspx.cs">
+      <DependentUpon>detailreport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="View\Common\detailreport.aspx.designer.cs">
+      <DependentUpon>detailreport.aspx</DependentUpon>
     </Compile>
     <Compile Include="View\User\report.aspx.cs">
       <DependentUpon>report.aspx</DependentUpon>
