@@ -44,45 +44,33 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-            <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Report</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>">Home</a></li>
-                    <li class="breadcrumb-item active">Report</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</section>
+           <br />
     <section class="content">
         <div class="container-fluid">
             
 
             <div class="card card-info">
-<div class="card-header">
-    <h3 class="card-title">Policy Report</h3>
+<div class="card-header d-flex justify-content-between align-items-center">
+    <h3 class="card-title mb-0">Policy Report</h3>
+    <div class="ml-auto">
+        <asp:LinkButton ID="btnExportExcel" runat="server" 
+            CssClass="btn btn-success mr-2" 
+            OnClick="btnExportExcel_Click" ToolTip="Export to Excel">
+            <i class="fas fa-file-excel"></i>
+        </asp:LinkButton>          
+
+        <asp:LinkButton ID="btnRefresh" runat="server" 
+            CssClass="btn btn-secondary" 
+            OnClick="btnRefresh_Click" ToolTip="Refresh">
+            <i class="fas fa-sync-alt"></i> 
+        </asp:LinkButton>
+    </div>
 </div>
 <div class="card-body">
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
-      <asp:LinkButton ID="btnExportExcel" runat="server" 
-            CssClass="btn btn-primary" 
-            OnClick="btnExportExcel_Click">
-            <i class="fas fa-file-excel"></i> Download Excel
-        </asp:LinkButton>              
+      
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
-                   
-                    <asp:LinkButton ID="btnRefresh" runat="server" 
-            CssClass="btn btn-secondary" 
-            OnClick="btnRefresh_Click">
-            <i class="fas fa-sync-alt"></i> Refresh
-        </asp:LinkButton>
-                    <br /><br />
                     <div class="table-responsive">
                         <asp:GridView ID="GridView1"
                             runat="server"

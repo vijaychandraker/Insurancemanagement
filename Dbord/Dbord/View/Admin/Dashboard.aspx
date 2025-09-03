@@ -33,21 +33,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Dashboard</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </section>
+    <br />
 
     <section class="content">
         <div class="container-fluid">
@@ -244,6 +230,15 @@
                         title: { display: true, text: 'Total Policies' },
                         grid: { display: false }
                     }
+                },
+                // ✅ Redirect when bar clicked
+                onClick: (evt, elements) => {
+                    if (elements.length > 0) {
+                        var chartElem = elements[0];
+                        var label = companyChart.data.labels[chartElem.index];
+                        window.location.href = "<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?company=" + encodeURIComponent(label);
+
+                    }
                 }
             },
             plugins: [ChartDataLabels]
@@ -268,8 +263,8 @@
             }
         %>
 
-        var ctx = document.getElementById('CategoryChart').getContext('2d');
-        var CategoryChart = new Chart(ctx, {
+        var ctcat = document.getElementById('CategoryChart').getContext('2d');
+        var CategoryChart = new Chart(ctcat, {
             type: 'bar',
             data: {
                 labels: Category,
@@ -304,6 +299,14 @@
                         max: 2500,
                         title: { display: true, text: 'Total Policies' },
                         grid: { display: false }
+                    }
+                },
+                // ✅ Redirect when bar clicked
+                onClick: (evt, elements) => {
+                    if (elements.length > 0) {
+                        var chartElem = elements[0];
+                        var label = CategoryChart.data.labels[chartElem.index];
+                        window.location.href = "<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?category=" + encodeURIComponent(label);
                     }
                 }
             },
