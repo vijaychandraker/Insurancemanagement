@@ -29,6 +29,19 @@
         .btn-icon { margin-right: 5px; }
         .form-control { width: 100%; padding: 5px; box-sizing: border-box; }
         .d-none { display: none; }
+        /* CSS spinner */
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(0,0,0,0.1);
+            border-top-color: #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </asp:Content>
 
@@ -38,10 +51,12 @@
     <section class="content">
         <div class="container-fluid">
 
-            <div id="loading" style="display:none; text-align:center; margin:10px;">
-    <img src="~/Content/images/loading.gif" alt="Loading..." width="40" height="40" />
-    <p>Loading, please wait...</p>
-</div>
+            <div id="loading" style="display:none; position:fixed; inset:0; background:rgba(255,255,255,0.7); z-index:9999; align-items:center; justify-content:center;">
+                <div style="text-align:center;">
+                    <div class="spinner"></div>
+                    <p style="margin-top:8px; font-weight:600; color:#333;">Loading, please wait...</p>
+                </div>
+            </div>
             <!-- Summary Cards -->
             <div class="row">
                 <div class="col-lg-4 sm-12">
@@ -119,14 +134,14 @@
                             <h3 class="card-title">Detail Policy Holders</h3>
                         </div>
 
-                        <asp:ScriptManager ID="ScriptManager1" runat="server" />
-                        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" />
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" ChildrenAsTriggers="true">
                             <ContentTemplate>
                                 <div class="card-body">
                                     <div style="margin-bottom:10px; display: flex; align-items: center; gap: 5px;">
                                         <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" />
-                                        <asp:Button ID="btnSearch_dash" runat="server" Text="Search" OnClick="btnSearch_dash_Click" CssClass="btn btn-primary" />
-                                        <asp:Button ID="btnClearSearch_dash" runat="server" Text="Clear" OnClick="btnClearSearch_dash_Click" CssClass="btn btn-secondary" />
+                                        <asp:Button ID="btnSearch_dash" runat="server" Text="Search" OnClick="btnSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-primary" />
+                                        <asp:Button ID="btnClearSearch_dash" runat="server" Text="Clear" OnClick="btnClearSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-secondary" />
                                     </div>
 
                                      <asp:GridView ID="gvdashboard" runat="server" AutoGenerateColumns="False"
@@ -164,7 +179,18 @@
 <asp:Label ID="lblMessage" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
                                 </div>
                             </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="btnSearch_dash" EventName="Click" />
+                                <asp:AsyncPostBackTrigger ControlID="btnClearSearch_dash" EventName="Click" />
+                            </Triggers>
                         </asp:UpdatePanel>
+                        <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1" DisplayAfter="0">
+                            <ProgressTemplate>
+                                <div style="text-align:center; margin:10px;">
+                                    <span>Loading, please wait...</span>
+                                </div>
+                            </ProgressTemplate>
+                        </asp:UpdateProgress>
                     </div>
                 </div>
             </div>
@@ -242,6 +268,8 @@
                     if (elements.length > 0) {
                         var chartElem = elements[0];
                         var label = companyChart.data.labels[chartElem.index];
+                        // show loader before navigating
+                        if (typeof ShowLoading === 'function') { ShowLoading(); }
                         window.location.href = "<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?company=" + encodeURIComponent(label);
 
                     }
@@ -312,6 +340,8 @@
                     if (elements.length > 0) {
                         var chartElem = elements[0];
                         var label = CategoryChart.data.labels[chartElem.index];
+                        // show loader before navigating
+                        if (typeof ShowLoading === 'function') { ShowLoading(); }
                         window.location.href = "<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?category=" + encodeURIComponent(label);
                     }
                 }
@@ -321,7 +351,7 @@
     </script>
     <script type="text/javascript">
         function ShowLoading() {
-            document.getElementById("loading").style.display = "block";
+            document.getElementById("loading").style.display = "flex";
         }
         function HideLoading() {
             document.getElementById("loading").style.display = "none";

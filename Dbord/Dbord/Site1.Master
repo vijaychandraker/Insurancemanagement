@@ -1,41 +1,33 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Dbord.Site1" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head runat="server">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>EMRS Dashboard</title>
 
     <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
 
-    <!-- Local CSS -->
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/fontawesome-free/css/all.min.css") %>">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css") %>">
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/icheck-bootstrap/icheck-bootstrap.min.css") %>">
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/jqvmap/jqvmap.min.css") %>">
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/dist/css/adminlte.min.css") %>">
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/overlayScrollbars/css/OverlayScrollbars.min.css") %>">
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/summernote/summernote-bs4.min.css") %>">
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Scripts/sweetalert.css") %>">
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/css/glassmorphism.css") %>">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/fontawesome-free/css/all.min.css") %>" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css") %>" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/icheck-bootstrap/icheck-bootstrap.min.css") %>" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/jqvmap/jqvmap.min.css") %>" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/dist/css/adminlte.min.css") %>" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/overlayScrollbars/css/OverlayScrollbars.min.css") %>" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/summernote/summernote-bs4.min.css") %>" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Scripts/sweetalert.css") %>" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/css/glassmorphism.css") %>" />
 
-    <style>
-        .logout-icon i {
-            color: white !important;
-            font-size: 18px;
-        }
-    </style>
-
-    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+    <asp:ContentPlaceHolder ID="head" runat="server" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <form id="form1" runat="server">
         <div class="wrapper">
-
             <!-- Navbar -->
             <nav class="main-header navbar navbar-expand navbar-white navbar-light glass-nav">
                 <ul class="navbar-nav">
@@ -46,21 +38,18 @@
                     </li>
                 </ul>
 
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <span>
-                            <b style="color:white">
-                                Welcome:- <asp:Label ID="lblusername" runat="server" Text="Label"></asp:Label>
-                            </b>
-                        </span>
-                        &nbsp;&nbsp;&nbsp;
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <li class="nav-item text-white font-weight-bold">
+                        Welcome: <asp:Label ID="lblusername" runat="server" />
+                    </li>
+                    <li class="nav-item ml-3">
                         <asp:LinkButton 
                             ID="btnLogoutIcon" 
                             runat="server" 
                             OnClick="btnLogout_Click" 
                             OnClientClick="return confirm('Are you sure you want to logout?');"
-                            CssClass="logout-icon">
-                            <i class="fas fa-sign-out-alt"></i>
+                            CssClass="text-white">
+                            <i class="fas fa-sign-out-alt fa-lg"></i>
                         </asp:LinkButton>
                     </li>
                 </ul>
@@ -74,7 +63,7 @@
 
                 <div class="sidebar">
                     <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                             <li id="lnkDashboard" runat="server" class="nav-item">
                                 <a href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -83,19 +72,19 @@
                             </li>
                             <li id="lnkUser" runat="server" class="nav-item">
                                 <a href="<%= ResolveUrl("~/View/User/user.aspx") %>" class="nav-link">
-                                    <i class="nav-icon far fa-envelope"></i>
+                                    <i class="nav-icon fas fa-user-plus"></i>
                                     <p>Add New Record</p>
                                 </a>
                             </li>
                             <li id="lnkShowData" runat="server" class="nav-item">
                                 <a href="<%= ResolveUrl("~/View/Admin/showdata.aspx") %>" class="nav-link">
-                                    <i class="nav-icon far fa-envelope"></i>
+                                    <i class="nav-icon fas fa-edit"></i>
                                     <p>Update/Delete Record</p>
                                 </a>
                             </li>
                             <li id="lnkReport" runat="server" class="nav-item">
                                 <a href="<%= ResolveUrl("~/View/User/report.aspx") %>" class="nav-link">
-                                    <i class="nav-icon far fa-envelope"></i>
+                                    <i class="nav-icon fas fa-file-alt"></i>
                                     <p>Report</p>
                                 </a>
                             </li>
@@ -107,7 +96,7 @@
             <!-- Content -->
             <div class="content-wrapper">
                 <div class="container-fluid">
-                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
                 </div>
             </div>
 
@@ -121,29 +110,23 @@
     <script src="<%= ResolveUrl("~/Assets/Admin/jquery-ui/jquery-ui.min.js") %>"></script>
     <script src="<%= ResolveUrl("~/Assets/Admin/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
     <script src="<%= ResolveUrl("~/Assets/Admin/overlayScrollbars/js/jquery.overlayScrollbars.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/Admin/sparklines/sparkline.js") %>"></script>
     <script src="<%= ResolveUrl("~/Assets/dist/js/adminlte.min.js") %>"></script>
 
-    <!-- DataTables Core -->
+    <!-- DataTables -->
     <script src="<%= ResolveUrl("~/Assets/plugins/datatables/jquery.dataTables.min.js") %>"></script>
     <script src="<%= ResolveUrl("~/Assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js") %>"></script>
-
-    <!-- DataTables Responsive -->
     <script src="<%= ResolveUrl("~/Assets/plugins/datatables-responsive/js/dataTables.responsive.min.js") %>"></script>
     <script src="<%= ResolveUrl("~/Assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") %>"></script>
-
-    <!-- DataTables Buttons (optional) -->
-<script src="<%= ResolveUrl("~/Assets/plugins/datatables-buttons/js/dataTables.buttons.min.js") %>"></script>
-<script src="<%= ResolveUrl("~/Assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") %>"></script>
-    <!-- Other Plugins -->
+    <script src="<%= ResolveUrl("~/Assets/plugins/datatables-buttons/js/dataTables.buttons.min.js") %>"></script>
+    <script src="<%= ResolveUrl("~/Assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") %>"></script>
     <script src="<%= ResolveUrl("~/Assets/plugins/jszip/jszip.min.js") %>"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Highlight Active Menu -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var path = window.location.pathname.toLowerCase();
-            document.querySelectorAll(".nav-link").forEach(function (link) {
+        document.addEventListener("DOMContentLoaded", () => {
+            const path = window.location.pathname.toLowerCase();
+            document.querySelectorAll(".nav-link").forEach(link => {
                 if (path.includes(link.getAttribute("href").toLowerCase())) {
                     link.classList.add("active");
                 }
