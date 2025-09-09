@@ -42,6 +42,24 @@ namespace Dbord.View.Admin
         protected global::System.Web.UI.WebControls.Label lblexpired;
 
         /// <summary>
+        /// btnExportExcel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnExportExcel;
+
+        /// <summary>
+        /// LinkButton1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
+
+        /// <summary>
         /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
@@ -75,7 +93,7 @@ namespace Dbord.View.Admin
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearch_dash;
+        protected global::System.Web.UI.WebControls.LinkButton btnSearch_dash;
 
         /// <summary>
         /// btnClearSearch_dash control.
@@ -84,7 +102,7 @@ namespace Dbord.View.Admin
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearSearch_dash;
+        protected global::System.Web.UI.WebControls.LinkButton btnClearSearch_dash;
 
         /// <summary>
         /// gvdashboard control.

@@ -105,8 +105,17 @@
             <div class="row">
                 <div class="col-lg-6 sm-12">
                     <div class="card card-danger">
-                        <div class="card-header">
-                            <h3 class="card-title">Company Wise Policy</h3>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title mb-0">Company Wise Policy</h3>
+                                <div class="ml-auto">         
+
+       <asp:LinkButton ID="btnExportExcel" runat="server" 
+           OnClick="btnExportExcel_Click" 
+           
+   >
+    <i class="fas fa-file-excel"></i>
+</asp:LinkButton>
+    </div>
                         </div>
                         <div class="card-body">
                             <canvas id="companyChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -116,8 +125,16 @@
 
                 <div class="col-lg-6 sm-12">
                     <div class="card card-warning">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">Category Wise Policy</h3>
+                                                            <div class="ml-auto">         
+
+       <asp:LinkButton ID="LinkButton1" runat="server" 
+    OnClick="btnExportCategoryExcel_Click" 
+   >
+    <i class="fas fa-file-excel"></i>
+</asp:LinkButton>
+    </div>
                         </div>
                         <div class="card-body">
                             <canvas id="CategoryChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -131,7 +148,7 @@
                 <div class="col-lg-12 sm-12">
                     <div class="card card-danger">
                         <div class="card-header">
-                            <h3 class="card-title">Detail Policy Holders</h3>
+                            <h3 class="card-title">Details Policy Holders</h3>
                         </div>
 
                         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" />
@@ -140,9 +157,14 @@
                                 <div class="card-body">
                                     <div style="margin-bottom:10px; display: flex; align-items: center; gap: 5px;">
                                         <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" />
-                                        <asp:Button ID="btnSearch_dash" runat="server" Text="Search" OnClick="btnSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-primary" />
-                                        <asp:Button ID="btnClearSearch_dash" runat="server" Text="Clear" OnClick="btnClearSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-secondary" />
+                                        <asp:LinkButton ID="btnSearch_dash" runat="server" OnClick="btnSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-primary" ToolTip="Search">
+                                            <i class="fas fa-search"></i>
+                                        </asp:LinkButton>
+                                        <asp:LinkButton ID="btnClearSearch_dash" runat="server" OnClick="btnClearSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-secondary" ToolTip="Clear">
+                                            <i class="fas fa-eraser"></i>
+                                        </asp:LinkButton>
                                     </div>
+
 
                                      <asp:GridView ID="gvdashboard" runat="server" AutoGenerateColumns="False"
     DataKeyNames="PolicyID" CssClass="table"
@@ -182,6 +204,8 @@
                             <Triggers>
                                 <asp:AsyncPostBackTrigger ControlID="btnSearch_dash" EventName="Click" />
                                 <asp:AsyncPostBackTrigger ControlID="btnClearSearch_dash" EventName="Click" />
+                                <asp:PostBackTrigger ControlID="btnExportExcel" />
+                                <asp:PostBackTrigger ControlID="LinkButton1" />
                             </Triggers>
                         </asp:UpdatePanel>
                         <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1" DisplayAfter="0">
@@ -364,6 +388,41 @@
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
             HideLoading();
         });
+    </script>
+    <!-- Hidden iframe to capture file downloads and detect when they complete -->
+    <iframe id="downloadFrame" name="downloadFrame" style="display:none; width:0; height:0; border:0;" title="download"></iframe>
+    <script type="text/javascript">
+        // Called by export buttons before submitting the form
+        function startDownload(btn) {
+            try {
+                ShowLoading();
+                var form = btn && btn.form ? btn.form : (document.forms && document.forms[0]);
+                if (form) {
+                    window._prevFormTarget = form.target || '';
+                    form.target = 'downloadFrame';
+                }
+            } catch (e) { /* no-op */ }
+            // allow postback
+            return true;
+        }
+
+        (function(){
+            var iframe = document.getElementById('downloadFrame');
+            if (iframe) {
+                // When the download finishes and the iframe load completes, hide the loader
+                iframe.addEventListener('load', function(){
+                    // Small delay to ensure UI updates after response completes
+                    try {
+                        var form = document.forms && document.forms[0];
+                        if (form && typeof window._prevFormTarget !== 'undefined') {
+                            form.target = window._prevFormTarget;
+                            window._prevFormTarget = undefined;
+                        }
+                    } catch (e) { /* ignore */ }
+                    setTimeout(HideLoading, 50);
+                });
+            }
+        })();
     </script>
 
 </asp:Content>

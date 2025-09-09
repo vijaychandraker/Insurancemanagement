@@ -120,7 +120,7 @@
 
                                 <asp:TemplateField HeaderText="Vehicle No">
                                     <HeaderTemplate>
-                                        Vehicle No<br />
+                                        Vehicle No<br /><br />
                                         <asp:TextBox ID="txtSearchVehicle" Placeholder="Search" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
                                     </HeaderTemplate>
                                     <ItemTemplate><%# Eval("VehicleNo") %></ItemTemplate>

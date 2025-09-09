@@ -122,12 +122,6 @@ namespace Dbord.View.Admin
             lblexpired.Text = totalExp.ToString();
         }
 
-
-
-
-
-
-
         private void BindGrid(string searchText = "")
         {
             try
@@ -167,7 +161,6 @@ namespace Dbord.View.Admin
                 ShowError("Error loading data: " + ex.Message);
             }
         }
-
 
         private void ShowError(string message)
         {
@@ -245,5 +238,94 @@ namespace Dbord.View.Admin
                 e.Row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
             }
         }
+        protected void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = ViewState["CompanyData"] as DataTable;
+
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    ShowError("No data available for export.");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "hideLoader", "HideLoading();", true);
+                    return;
+                }
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment;filename=CompanyWisePolicy.xls");
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.ms-excel";
+
+                using (System.IO.StringWriter sw = new System.IO.StringWriter())
+                {
+                    using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                    {
+                        GridView gvExport = new GridView();
+                        gvExport.DataSource = dt;
+                        gvExport.DataBind();
+
+                        gvExport.RenderControl(hw);
+                        Response.Output.Write(sw.ToString());
+
+                        Response.Flush();
+                        Response.End();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowError("Error exporting to Excel: " + ex.Message);
+                ScriptManager.RegisterStartupScript(this, GetType(), "hideLoader", "HideLoading();", true);
+            }
+        }
+
+        public override void VerifyRenderingInServerForm(Control control)
+        {
+            // This is required to allow GridView to render during export
+        }
+        protected void btnExportCategoryExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = ViewState["CategoryData"] as DataTable;
+
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    ShowError("No data available for export.");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "hideLoader", "HideLoading();", true);
+                    return;
+                }
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment;filename=CategoryWisePolicy.xls");
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.ms-excel";
+
+                using (System.IO.StringWriter sw = new System.IO.StringWriter())
+                {
+                    using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                    {
+                        GridView gvExport = new GridView();
+                        gvExport.DataSource = dt;
+                        gvExport.DataBind();
+
+                        gvExport.RenderControl(hw);
+                        Response.Output.Write(sw.ToString());
+
+                        Response.Flush();
+                        Response.End();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowError("Error exporting category data: " + ex.Message);
+                ScriptManager.RegisterStartupScript(this, GetType(), "hideLoader", "HideLoading();", true);
+            }
+        }
+
+
     }
 }
