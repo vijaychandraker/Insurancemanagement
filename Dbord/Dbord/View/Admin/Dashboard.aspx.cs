@@ -23,8 +23,41 @@ namespace Dbord.View.Admin
                 Bindmorethenone();
                 BindGrid();
                 BindonmentExp();
+                BindCategoryCompanyGrid();
             }
         }
+        private void BindCategoryCompanyGrid()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = @"
+            SELECT 
+    c.c_id AS CategoryID,
+    c.CategoryName, 
+    co.c_id AS CompanyID,
+    co.CompanyName, 
+    COUNT(ip.PolicyID) AS TotalPolicies
+FROM InsurancePolicy ip
+INNER JOIN mst_category c ON ip.CategoryID = c.c_id
+INNER JOIN mst_Company co ON ip.CompanyID = co.c_id
+GROUP BY c.c_id, c.CategoryName, co.c_id, co.CompanyName
+ORDER BY c.CategoryName, co.CompanyName;
+";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    da.Fill(dt);
+                }
+            }
+
+            gvCategoryCompany.DataSource = dt;
+            gvCategoryCompany.DataBind();
+            ViewState["CategoryCompanyData"] = dt; // save for export if needed
+        }
+
 
         private void BindCompanyChart()
         {
@@ -33,11 +66,11 @@ namespace Dbord.View.Admin
             {
                 conn.Open();
                 string sql = @"
-                    SELECT c.CompanyName, COUNT(ip.PolicyID) AS Count
-                    FROM InsurancePolicy ip
-                    INNER JOIN mst_Company c ON ip.CompanyID = c.c_id
-                    GROUP BY c.CompanyName
-                    ORDER BY Count DESC";
+                   SELECT c.CompanyName, COUNT(ip.PolicyID) AS Count, ip.CompanyID
+FROM   InsurancePolicy AS ip INNER JOIN
+             mst_Company AS c ON ip.CompanyID = c.c_id
+GROUP BY c.CompanyName, ip.CompanyID
+ORDER BY Count DESC";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -55,11 +88,11 @@ namespace Dbord.View.Admin
             {
                 conn.Open();
                 string sql = @"
-                    SELECT c.CategoryName, COUNT(ip.PolicyID) AS Count
-                    FROM   InsurancePolicy AS ip 
-                    INNER JOIN mst_category AS c ON ip.CategoryID = c.c_id
-                    GROUP BY c.CategoryName
-                    ORDER BY Count DESC";
+                    SELECT COUNT(ip.PolicyID) AS Count, ip.CategoryID, mst_category.CategoryName
+FROM   InsurancePolicy AS ip LEFT OUTER JOIN
+             mst_category ON ip.CategoryID = mst_category.c_id
+GROUP BY ip.CategoryID, mst_category.CategoryName
+ORDER BY Count DESC";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -326,6 +359,21 @@ namespace Dbord.View.Admin
             }
         }
 
+        protected void gvCategoryCompany_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvCategoryCompany.PageIndex = e.NewPageIndex;
+
+            // Rebind from ViewState (avoid hitting DB again if not needed)
+            if (ViewState["CategoryCompanyData"] != null)
+            {
+                gvCategoryCompany.DataSource = (DataTable)ViewState["CategoryCompanyData"];
+                gvCategoryCompany.DataBind();
+            }
+            else
+            {
+                BindCategoryCompanyGrid(); // fallback if ViewState is empty
+            }
+        }
 
     }
 }

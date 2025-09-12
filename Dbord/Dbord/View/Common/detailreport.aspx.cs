@@ -15,40 +15,39 @@ namespace Dbord.View.Common
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string companyId = Request.QueryString["CompanyID"];
+            string categoryId = Request.QueryString["CategoryID"];
+
             if (Request.QueryString["download"] == "1")
             {
-                string company = Request.QueryString["company"];
-                string category = Request.QueryString["category"];
-                ExportExcel(company, category);
+              
+                ExportExcel(companyId, categoryId);
                 return;
             }
 
             if (!IsPostBack)
             {
-                string company = Request.QueryString["company"];
-                string category = Request.QueryString["category"];
+                ViewState["Company"] = companyId;
+                ViewState["Category"] = categoryId;
 
-                ViewState["Company"] = company;
-                ViewState["Category"] = category;
-
-                BindPolicies(company, category);
+                BindPolicies(companyId, categoryId);
             }
         }
 
-        private DataTable GetPolicies(string companyName = null, string categoryName = null)
+        private DataTable GetPolicies(string companyId = null, string categoryId = null)
         {
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("@CompanyName", string.IsNullOrEmpty(companyName) ? (object)DBNull.Value : companyName),
-                new SqlParameter("@CategoryName", string.IsNullOrEmpty(categoryName) ? (object)DBNull.Value : categoryName)
+                new SqlParameter("@CompanyID", string.IsNullOrEmpty(companyId) ? (object)DBNull.Value : companyId),
+                new SqlParameter("@CategoryID", string.IsNullOrEmpty(categoryId) ? (object)DBNull.Value : categoryId)
             };
 
             return new DatabaseHelper().ExecuteQuery("GetcategoryCompany", parameters.ToArray());
         }
 
-        private void BindPolicies(string companyName = null, string categoryName = null)
+        private void BindPolicies(string companyId = null, string categoryId = null)
         {
-            DataTable dt = GetPolicies(companyName, categoryName);
+            DataTable dt = GetPolicies(companyId, categoryId);
             Gvrepot.DataSource = dt;
             Gvrepot.DataBind();
 
@@ -74,9 +73,9 @@ namespace Dbord.View.Common
         protected void Gvrepot_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             Gvrepot.PageIndex = e.NewPageIndex;
-            string company = ViewState["Company"] as string;
-            string category = ViewState["Category"] as string;
-            BindPolicies(company, category);
+            string companyId = ViewState["Company"] as string;
+            string categoryId = ViewState["Category"] as string;
+            BindPolicies(companyId, categoryId);
         }
 
         protected void Gvrepot_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -90,9 +89,9 @@ namespace Dbord.View.Common
             }
         }
 
-        private void ExportExcel(string company, string category)
+        private void ExportExcel(string companyId, string categoryId)
         {
-            DataTable dt = GetPolicies(company, category);
+            DataTable dt = GetPolicies(companyId, categoryId);
 
             if (dt != null && dt.Rows.Count > 0)
             {

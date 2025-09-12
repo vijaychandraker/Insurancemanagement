@@ -109,12 +109,8 @@
                             <h3 class="card-title mb-0">Company Wise Policy</h3>
                                 <div class="ml-auto">         
 
-       <asp:LinkButton ID="btnExportExcel" runat="server" 
-           OnClick="btnExportExcel_Click" 
-           
-   >
-    <i class="fas fa-file-excel"></i>
-</asp:LinkButton>
+       <asp:LinkButton ID="btnExportExcel" runat="server" OnClick="btnExportExcel_Click">
+    <i class="fas fa-file-excel"></i></asp:LinkButton>
     </div>
                         </div>
                         <div class="card-body">
@@ -129,11 +125,7 @@
                             <h3 class="card-title">Category Wise Policy</h3>
                                                             <div class="ml-auto">         
 
-       <asp:LinkButton ID="LinkButton1" runat="server" 
-    OnClick="btnExportCategoryExcel_Click" 
-   >
-    <i class="fas fa-file-excel"></i>
-</asp:LinkButton>
+       <asp:LinkButton ID="LinkButton1" runat="server" OnClick="btnExportCategoryExcel_Click"><i class="fas fa-file-excel"></i></asp:LinkButton>
     </div>
                         </div>
                         <div class="card-body">
@@ -142,7 +134,55 @@
                     </div>
                 </div>
             </div>
+            <div  class="row">
+                            <div class="col-lg-6 sm-12">
+                <div class="card card-info">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="card-title mb-0">Company Wise Company</h3>
+                            <div class="ml-auto">         
 
+ 
+</div>
+                    </div>
+                    <div class="card-body">
+
+                      <asp:GridView ID="gvCategoryCompany" runat="server" AutoGenerateColumns="False"
+    CssClass="table table-bordered table-striped"
+    AllowPaging="true" PageSize="5"
+    PagerStyle-CssClass="grid-pager"
+    EmptyDataText="No records found."
+    OnPageIndexChanging="gvCategoryCompany_PageIndexChanging">
+
+    <Columns>
+               <asp:TemplateField HeaderText="S.No">
+    <ItemTemplate>
+        <%# ((GridViewRow)Container).RowIndex + 1 + (gvCategoryCompany.PageIndex * gvCategoryCompany.PageSize) %>
+    </ItemTemplate>
+</asp:TemplateField>
+        <asp:BoundField DataField="CategoryName" HeaderText="Category" />
+        <asp:BoundField DataField="CompanyName" HeaderText="Company" />
+
+      
+        <asp:TemplateField HeaderText="Total Policies">
+            <ItemTemplate>
+                <asp:HyperLink ID="lnkTotalPolicies" runat="server" 
+                    Text='<%# Eval("TotalPolicies") %>' 
+                    NavigateUrl='<%# "~/View/Common/detailreport.aspx?CategoryID=" 
+                                   + Eval("CategoryID") 
+                                   + "&CompanyID=" 
+                                   + Eval("CompanyID") %>'>
+                </asp:HyperLink>
+            </ItemTemplate>
+        </asp:TemplateField>
+    </Columns>
+</asp:GridView>
+
+                           </div>
+                </div>
+            </div>
+
+
+            </div>
             <!-- GridView -->
             <div class="row">
                 <div class="col-lg-12 sm-12">
@@ -234,145 +274,150 @@
     <script type="text/javascript">
         var companies = [];
         var totals = [];
+        var companyIds = [];
 
-        <% 
-            System.Data.DataTable dt = ViewState["CompanyData"] as System.Data.DataTable;
-            if (dt != null)
+    <% 
+        System.Data.DataTable dt = ViewState["CompanyData"] as System.Data.DataTable;
+        if (dt != null)
+        {
+            foreach (System.Data.DataRow row in dt.Rows)
             {
-                foreach (System.Data.DataRow row in dt.Rows)
-                {
-        %>
+    %>
         companies.push('<%= row["CompanyName"].ToString() %>');
         totals.push(<%= row["Count"] %>);
-        <% 
+        companyIds.push(<%= row["CompanyID"] %>);
+    <% 
+            }
+        }
+    %>
+
+    var ctx = document.getElementById('companyChart').getContext('2d');
+    var companyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: companies,
+            datasets: [{
+                label: 'Total Policies',
+                data: totals,
+                companyIds: companyIds, // ✅ attach IDs here
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                    color: '#000',
+                    font: { weight: 'bold', size: 10 },
+                    formatter: function (value) { return value; }
+                },
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Company' },
+                    ticks: { autoSkip: false, maxRotation: 45, minRotation: 45 },
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 3500,
+                    title: { display: true, text: 'Total Policies' },
+                    grid: { display: false }
+                }
+            },
+           
+            onClick: (evt, elements) => {
+                if (elements.length > 0) {
+                    var chartElem = elements[0];
+                    var companyId = companyChart.data.datasets[0].companyIds[chartElem.index];
+                    if (typeof ShowLoading === 'function') { ShowLoading(); }
+                    window.location.href = "<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?CompanyID=" + companyId;
                 }
             }
-        %>
-
-        var ctx = document.getElementById('companyChart').getContext('2d');
-        var companyChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: companies,
-                datasets: [{
-                    label: 'Total Policies',
-                    data: totals,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'end',
-                        color: '#000',
-                        font: { weight: 'bold', size: 10 },
-                        formatter: function (value) { return value; }
-                    },
-                    legend: { display: false }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Company' },
-                        ticks: { autoSkip: false, maxRotation: 45, minRotation: 45 },
-                        grid: { display: false }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        max: 3500,
-                        title: { display: true, text: 'Total Policies' },
-                        grid: { display: false }
-                    }
-                },
-                // ✅ Redirect when bar clicked
-                onClick: (evt, elements) => {
-                    if (elements.length > 0) {
-                        var chartElem = elements[0];
-                        var label = companyChart.data.labels[chartElem.index];
-                        // show loader before navigating
-                        if (typeof ShowLoading === 'function') { ShowLoading(); }
-                        window.location.href = "<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?company=" + encodeURIComponent(label);
-
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        });
+        },
+        plugins: [ChartDataLabels]
+    });
     </script>
+
 
     <script type="text/javascript">
         var Category = [];
         var totals = [];
+        var categoryIds = [];
 
-        <% 
-            System.Data.DataTable dtcategory = ViewState["CategoryData"] as System.Data.DataTable;
-            if (dtcategory != null)
+    <% 
+        System.Data.DataTable dtcategory = ViewState["CategoryData"] as System.Data.DataTable;
+        if (dtcategory != null)
+        {
+            foreach (System.Data.DataRow row in dtcategory.Rows)
             {
-                foreach (System.Data.DataRow row in dtcategory.Rows)
-                {
-        %>
+    %>
         Category.push('<%= row["CategoryName"].ToString() %>');
         totals.push(<%= row["Count"] %>);
-        <% 
+        categoryIds.push(<%= row["CategoryID"] %>);
+    <% 
+            }
+        }
+    %>
+
+    var ctcat = document.getElementById('CategoryChart').getContext('2d');
+    var CategoryChart = new Chart(ctcat, {
+        type: 'bar',
+        data: {
+            labels: Category,
+            datasets: [{
+                label: 'Total Policies',
+                data: totals,
+                categoryIds: categoryIds, // ✅ attach IDs here
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                    color: '#000',
+                    font: { weight: 'bold', size: 10 },
+                    formatter: function (value) { return value; }
+                },
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Category' },
+                    ticks: { autoSkip: false, maxRotation: 45, minRotation: 45 },
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 2500,
+                    title: { display: true, text: 'Total Policies' },
+                    grid: { display: false }
+                }
+            },
+            // ✅ Redirect when bar clicked
+            onClick: (evt, elements) => {
+                if (elements.length > 0) {
+                    var chartElem = elements[0];
+                    var categoryId = CategoryChart.data.datasets[0].categoryIds[chartElem.index];
+                    if (typeof ShowLoading === 'function') { ShowLoading(); }
+                    window.location.href = "<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?CategoryID=" + categoryId;
                 }
             }
-        %>
-
-        var ctcat = document.getElementById('CategoryChart').getContext('2d');
-        var CategoryChart = new Chart(ctcat, {
-            type: 'bar',
-            data: {
-                labels: Category,
-                datasets: [{
-                    label: 'Total Policies',
-                    data: totals,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'end',
-                        color: '#000',
-                        font: { weight: 'bold', size: 10 },
-                        formatter: function (value) { return value; }
-                    },
-                    legend: { display: false }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Category' },
-                        ticks: { autoSkip: false, maxRotation: 45, minRotation: 45 },
-                        grid: { display: false }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        max: 2500,
-                        title: { display: true, text: 'Total Policies' },
-                        grid: { display: false }
-                    }
-                },
-                // ✅ Redirect when bar clicked
-                onClick: (evt, elements) => {
-                    if (elements.length > 0) {
-                        var chartElem = elements[0];
-                        var label = CategoryChart.data.labels[chartElem.index];
-                        // show loader before navigating
-                        if (typeof ShowLoading === 'function') { ShowLoading(); }
-                        window.location.href = "<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?category=" + encodeURIComponent(label);
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        });
+        },
+        plugins: [ChartDataLabels]
+    });
     </script>
+
     <script type="text/javascript">
         function ShowLoading() {
             document.getElementById("loading").style.display = "flex";

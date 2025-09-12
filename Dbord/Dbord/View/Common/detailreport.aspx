@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="detailreport.aspx.cs" Inherits="Dbord.View.Common.detailreport" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
         .grid-wrap {
@@ -72,33 +73,43 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <br />
-
     <section class="content">
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header d-flex justify-content-between align-items-center">
-    <h3 class="card-title mb-0">Policy Report</h3>
-    <div class="ml-auto">         
-
-       <asp:LinkButton ID="btnExportExcel" runat="server" 
-    CssClass="btn btn-success" 
-    OnClientClick="startDownload(); return false;">
-    <i class="fas fa-file-excel"></i>
-</asp:LinkButton>
-    </div>
-</div>
+                    <h3 class="card-title mb-0">Policy Report</h3>
+                    <div class="ml-auto">
+                        <asp:LinkButton ID="btnExportExcel" runat="server" CssClass="btn btn-success" OnClientClick="startDownload(); return false;">
+                            <i class="fas fa-file-excel"></i>
+                        </asp:LinkButton>
+                    </div>
+                </div>
                 <div class="card-body">
 
-                    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+                    <asp:Label ID="Label1" runat="server" Text="filter by Inrance date"></asp:Label>
 
-                    <!-- Export Button -->
-                    
+                    <asp:TextBox ID="txtSearchStartDateFrom" runat="server" Placeholder="From YYYY-MM-DD" 
+            CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+        <asp:TextBox ID="txtSearchStartDateTo" runat="server" Placeholder="To YYYY-MM-DD" 
+            CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+
+                   <asp:Label ID="Label2" runat="server" Text="filter by Expairy date"></asp:Label>
+
+                    <asp:TextBox ID="txtSearchEndDateFrom" runat="server" Placeholder="From YYYY-MM-DD" 
+            CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+        <asp:TextBox ID="txtSearchEndDateTo" runat="server" Placeholder="To YYYY-MM-DD" 
+            CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
+
+
+
+
+
+                    <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
                             <div class="table-responsive">
-                                <asp:GridView ID="Gvrepot"
-                                    runat="server"
+                                <asp:GridView ID="Gvrepot" runat="server"
                                     AutoGenerateColumns="false"
                                     CssClass="table grid-wrap"
                                     AllowPaging="true"
@@ -111,7 +122,9 @@
                                     DataKeyNames="PolicyID">
                                     <Columns>
                                         <asp:TemplateField HeaderText="S.No">
-                                            <ItemTemplate><asp:Label ID="lblSerial" runat="server" /></ItemTemplate>
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblSerial" runat="server" />
+                                            </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="PolicyID" HeaderText="Policy ID" Visible="false" />
                                         <asp:BoundField DataField="Name" HeaderText="Customer Name" />
@@ -166,9 +179,10 @@
                 }, 1000);
 
                 var iframe = document.getElementById("downloadFrame");
-                iframe.src = '<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?download=1&token=' + token +
-                             '&company=' + encodeURIComponent('<%= ViewState["Company"] ?? "" %>') +
-                             '&category=' + encodeURIComponent('<%= ViewState["Category"] ?? "" %>');
+                iframe.src = '<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?download=1&token=' + token
+                    + '&CompanyID=' + encodeURIComponent('<%= ViewState["Company"] ?? "" %>')
+                    + '&CategoryID=' + encodeURIComponent('<%= ViewState["Category"] ?? "" %>');
+
             }
 
             // For GridView async postbacks
