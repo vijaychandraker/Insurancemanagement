@@ -85,25 +85,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-
-                    <asp:Label ID="Label1" runat="server" Text="filter by Inrance date"></asp:Label>
-
-                    <asp:TextBox ID="txtSearchStartDateFrom" runat="server" Placeholder="From YYYY-MM-DD" 
-            CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-        <asp:TextBox ID="txtSearchStartDateTo" runat="server" Placeholder="To YYYY-MM-DD" 
-            CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-
-                   <asp:Label ID="Label2" runat="server" Text="filter by Expairy date"></asp:Label>
-
-                    <asp:TextBox ID="txtSearchEndDateFrom" runat="server" Placeholder="From YYYY-MM-DD" 
-            CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-        <asp:TextBox ID="txtSearchEndDateTo" runat="server" Placeholder="To YYYY-MM-DD" 
-            CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" />
-
-
-
-
-
+                
                     <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
@@ -166,9 +148,7 @@
             function startDownload() {
                 var loader = document.getElementById("loader");
                 loader.style.display = "flex";
-
                 var token = new Date().getTime();
-
                 // Poll for cookie
                 var checkInterval = setInterval(function () {
                     if (document.cookie.indexOf("downloadToken=" + token) !== -1) {
@@ -177,13 +157,13 @@
                         document.cookie = "downloadToken=" + token + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     }
                 }, 1000);
-
                 var iframe = document.getElementById("downloadFrame");
                 iframe.src = '<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?download=1&token=' + token
-                    + '&CompanyID=' + encodeURIComponent('<%= ViewState["Company"] ?? "" %>')
-                    + '&CategoryID=' + encodeURIComponent('<%= ViewState["Category"] ?? "" %>');
-
+                   + '&CompanyID=' + encodeURIComponent('<%= ViewState["Company"] ?? "" %>')
+        + '&CategoryID=' + encodeURIComponent('<%= ViewState["Category"] ?? "" %>')
+                    + '&defaultvalue=' + encodeURIComponent('<%= ViewState["DefValue"] ?? "" %>');
             }
+
 
             // For GridView async postbacks
             if (typeof (Sys) !== "undefined") {

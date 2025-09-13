@@ -88,16 +88,21 @@ namespace Dbord.View.User
                 ["Premium"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchPremium"))?.Text.Trim() ?? "",
                 ["NCB"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchNCB"))?.Text.Trim() ?? "",
                 ["PolicyNo"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchPolicyNo"))?.Text.Trim() ?? "",
-                ["InsuredDateSearch"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchStartDate"))?.Text.Trim() ?? "",
-                ["ExpireDateSearch"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchEndDate"))?.Text.Trim() ?? "",
                 ["CompanyName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCompany"))?.Text.Trim() ?? "",
-                ["CategoryName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCategory"))?.Text.Trim() ?? ""
+                ["CategoryName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCategory"))?.Text.Trim() ?? "",
+
+                // New date range filters
+                ["StartDateFrom"] = txtSearchStartDateFrom.Text.Trim(),
+                ["StartDateTo"] = txtSearchStartDateTo.Text.Trim(),
+                ["EndDateFrom"] = txtSearchEndDateFrom.Text.Trim(),
+                ["EndDateTo"] = txtSearchEndDateTo.Text.Trim()
             };
 
             ViewState["SearchValues"] = searchValues;
             GridView1.PageIndex = 0;
             BindPoliciesWithSearch();
         }
+
 
         protected void btnExportExcel_Click(object sender, EventArgs e)
         {
@@ -172,8 +177,13 @@ namespace Dbord.View.User
 
         protected void btnRefresh_Click(object sender, EventArgs e)
         {
+            txtSearchStartDateFrom.Text = string.Empty;
+            txtSearchStartDateTo.Text = string.Empty;
+            txtSearchEndDateFrom.Text = string.Empty;
+            txtSearchEndDateTo.Text = string.Empty;
             // Clear search filters
             ViewState["SearchValues"] = null;
+           
 
             // Clear all header textboxes only if HeaderRow exists
             if (GridView1.HeaderRow != null)
@@ -184,6 +194,7 @@ namespace Dbord.View.User
                     {
                         if (ctl is TextBox txt)
                             txt.Text = string.Empty;
+                        
                     }
                 }
             }

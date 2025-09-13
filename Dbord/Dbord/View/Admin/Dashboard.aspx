@@ -1,102 +1,82 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="Dbord.View.Admin.Dashboard" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
-        .table th {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 8px;
-            word-wrap: break-word;
-        }
-        .table td {
-            padding: 8px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-            word-wrap: break-word;
-            white-space: normal;
-        }
-        .table td.actions {
-            white-space: nowrap;
-            word-wrap: normal;
-        }
+        .table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .table th { background-color: #4CAF50; color: white; text-align: center; padding: 8px; word-wrap: break-word; }
+        .table td { padding: 8px; text-align: center; border-bottom: 1px solid #ddd; word-wrap: break-word; white-space: normal; }
+        .table td.actions { white-space: nowrap; word-wrap: normal; }
         .table tr:nth-child(even) { background-color: #f2f2f2; }
         .table tr:hover { background-color: #ddd; }
         .btn-icon { margin-right: 5px; }
         .form-control { width: 100%; padding: 5px; box-sizing: border-box; }
         .d-none { display: none; }
+
         /* CSS spinner */
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 5px solid rgba(0,0,0,0.1);
-            border-top-color: #4CAF50;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        .spinner { width: 48px; height: 48px; border: 5px solid rgba(0,0,0,0.1); border-top-color: #4CAF50; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <!-- ✅ ScriptManager placed before any UpdatePanel -->
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" />
+
     <br />
 
     <section class="content">
         <div class="container-fluid">
 
+            <!-- Loader -->
             <div id="loading" style="display:none; position:fixed; inset:0; background:rgba(255,255,255,0.7); z-index:9999; align-items:center; justify-content:center;">
                 <div style="text-align:center;">
                     <div class="spinner"></div>
                     <p style="margin-top:8px; font-weight:600; color:#333;">Loading, please wait...</p>
                 </div>
             </div>
+
             <!-- Summary Cards -->
             <div class="row">
+                <!-- Total Policies -->
                 <div class="col-lg-4 sm-12">
                     <div class="small-box bg-info">
                         <div class="inner">
                             <h3><asp:Label ID="lbltotal" runat="server" Text="0"></asp:Label></h3>
                             <p>Total Policies</p>
                         </div>
-                        <div class="icon">
-                            <i class="far fa-envelope"></i>
-                        </div>
+                        <div class="icon"><i class="far fa-envelope"></i></div>
                         <a href="<%= ResolveUrl("~/View/User/report.aspx") %>" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
+                <!-- More Than One Policy -->
                 <div class="col-lg-4 sm-12">
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3><asp:Label ID="lblowner" runat="server" Text="0"></asp:Label></h3>
                             <p>More Than One Policy Holder</p>
                         </div>
-                        <div class="icon">
-                            <i class="far fa-user"></i>
-                        </div>
+                        <div class="icon"><i class="far fa-user"></i></div>
                         <a href="#" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
+                <!-- Expiring -->
                 <div class="col-lg-4 sm-12">
                     <div class="small-box bg-danger">
                         <div class="inner">
                             <h3><asp:Label ID="lblexpired" runat="server" Text="0"></asp:Label></h3>
                             <p>Expire in one Month</p>
                         </div>
-                        <div class="icon">
-                            <i class="far fa-file"></i>
-                        </div>
+                        <div class="icon"><i class="far fa-file"></i></div>
+                       <a href='<%= ResolveUrl("~/View/Common/detailreport.aspx?defaultvalue=1") %>' 
+   class="small-box-footer">
+    See Details <i class="fas fa-arrow-circle-right"></i>
+</a>
 
-                
-                        <a href="<%= ResolveUrl("~/View/Common/detailreport.aspx") %>" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
+
+
                     </div>
                 </div>
             </div>
@@ -104,141 +84,134 @@
             <!-- Charts -->
             <div class="row">
                 <div class="col-lg-6 sm-12">
+                    <!-- Company Wise -->
                     <div class="card card-danger">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title mb-0">Company Wise Policy</h3>
-                                <div class="ml-auto">         
-
-       <asp:LinkButton ID="btnExportExcel" runat="server" OnClick="btnExportExcel_Click">
-    <i class="fas fa-file-excel"></i></asp:LinkButton>
-    </div>
+                            <div class="ml-auto">
+                                <asp:LinkButton ID="btnExportExcel" runat="server" OnClick="btnExportExcel_Click"><i class="fas fa-file-excel"></i></asp:LinkButton>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <canvas id="companyChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            <canvas id="companyChart" style="min-height:250px;height:250px;max-height:250px;max-width:100%;"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Category Wise Company -->
+                    <div class="card card-info">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title mb-0">Category Wise Company</h3>
+                            <div class="ml-auto">
+                                <asp:LinkButton ID="lnkcompanywiseCategory" runat="server" OnClick="lnkcompanywiseCategory_Click"><i class="fas fa-file-excel"></i></asp:LinkButton>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="CategoryChart" style="min-height:250px;height:250px;max-height:250px;max-width:100%;"></canvas>
                         </div>
                     </div>
                 </div>
 
+                <!-- Category Wise Policy -->
                 <div class="col-lg-6 sm-12">
                     <div class="card card-warning">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">Category Wise Policy</h3>
-                                                            <div class="ml-auto">         
-
-       <asp:LinkButton ID="LinkButton1" runat="server" OnClick="btnExportCategoryExcel_Click"><i class="fas fa-file-excel"></i></asp:LinkButton>
-    </div>
+                            <div class="ml-auto">
+                                <asp:LinkButton ID="LinkButton1" runat="server" OnClick="btnExportCategoryExcel_Click"><i class="fas fa-file-excel"></i></asp:LinkButton>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <canvas id="CategoryChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+
+                            <!-- ✅ UpdatePanel for gvCategoryCompany -->
+                            <asp:UpdatePanel ID="upCategoryCompany" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <asp:GridView ID="gvCategoryCompany" runat="server" AutoGenerateColumns="False"
+                                        CssClass="table table-bordered table-striped"
+                                        AllowPaging="true" PageSize="12"
+                                        PagerStyle-CssClass="grid-pager"
+                                        EmptyDataText="No records found."
+                                        OnPageIndexChanging="gvCategoryCompany_PageIndexChanging">
+
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="S.No">
+                                                <ItemTemplate>
+                                                    <%# ((GridViewRow)Container).RowIndex + 1 + (gvCategoryCompany.PageIndex * gvCategoryCompany.PageSize) %>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:BoundField DataField="CategoryName" HeaderText="Category" />
+                                            <asp:BoundField DataField="CompanyName" HeaderText="Company" />
+
+                                            <asp:TemplateField HeaderText="Total Policies">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lnkTotalPolicies" runat="server"
+                                                        Text='<%# Eval("TotalPolicies") %>'
+                                                        OnClientClick='<%# "ShowLoading(); window.location=\"" 
+                                                                        + ResolveUrl("~/View/Common/detailreport.aspx?CategoryID=" 
+                                                                        + Eval("CategoryID") 
+                                                                        + "&CompanyID=" 
+                                                                        + Eval("CompanyID")) 
+                                                                        + "\"; return false;" %>'>
+                                                    </asp:LinkButton>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <div  class="row">
-                            <div class="col-lg-6 sm-12">
-                <div class="card card-info">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h3 class="card-title mb-0">Company Wise Company</h3>
-                            <div class="ml-auto">         
 
- 
-</div>
-                    </div>
-                    <div class="card-body">
-
-                      <asp:GridView ID="gvCategoryCompany" runat="server" AutoGenerateColumns="False"
-    CssClass="table table-bordered table-striped"
-    AllowPaging="true" PageSize="5"
-    PagerStyle-CssClass="grid-pager"
-    EmptyDataText="No records found."
-    OnPageIndexChanging="gvCategoryCompany_PageIndexChanging">
-
-    <Columns>
-               <asp:TemplateField HeaderText="S.No">
-    <ItemTemplate>
-        <%# ((GridViewRow)Container).RowIndex + 1 + (gvCategoryCompany.PageIndex * gvCategoryCompany.PageSize) %>
-    </ItemTemplate>
-</asp:TemplateField>
-        <asp:BoundField DataField="CategoryName" HeaderText="Category" />
-        <asp:BoundField DataField="CompanyName" HeaderText="Company" />
-
-      
-        <asp:TemplateField HeaderText="Total Policies">
-            <ItemTemplate>
-                <asp:HyperLink ID="lnkTotalPolicies" runat="server" 
-                    Text='<%# Eval("TotalPolicies") %>' 
-                    NavigateUrl='<%# "~/View/Common/detailreport.aspx?CategoryID=" 
-                                   + Eval("CategoryID") 
-                                   + "&CompanyID=" 
-                                   + Eval("CompanyID") %>'>
-                </asp:HyperLink>
-            </ItemTemplate>
-        </asp:TemplateField>
-    </Columns>
-</asp:GridView>
-
-                           </div>
-                </div>
-            </div>
-
-
-            </div>
-            <!-- GridView -->
+            <!-- Policy Holders Grid -->
             <div class="row">
                 <div class="col-lg-12 sm-12">
                     <div class="card card-danger">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">Details Policy Holders</h3>
                         </div>
 
-                        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" />
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server" ChildrenAsTriggers="true">
                             <ContentTemplate>
                                 <div class="card-body">
-                                    <div style="margin-bottom:10px; display: flex; align-items: center; gap: 5px;">
+                                    <div style="margin-bottom:10px; display:flex; align-items:center; gap:5px;">
                                         <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" />
-                                        <asp:LinkButton ID="btnSearch_dash" runat="server" OnClick="btnSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-primary" ToolTip="Search">
-                                            <i class="fas fa-search"></i>
-                                        </asp:LinkButton>
-                                        <asp:LinkButton ID="btnClearSearch_dash" runat="server" OnClick="btnClearSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-secondary" ToolTip="Clear">
-                                            <i class="fas fa-eraser"></i>
-                                        </asp:LinkButton>
+                                        <asp:LinkButton ID="btnSearch_dash" runat="server" OnClick="btnSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-primary" ToolTip="Search"><i class="fas fa-search"></i></asp:LinkButton>
+                                        <asp:LinkButton ID="btnClearSearch_dash" runat="server" OnClick="btnClearSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-secondary" ToolTip="Clear"><i class="fas fa-eraser"></i></asp:LinkButton>
                                     </div>
 
-
-                                     <asp:GridView ID="gvdashboard" runat="server" AutoGenerateColumns="False"
-    DataKeyNames="PolicyID" CssClass="table"
-    AllowPaging="True" PageSize="5"
-    PagerSettings-Mode="NumericFirstLast"
-    ShowFooter="true"
-    PagerStyle-CssClass="grid-pager"
-    OnPageIndexChanging="gvdashboard_PageIndexChanging"
-    OnRowDataBound="gvdashboard_RowDataBound">
-    
-    <Columns>
-        <asp:TemplateField HeaderText="S.No">
-            <ItemTemplate>
-                <%# ((GridViewRow)Container).RowIndex + 1 + (gvdashboard.PageIndex * gvdashboard.PageSize) %>
-            </ItemTemplate>
-        </asp:TemplateField>
-
-     
-        <asp:BoundField DataField="Name" HeaderText="Customer Name" />
-        <asp:BoundField DataField="OwnerName" HeaderText="Owner" />
-        <asp:BoundField DataField="Address" HeaderText="Address" />
-        <asp:BoundField DataField="VehicleNo" HeaderText="Vehicle No" />
-        <asp:BoundField DataField="Particular" HeaderText="Particular" />
-        <asp:BoundField DataField="SumInsured" HeaderText="Sum Insured" />
-        <asp:BoundField DataField="Premium" HeaderText="Premium" />
-        <asp:BoundField DataField="NCB" HeaderText="NCB" />
-        <asp:BoundField DataField="PolicyNo" HeaderText="Policy No" />
-        <asp:BoundField DataField="InsuredDate" HeaderText="Start Date" DataFormatString="{0:dd/MM/yyyy}" />
-        <asp:BoundField DataField="ExpireDate" HeaderText="End Date" DataFormatString="{0:dd/MM/yyyy}" />
-        <asp:BoundField DataField="CompanyName" HeaderText="Company" />
-        <asp:BoundField DataField="CategoryName" HeaderText="Category" />
-    </Columns>
-</asp:GridView>
-<asp:Label ID="lblMessage" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
+                                    <asp:GridView ID="gvdashboard" runat="server" AutoGenerateColumns="False"
+                                        DataKeyNames="PolicyID" CssClass="table"
+                                        AllowPaging="True" PageSize="5"
+                                        PagerSettings-Mode="NumericFirstLast"
+                                        ShowFooter="true"
+                                        PagerStyle-CssClass="grid-pager"
+                                        OnPageIndexChanging="gvdashboard_PageIndexChanging"
+                                        OnRowDataBound="gvdashboard_RowDataBound">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="S.No">
+                                                <ItemTemplate>
+                                                    <%# ((GridViewRow)Container).RowIndex + 1 + (gvdashboard.PageIndex * gvdashboard.PageSize) %>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="Name" HeaderText="Customer Name" />
+                                            <asp:BoundField DataField="OwnerName" HeaderText="Owner" />
+                                            <asp:BoundField DataField="Address" HeaderText="Address" />
+                                            <asp:BoundField DataField="VehicleNo" HeaderText="Vehicle No" />
+                                            <asp:BoundField DataField="Particular" HeaderText="Particular" />
+                                            <asp:BoundField DataField="SumInsured" HeaderText="Sum Insured" />
+                                            <asp:BoundField DataField="Premium" HeaderText="Premium" />
+                                            <asp:BoundField DataField="NCB" HeaderText="NCB" />
+                                            <asp:BoundField DataField="PolicyNo" HeaderText="Policy No" />
+                                            <asp:BoundField DataField="InsuredDate" HeaderText="Start Date" DataFormatString="{0:dd/MM/yyyy}" />
+                                            <asp:BoundField DataField="ExpireDate" HeaderText="End Date" DataFormatString="{0:dd/MM/yyyy}" />
+                                            <asp:BoundField DataField="CompanyName" HeaderText="Company" />
+                                            <asp:BoundField DataField="CategoryName" HeaderText="Category" />
+                                        </Columns>
+                                    </asp:GridView>
+                                    <asp:Label ID="lblMessage" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
                                 </div>
                             </ContentTemplate>
                             <Triggers>
@@ -248,6 +221,7 @@
                                 <asp:PostBackTrigger ControlID="LinkButton1" />
                             </Triggers>
                         </asp:UpdatePanel>
+
                         <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1" DisplayAfter="0">
                             <ProgressTemplate>
                                 <div style="text-align:center; margin:10px;">
@@ -419,25 +393,17 @@
     </script>
 
     <script type="text/javascript">
-        function ShowLoading() {
-            document.getElementById("loading").style.display = "flex";
-        }
-        function HideLoading() {
-            document.getElementById("loading").style.display = "none";
-        }
+        function ShowLoading() { document.getElementById("loading").style.display = "flex"; }
+        function HideLoading() { document.getElementById("loading").style.display = "none"; }
 
-        // Attach to UpdatePanel events
-        Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(function () {
-            ShowLoading();
-        });
-        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
-            HideLoading();
-        });
+        // ✅ Automatically show/hide loader for UpdatePanels
+        Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(function () { ShowLoading(); });
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () { HideLoading(); });
     </script>
-    <!-- Hidden iframe to capture file downloads and detect when they complete -->
-    <iframe id="downloadFrame" name="downloadFrame" style="display:none; width:0; height:0; border:0;" title="download"></iframe>
+
+    <!-- Hidden iframe for Excel download -->
+    <iframe id="downloadFrame" name="downloadFrame" style="display:none;width:0;height:0;border:0;" title="download"></iframe>
     <script type="text/javascript">
-        // Called by export buttons before submitting the form
         function startDownload(btn) {
             try {
                 ShowLoading();
@@ -446,28 +412,26 @@
                     window._prevFormTarget = form.target || '';
                     form.target = 'downloadFrame';
                 }
-            } catch (e) { /* no-op */ }
-            // allow postback
+            } catch (e) { }
             return true;
         }
 
-        (function(){
+        (function () {
             var iframe = document.getElementById('downloadFrame');
             if (iframe) {
-                // When the download finishes and the iframe load completes, hide the loader
-                iframe.addEventListener('load', function(){
-                    // Small delay to ensure UI updates after response completes
+                iframe.addEventListener('load', function () {
                     try {
                         var form = document.forms && document.forms[0];
                         if (form && typeof window._prevFormTarget !== 'undefined') {
                             form.target = window._prevFormTarget;
                             window._prevFormTarget = undefined;
                         }
-                    } catch (e) { /* ignore */ }
+                    } catch (e) { }
                     setTimeout(HideLoading, 50);
                 });
             }
         })();
     </script>
+
 
 </asp:Content>

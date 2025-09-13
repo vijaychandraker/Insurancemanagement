@@ -57,8 +57,6 @@ ORDER BY c.CategoryName, co.CompanyName;
             gvCategoryCompany.DataBind();
             ViewState["CategoryCompanyData"] = dt; // save for export if needed
         }
-
-
         private void BindCompanyChart()
         {
             DataTable dtCompany = new DataTable();
@@ -67,10 +65,11 @@ ORDER BY c.CategoryName, co.CompanyName;
                 conn.Open();
                 string sql = @"
                    SELECT c.CompanyName, COUNT(ip.PolicyID) AS Count, ip.CompanyID
-FROM   InsurancePolicy AS ip INNER JOIN
-             mst_Company AS c ON ip.CompanyID = c.c_id
-GROUP BY c.CompanyName, ip.CompanyID
-ORDER BY Count DESC";
+                    FROM   InsurancePolicy AS ip INNER JOIN
+                    mst_Company AS c ON ip.CompanyID = c.c_id
+                    WHERE ip.IsDeleted = 'NO'
+                    GROUP BY c.CompanyName, ip.CompanyID
+                    ORDER BY Count DESC";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -89,10 +88,11 @@ ORDER BY Count DESC";
                 conn.Open();
                 string sql = @"
                     SELECT COUNT(ip.PolicyID) AS Count, ip.CategoryID, mst_category.CategoryName
-FROM   InsurancePolicy AS ip LEFT OUTER JOIN
-             mst_category ON ip.CategoryID = mst_category.c_id
-GROUP BY ip.CategoryID, mst_category.CategoryName
-ORDER BY Count DESC";
+                    FROM   InsurancePolicy AS ip LEFT OUTER JOIN
+                    mst_category ON ip.CategoryID = mst_category.c_id
+                    WHERE ip.IsDeleted = 'NO'
+                    GROUP BY ip.CategoryID, mst_category.CategoryName
+                    ORDER BY Count DESC";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -109,7 +109,7 @@ ORDER BY Count DESC";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string sql = "SELECT COUNT(PolicyID) FROM InsurancePolicy";
+                string sql = "SELECT COUNT(PolicyID) FROM InsurancePolicy WHERE IsDeleted = 'NO'";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     object resultowner = cmd.ExecuteScalar();
@@ -126,7 +126,7 @@ ORDER BY Count DESC";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string sql = "SELECT COUNT(DISTINCT OwnerName) AS OwnerCount FROM InsurancePolicy";
+                string sql = "SELECT COUNT(DISTINCT OwnerName) AS OwnerCount FROM InsurancePolicy WHERE IsDeleted = 'NO'";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     object result = cmd.ExecuteScalar();
@@ -144,7 +144,7 @@ ORDER BY Count DESC";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string sql = "SELECT COUNT(*) AS Total FROM   InsurancePolicy WHERE (ExpireDate BETWEEN GETDATE() AND DATEADD(MONTH, 1, GETDATE()))";
+                string sql = "SELECT COUNT(*) AS Total FROM InsurancePolicy WHERE IsDeleted = 'NO' AND ExpireDate >= DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1) AND ExpireDate < DATEADD(MONTH, 1, DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1));";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     object result = cmd.ExecuteScalar();
@@ -227,7 +227,6 @@ ORDER BY Count DESC";
             }
         }
 
-        // ✅ Footer showing only total record count
         private void SetFooterTotal(int total)
         {
             if (gvdashboard.FooterRow != null)
@@ -283,6 +282,12 @@ ORDER BY Count DESC";
                     ScriptManager.RegisterStartupScript(this, GetType(), "hideLoader", "HideLoading();", true);
                     return;
                 }
+                // Make a copy so we don’t alter the ViewState
+                DataTable exportTable = dt.Copy();
+
+                // Remove ID columns if they exist
+                if (exportTable.Columns.Contains("CompanyID"))
+                    exportTable.Columns.Remove("CompanyID");
 
                 Response.Clear();
                 Response.Buffer = true;
@@ -295,7 +300,7 @@ ORDER BY Count DESC";
                     using (HtmlTextWriter hw = new HtmlTextWriter(sw))
                     {
                         GridView gvExport = new GridView();
-                        gvExport.DataSource = dt;
+                        gvExport.DataSource = exportTable;
                         gvExport.DataBind();
 
                         gvExport.RenderControl(hw);
@@ -330,6 +335,13 @@ ORDER BY Count DESC";
                     return;
                 }
 
+                // Make a copy to avoid modifying the ViewState reference directly
+                DataTable exportTable2 = dt.Copy();
+
+                // Remove ID columns if they exist
+
+                if (exportTable2.Columns.Contains("CategoryID"))
+                    exportTable2.Columns.Remove("CategoryID");
                 Response.Clear();
                 Response.Buffer = true;
                 Response.AddHeader("content-disposition", "attachment;filename=CategoryWisePolicy.xls");
@@ -341,7 +353,7 @@ ORDER BY Count DESC";
                     using (HtmlTextWriter hw = new HtmlTextWriter(sw))
                     {
                         GridView gvExport = new GridView();
-                        gvExport.DataSource = dt;
+                        gvExport.DataSource = exportTable2;
                         gvExport.DataBind();
 
                         gvExport.RenderControl(hw);
@@ -374,6 +386,59 @@ ORDER BY Count DESC";
                 BindCategoryCompanyGrid(); // fallback if ViewState is empty
             }
         }
+
+        protected void lnkcompanywiseCategory_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = ViewState["CategoryCompanyData"] as DataTable;
+
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    ShowError("No data available for export.");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "hideLoader", "HideLoading();", true);
+                    return;
+                }
+
+                // Make a copy to avoid modifying the ViewState reference directly
+                DataTable exportTable = dt.Copy();
+
+                // Remove ID columns if they exist
+                if (exportTable.Columns.Contains("CompanyID"))
+                    exportTable.Columns.Remove("CompanyID");
+
+                if (exportTable.Columns.Contains("CategoryID"))
+                    exportTable.Columns.Remove("CategoryID");
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment;filename=CategoryCompanyWisePolicy.xls");
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.ms-excel";
+
+                using (System.IO.StringWriter sw = new System.IO.StringWriter())
+                {
+                    using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                    {
+                        GridView gvExport = new GridView();
+                        gvExport.DataSource = exportTable;
+                        gvExport.DataBind();
+
+                        gvExport.RenderControl(hw);
+                        Response.Output.Write(sw.ToString());
+
+                        Response.Flush();
+                        Response.End();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowError("Error exporting Category-Company data: " + ex.Message);
+                ScriptManager.RegisterStartupScript(this, GetType(), "hideLoader", "HideLoading();", true);
+            }
+        }
+
 
     }
 }

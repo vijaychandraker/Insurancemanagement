@@ -17,25 +17,36 @@ namespace Dbord.View.Common
         {
             string companyId = Request.QueryString["CompanyID"];
             string categoryId = Request.QueryString["CategoryID"];
+            string defValue = Request.QueryString["defaultvalue"];
 
+            // Handle download BEFORE binding
             if (Request.QueryString["download"] == "1")
             {
-              
-                ExportExcel(companyId, categoryId);
+                // ✅ Pass query string values directly
+                ExportExcel(companyId, categoryId, defValue);
                 return;
             }
 
             if (!IsPostBack)
             {
+                // Store values in ViewState for reuse in paging
+                ViewState["DefValue"] = defValue;
                 ViewState["Company"] = companyId;
                 ViewState["Category"] = categoryId;
 
-                BindPolicies(companyId, categoryId);
+                // Initial bind
+                BindPolicies(companyId, categoryId, defValue);
             }
         }
 
-        private DataTable GetPolicies(string companyId = null, string categoryId = null)
+        private DataTable GetPolicies(string companyId = null, string categoryId = null, string defVal = null)
         {
+            if (defVal == "1")
+            {
+                // Expiring policies SP
+                return new DatabaseHelper().ExecuteQuery("GetCurrentMonthExpiringPolicies", new SqlParameter[] { });
+            }
+
             var parameters = new List<SqlParameter>
             {
                 new SqlParameter("@CompanyID", string.IsNullOrEmpty(companyId) ? (object)DBNull.Value : companyId),
@@ -45,9 +56,9 @@ namespace Dbord.View.Common
             return new DatabaseHelper().ExecuteQuery("GetcategoryCompany", parameters.ToArray());
         }
 
-        private void BindPolicies(string companyId = null, string categoryId = null)
+        private void BindPolicies(string companyId, string categoryId, string defValue)
         {
-            DataTable dt = GetPolicies(companyId, categoryId);
+            DataTable dt = GetPolicies(companyId, categoryId, defValue);
             Gvrepot.DataSource = dt;
             Gvrepot.DataBind();
 
@@ -73,9 +84,12 @@ namespace Dbord.View.Common
         protected void Gvrepot_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             Gvrepot.PageIndex = e.NewPageIndex;
+
             string companyId = ViewState["Company"] as string;
             string categoryId = ViewState["Category"] as string;
-            BindPolicies(companyId, categoryId);
+            string defValue = ViewState["DefValue"] as string;
+
+            BindPolicies(companyId, categoryId, defValue);
         }
 
         protected void Gvrepot_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -89,9 +103,10 @@ namespace Dbord.View.Common
             }
         }
 
-        private void ExportExcel(string companyId, string categoryId)
+        private void ExportExcel(string companyId, string categoryId, string defValue)
         {
-            DataTable dt = GetPolicies(companyId, categoryId);
+            // ✅ Always fetch fresh data using query string values
+            DataTable dt = GetPolicies(companyId, categoryId, defValue);
 
             if (dt != null && dt.Rows.Count > 0)
             {

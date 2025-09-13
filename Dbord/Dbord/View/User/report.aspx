@@ -67,6 +67,26 @@
     </div>
 </div>
 <div class="card-body">
+    <table><tr><td>Filter by Start Insurance</td>
+        <td>&nbsp&nbsp From</td>
+        <td><asp:TextBox ID="txtSearchStartDateFrom"  ClientIDMode="Static" runat="server" TextMode="Date"  
+        CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" onchange="clearEndDates()" /></td>
+        <td>&nbsp&nbsp To</td>
+        <td><asp:TextBox ID="txtSearchStartDateTo"  ClientIDMode="Static" runat="server" TextMode="Date" 
+    CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" onchange="clearEndDates()" /></td>
+        <td>&nbsp&nbsp&nbsp or &nbsp&nbsp&nbsp</td>
+           <td> Filter by End Insurance</td>
+        <td>&nbsp&nbsp From</td>
+            <td><asp:TextBox ID="txtSearchEndDateFrom" runat="server"  ClientIDMode="Static" TextMode="Date" onchange="clearStartDates()" 
+        CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" /></td>
+         <td>&nbsp&nbsp To</td>
+            <td><asp:TextBox ID="txtSearchEndDateTo" runat="server"  ClientIDMode="Static" TextMode="Date"  onchange="clearStartDates()"
+    CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" /></td>
+        </tr>
+    </table>
+        
+
+
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
       
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -83,6 +103,7 @@
                             OnRowDataBound="GridView1_RowDataBound"
                             PagerSettings-Mode="NumericFirstLast"
                             PagerStyle-CssClass="grid-pager"
+                            ShowHeaderWhenEmpty="true"
                             DataKeyNames="PolicyID">
 
                             <Columns>
@@ -219,4 +240,15 @@
                 </div>
         </div>
     </section>
+    <script type="text/javascript">
+        function clearEndDates() {
+            document.getElementById("txtSearchEndDateFrom").value = "";
+            document.getElementById("txtSearchEndDateTo").value = "";
+        }
+
+        function clearStartDates() {
+            document.getElementById("txtSearchStartDateFrom").value = "";
+            document.getElementById("txtSearchStartDateTo").value = "";
+        }
+    </script>
 </asp:Content>
