@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        .table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .table { width: 100%; border-collapse: collapse; table-layout: auto; }
         .table th { background-color: #4CAF50; color: white; text-align: center; padding: 8px; word-wrap: break-word; }
         .table td { padding: 8px; text-align: center; border-bottom: 1px solid #ddd; word-wrap: break-word; white-space: normal; }
         .table td.actions { white-space: nowrap; word-wrap: normal; }

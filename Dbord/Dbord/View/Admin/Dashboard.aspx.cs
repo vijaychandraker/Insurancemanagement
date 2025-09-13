@@ -42,6 +42,7 @@ namespace Dbord.View.Admin
 FROM InsurancePolicy ip
 INNER JOIN mst_category c ON ip.CategoryID = c.c_id
 INNER JOIN mst_Company co ON ip.CompanyID = co.c_id
+where ip.IsDeleted = 'NO'
 GROUP BY c.c_id, c.CategoryName, co.c_id, co.CompanyName
 ORDER BY c.CategoryName, co.CompanyName;
 ";
@@ -79,7 +80,6 @@ ORDER BY c.CategoryName, co.CompanyName;
             }
             ViewState["CompanyData"] = dtCompany;
         }
-
         private void BindCategoryChart()
         {
             DataTable dtcategory = new DataTable();
@@ -102,14 +102,13 @@ ORDER BY c.CategoryName, co.CompanyName;
             }
             ViewState["CategoryData"] = dtcategory;
         }
-
         private void BindTotalPolicyCard()
         {
             int totalowner = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string sql = "SELECT COUNT(PolicyID) FROM InsurancePolicy WHERE IsDeleted = 'NO'";
+                string sql = "SELECT COUNT(*) AS totalcount FROM InsurancePolicy ip INNER JOIN mst_Company c ON c.c_id = ip.CompanyID INNER JOIN mst_category cat ON ip.CategoryID = cat.c_id WHERE ip.IsDeleted = 'NO';";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     object resultowner = cmd.ExecuteScalar();
@@ -119,7 +118,6 @@ ORDER BY c.CategoryName, co.CompanyName;
             }
             lbltotal.Text = totalowner.ToString();
         }
-
         private void Bindmorethenone()
         {
             int totalPolicies = 0;
@@ -136,8 +134,6 @@ ORDER BY c.CategoryName, co.CompanyName;
             }
             lblowner.Text = totalPolicies.ToString();
         }
-
-
         private void BindonmentExp()
         {
             int totalExp = 0;
@@ -154,7 +150,6 @@ ORDER BY c.CategoryName, co.CompanyName;
             }
             lblexpired.Text = totalExp.ToString();
         }
-
         private void BindGrid(string searchText = "")
         {
             try
@@ -194,7 +189,6 @@ ORDER BY c.CategoryName, co.CompanyName;
                 ShowError("Error loading data: " + ex.Message);
             }
         }
-
         private void ShowError(string message)
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert", $@"
@@ -204,7 +198,6 @@ ORDER BY c.CategoryName, co.CompanyName;
                     text: '{message}'
                 }});", true);
         }
-
         protected void gvdashboard_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvdashboard.PageIndex = e.NewPageIndex;
