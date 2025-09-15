@@ -1,5 +1,5 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Dbord.Site1" %>
-
+<%@ Import Namespace="System.Web.Optimization" %>
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
@@ -7,21 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>EMRS Dashboard</title>
 
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
+    <!-- Bundled CSS -->
+    <%: Styles.Render("~/bundles/css") %>
 
-    <!-- Vendor CSS -->
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/fontawesome-free/css/all.min.css") %>" />
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css") %>" />
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/icheck-bootstrap/icheck-bootstrap.min.css") %>" />
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/jqvmap/jqvmap.min.css") %>" />
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/dist/css/adminlte.min.css") %>" />
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/overlayScrollbars/css/OverlayScrollbars.min.css") %>" />
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/summernote/summernote-bs4.min.css") %>" />
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Scripts/sweetalert.css") %>" />
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/css/glassmorphism.css") %>" />
-
+    <!-- Page-specific CSS -->
     <asp:ContentPlaceHolder ID="head" runat="server" />
 </head>
 
@@ -105,30 +94,30 @@
         </div>
     </form>
 
-    <!-- Core JS -->
-    <script src="<%= ResolveUrl("~/Assets/Admin/jquery/jquery.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/Admin/jquery-ui/jquery-ui.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/Admin/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/Admin/overlayScrollbars/js/jquery.overlayScrollbars.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/dist/js/adminlte.min.js") %>"></script>
+    <!-- ==========================
+         CORE JS (jQuery first!)
+         ========================== -->
+    <%: Scripts.Render("~/bundles/jquery") %>
+    <script>
+        if (typeof window.jQuery === 'undefined') {
+            document.write('<script src="<%= ResolveUrl("~/Assets/Admin/jquery/jquery.min.js") %>"><\/script>');
+        }
+    </script>
+    <%: Scripts.Render("~/bundles/js") %>
 
-    <!-- DataTables -->
-    <script src="<%= ResolveUrl("~/Assets/plugins/datatables/jquery.dataTables.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/plugins/datatables-responsive/js/dataTables.responsive.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/plugins/datatables-buttons/js/dataTables.buttons.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js") %>"></script>
-    <script src="<%= ResolveUrl("~/Assets/plugins/jszip/jszip.min.js") %>"></script>
+    <!-- Page-specific scripts -->
+    <asp:ContentPlaceHolder ID="PageScripts" runat="server" />
+
+    <!-- SweetAlert2 (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Highlight Active Menu -->
+    <!-- Active Menu Highlight -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const path = window.location.pathname.toLowerCase();
-            document.querySelectorAll(".nav-link").forEach(link => {
-                if (path.includes(link.getAttribute("href").toLowerCase())) {
-                    link.classList.add("active");
+        $(document).ready(function () {
+            var path = window.location.pathname.toLowerCase();
+            $(".nav-link").each(function () {
+                if (path.includes($(this).attr("href").toLowerCase())) {
+                    $(this).addClass("active");
                 }
             });
         });

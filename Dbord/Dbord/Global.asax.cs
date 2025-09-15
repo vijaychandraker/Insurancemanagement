@@ -12,7 +12,7 @@ namespace Dbord
 
         protected void Application_Start(object sender, EventArgs e)
         {
-
+            BundleConfig.RegisterBundles(System.Web.Optimization.BundleTable.Bundles);
         }
 
         protected void Session_Start(object sender, EventArgs e)

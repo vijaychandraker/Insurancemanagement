@@ -1,6 +1,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="Dbord.View.Admin.Dashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .table { width: 100%; border-collapse: collapse; table-layout: auto; }
         .table th { background-color: #4CAF50; color: white; text-align: center; padding: 8px; word-wrap: break-word; }
@@ -174,53 +175,65 @@
                         </div>
 
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server" ChildrenAsTriggers="true">
-                            <ContentTemplate>
-                                <div class="card-body">
-                                    <div style="margin-bottom:10px; display:flex; align-items:center; gap:5px;">
-                                        <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" />
-                                        <asp:LinkButton ID="btnSearch_dash" runat="server" OnClick="btnSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-primary" ToolTip="Search"><i class="fas fa-search"></i></asp:LinkButton>
-                                        <asp:LinkButton ID="btnClearSearch_dash" runat="server" OnClick="btnClearSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-secondary" ToolTip="Clear"><i class="fas fa-eraser"></i></asp:LinkButton>
-                                    </div>
+    <ContentTemplate>
+        <div class="card-body">
+            <div style="margin-bottom:10px; display:flex; align-items:center; gap:5px;">
+                <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" />
+                <asp:LinkButton ID="btnSearch_dash" runat="server" OnClick="btnSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-primary" ToolTip="Search">
+                    <i class="fas fa-search"></i>
+                </asp:LinkButton>
+                <asp:LinkButton ID="btnClearSearch_dash" runat="server" OnClick="btnClearSearch_dash_Click" OnClientClick="ShowLoading();" CssClass="btn btn-secondary" ToolTip="Clear">
+                    <i class="fas fa-eraser"></i>
+                </asp:LinkButton>
+            </div>
 
-                                    <asp:GridView ID="gvdashboard" runat="server" AutoGenerateColumns="False"
-                                        DataKeyNames="PolicyID" CssClass="table"
-                                        AllowPaging="True" PageSize="5"
-                                        PagerSettings-Mode="NumericFirstLast"
-                                        ShowFooter="true"
-                                        PagerStyle-CssClass="grid-pager"
-                                        OnPageIndexChanging="gvdashboard_PageIndexChanging"
-                                        OnRowDataBound="gvdashboard_RowDataBound">
-                                        <Columns>
-                                            <asp:TemplateField HeaderText="S.No">
-                                                <ItemTemplate>
-                                                    <%# ((GridViewRow)Container).RowIndex + 1 + (gvdashboard.PageIndex * gvdashboard.PageSize) %>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:BoundField DataField="Name" HeaderText="Customer Name" />
-                                            <asp:BoundField DataField="OwnerName" HeaderText="Owner" />
-                                            <asp:BoundField DataField="Address" HeaderText="Address" />
-                                            <asp:BoundField DataField="VehicleNo" HeaderText="Vehicle No" />
-                                            <asp:BoundField DataField="Particular" HeaderText="Particular" />
-                                            <asp:BoundField DataField="SumInsured" HeaderText="Sum Insured" />
-                                            <asp:BoundField DataField="Premium" HeaderText="Premium" />
-                                            <asp:BoundField DataField="NCB" HeaderText="NCB" />
-                                            <asp:BoundField DataField="PolicyNo" HeaderText="Policy No" />
-                                            <asp:BoundField DataField="InsuredDate" HeaderText="Start Date" DataFormatString="{0:dd/MM/yyyy}" />
-                                            <asp:BoundField DataField="ExpireDate" HeaderText="End Date" DataFormatString="{0:dd/MM/yyyy}" />
-                                            <asp:BoundField DataField="CompanyName" HeaderText="Company" />
-                                            <asp:BoundField DataField="CategoryName" HeaderText="Category" />
-                                        </Columns>
-                                    </asp:GridView>
-                                    <asp:Label ID="lblMessage" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
-                                </div>
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="btnSearch_dash" EventName="Click" />
-                                <asp:AsyncPostBackTrigger ControlID="btnClearSearch_dash" EventName="Click" />
-                                <asp:PostBackTrigger ControlID="btnExportExcel" />
-                                <asp:PostBackTrigger ControlID="LinkButton1" />
-                            </Triggers>
-                        </asp:UpdatePanel>
+            <asp:GridView ID="gvdashboard" runat="server" AutoGenerateColumns="False"
+                DataKeyNames="PolicyID"
+                CssClass="table table-bordered table-striped"
+                AllowPaging="True" PageSize="5"
+                PagerSettings-Mode="NumericFirstLast"
+                AllowCustomPaging="True"
+                PagerSettings-Position="Bottom"
+                PagerSettings-PageButtonCount="5"
+                PagerStyle-CssClass="grid-pager"
+                ShowFooter="true"
+                OnPageIndexChanging="gvdashboard_PageIndexChanging"
+                OnRowDataBound="gvdashboard_RowDataBound">
+
+                <Columns>
+                    <asp:TemplateField HeaderText="S.No">
+                        <ItemTemplate>
+                            <%# ((GridViewRow)Container).RowIndex + 1 + (gvdashboard.PageIndex * gvdashboard.PageSize) %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="Name" HeaderText="Customer Name" />
+                    <asp:BoundField DataField="OwnerName" HeaderText="Owner" />
+                    <asp:BoundField DataField="Address" HeaderText="Address" />
+                    <asp:BoundField DataField="VehicleNo" HeaderText="Vehicle No" />
+                    <asp:BoundField DataField="Particular" HeaderText="Particular" />
+                    <asp:BoundField DataField="SumInsured" HeaderText="Sum Insured" />
+                    <asp:BoundField DataField="Premium" HeaderText="Premium" />
+                    <asp:BoundField DataField="NCB" HeaderText="NCB" />
+                    <asp:BoundField DataField="PolicyNo" HeaderText="Policy No" />
+                    <asp:BoundField DataField="InsuredDate" HeaderText="Start Date" DataFormatString="{0:dd/MM/yyyy}" />
+                    <asp:BoundField DataField="ExpireDate" HeaderText="End Date" DataFormatString="{0:dd/MM/yyyy}" />
+                    <asp:BoundField DataField="CompanyName" HeaderText="Company" />
+                    <asp:BoundField DataField="CategoryName" HeaderText="Category" />
+                </Columns>
+            </asp:GridView>
+
+            <asp:Label ID="lblMessage" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
+        </div>
+    </ContentTemplate>
+
+    <Triggers>
+        <asp:AsyncPostBackTrigger ControlID="btnSearch_dash" EventName="Click" />
+        <asp:AsyncPostBackTrigger ControlID="btnClearSearch_dash" EventName="Click" />
+        <asp:PostBackTrigger ControlID="btnExportExcel" />
+        <asp:PostBackTrigger ControlID="LinkButton1" />
+    </Triggers>
+</asp:UpdatePanel>
+
 
                         <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1" DisplayAfter="0">
                             <ProgressTemplate>
@@ -251,7 +264,7 @@
         var companyIds = [];
 
     <% 
-        System.Data.DataTable dt = ViewState["CompanyData"] as System.Data.DataTable;
+        System.Data.DataTable dt = Session["CompanyData"] as System.Data.DataTable;
         if (dt != null)
         {
             foreach (System.Data.DataRow row in dt.Rows)
@@ -325,7 +338,7 @@
         var categoryIds = [];
 
     <% 
-        System.Data.DataTable dtcategory = ViewState["CategoryData"] as System.Data.DataTable;
+        System.Data.DataTable dtcategory = Session["CategoryData"] as System.Data.DataTable;
         if (dtcategory != null)
         {
             foreach (System.Data.DataRow row in dtcategory.Rows)

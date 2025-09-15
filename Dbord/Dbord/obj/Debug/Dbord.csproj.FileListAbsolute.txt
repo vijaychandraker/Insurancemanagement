@@ -143,3 +143,11 @@ C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\obj\Deb
 C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\obj\Debug\Dbord.csproj.Up2Date
 C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\obj\Debug\Dbord.dll
 C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\obj\Debug\Dbord.pdb
+C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\bin\Antlr3.Runtime.dll
+C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\bin\Newtonsoft.Json.dll
+C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\bin\System.Web.Optimization.dll
+C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\bin\WebGrease.dll
+C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\bin\Antlr3.Runtime.pdb
+C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\bin\Newtonsoft.Json.xml
+C:\Users\QL968PK\OneDrive - EY\Documents\Insurancemanagement\Dbord\Dbord\bin\System.Web.Optimization.xml
