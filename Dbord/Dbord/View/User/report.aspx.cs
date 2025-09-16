@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClosedXML.Excel;
-using System.Web;
 
 namespace Dbord.View.User
 {
@@ -16,34 +16,45 @@ namespace Dbord.View.User
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                BindPolicies();
+                BindPolicies(1, 5); // Load first page
         }
 
-        private void BindPolicies()
+        private void BindPolicies(int pageIndex = 1, int pageSize = 5)
         {
-            DataTable dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", new SqlParameter[] { });
-            GridView1.DataSource = dt;
-            GridView1.DataBind();
-            if (dt.Rows.Count > 0)
-                SetFooterTotal(dt.Rows.Count);
-        }
+            Dictionary<string, string> searchValues = Session["SearchValues"] as Dictionary<string, string> ?? new Dictionary<string, string>();
 
-        private void BindPoliciesWithSearch()
-        {
-            Dictionary<string, string> searchValues = ViewState["SearchValues"] as Dictionary<string, string> ?? new Dictionary<string, string>();
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
-            foreach (var kvp in searchValues)
+            List<SqlParameter> parameters = new List<SqlParameter>
             {
-                if (!string.IsNullOrEmpty(kvp.Value))
-                    parameters.Add(new SqlParameter("@" + kvp.Key, kvp.Value));
+                new SqlParameter("@PageNumber", pageIndex),
+                new SqlParameter("@PageSize", pageSize)
+            };
+
+            // Add all filters (if empty pass DBNull)
+            string[] keys = { "Name","OwnerName","Address","VehicleNo","Particular","SumInsured","Premium",
+                              "NCB","PolicyNo","CompanyName","CategoryName",
+                              "StartDateFrom","StartDateTo","EndDateFrom","EndDateTo" };
+
+            foreach (var key in keys)
+            {
+                string value = searchValues.ContainsKey(key) ? searchValues[key] : null;
+                parameters.Add(new SqlParameter("@" + key, string.IsNullOrWhiteSpace(value) ? DBNull.Value : (object)value));
             }
 
-            DataTable dt = new DatabaseHelper().ExecuteQuery("sp_getsearch", parameters.ToArray());
-            GridView1.DataSource = dt;
-            GridView1.DataBind();
+            DataTable dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", parameters.ToArray());
+
             if (dt.Rows.Count > 0)
-                SetFooterTotal(dt.Rows.Count);
+            {
+                int totalRecords = Convert.ToInt32(dt.Rows[0]["TotalCount"]);
+                GridView1.DataSource = dt;
+                GridView1.VirtualItemCount = totalRecords;
+                GridView1.DataBind();
+                SetFooterTotal(totalRecords);
+            }
+            else
+            {
+                GridView1.DataSource = null;
+                GridView1.DataBind();
+            }
         }
 
         private void SetFooterTotal(int total)
@@ -62,7 +73,7 @@ namespace Dbord.View.User
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
-            BindPoliciesWithSearch();
+            BindPolicies(e.NewPageIndex + 1, GridView1.PageSize);
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -90,28 +101,38 @@ namespace Dbord.View.User
                 ["PolicyNo"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchPolicyNo"))?.Text.Trim() ?? "",
                 ["CompanyName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCompany"))?.Text.Trim() ?? "",
                 ["CategoryName"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchCategory"))?.Text.Trim() ?? "",
-
-                // New date range filters
                 ["StartDateFrom"] = txtSearchStartDateFrom.Text.Trim(),
                 ["StartDateTo"] = txtSearchStartDateTo.Text.Trim(),
                 ["EndDateFrom"] = txtSearchEndDateFrom.Text.Trim(),
                 ["EndDateTo"] = txtSearchEndDateTo.Text.Trim()
             };
 
-            ViewState["SearchValues"] = searchValues;
+            Session["SearchValues"] = searchValues;
             GridView1.PageIndex = 0;
-            BindPoliciesWithSearch();
+            BindPolicies(1, GridView1.PageSize);
         }
-
 
         protected void btnExportExcel_Click(object sender, EventArgs e)
         {
-            // Get data (search or full list)
-            DataTable dt;
-            if (ViewState["SearchValues"] != null)
-                dt = new DatabaseHelper().ExecuteQuery("sp_getsearch", BuildSearchParameters());
-            else
-                dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", new SqlParameter[] { });
+            Dictionary<string, string> searchValues = Session["SearchValues"] as Dictionary<string, string> ?? new Dictionary<string, string>();
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            string[] keys = { "Name","OwnerName","Address","VehicleNo","Particular","SumInsured","Premium",
+                              "NCB","PolicyNo","CompanyName","CategoryName",
+                              "StartDateFrom","StartDateTo","EndDateFrom","EndDateTo" };
+
+            foreach (var key in keys)
+            {
+                string value = searchValues.ContainsKey(key) ? searchValues[key] : null;
+                parameters.Add(new SqlParameter("@" + key, string.IsNullOrWhiteSpace(value) ? DBNull.Value : (object)value));
+            }
+
+            // Use large number for export to get all records
+            parameters.Add(new SqlParameter("@PageNumber", 1));
+            parameters.Add(new SqlParameter("@PageSize", 1000000));
+
+            DataTable dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", parameters.ToArray());
 
             if (dt == null || dt.Rows.Count == 0)
             {
@@ -119,60 +140,29 @@ namespace Dbord.View.User
                 return;
             }
 
-            using (ClosedXML.Excel.XLWorkbook wb = new ClosedXML.Excel.XLWorkbook())
+            using (XLWorkbook wb = new XLWorkbook())
             {
                 var ws = wb.Worksheets.Add(dt, "Policies");
 
-                // Format header
-                var headerRow = ws.Row(1);
-                headerRow.Style.Font.Bold = true;
-                headerRow.Style.Fill.BackgroundColor = ClosedXML.Excel.XLColor.LightGray;
-                headerRow.Style.Alignment.Horizontal = ClosedXML.Excel.XLAlignmentHorizontalValues.Center;
+                ws.Row(1).Style.Font.Bold = true;
+                ws.Row(1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                ws.Row(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-                // Auto adjust column widths
                 ws.Columns().AdjustToContents();
 
-                using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+                using (MemoryStream stream = new MemoryStream())
                 {
                     wb.SaveAs(stream);
 
                     Response.Clear();
                     Response.Buffer = true;
-                    Response.Charset = "";
                     Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     Response.AddHeader("content-disposition", "attachment;filename=PolicyReport.xlsx");
-
                     Response.BinaryWrite(stream.ToArray());
                     Response.Flush();
-
-                    // Important: avoids ThreadAbortException
                     HttpContext.Current.ApplicationInstance.CompleteRequest();
                 }
             }
-        }
-
-        // Helper to reuse search params
-        private SqlParameter[] BuildSearchParameters()
-        {
-            Dictionary<string, string> searchValues = ViewState["SearchValues"] as Dictionary<string, string>;
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
-            if (searchValues != null)
-            {
-                foreach (var kvp in searchValues)
-                {
-                    if (!string.IsNullOrWhiteSpace(kvp.Value))
-                        parameters.Add(new SqlParameter("@" + kvp.Key, kvp.Value));
-                }
-            }
-
-            return parameters.ToArray();
-        }
-
-
-        private void ShowMessage(string msg)
-        {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", $"alert('{msg}');", true);
         }
 
         protected void btnRefresh_Click(object sender, EventArgs e)
@@ -181,28 +171,18 @@ namespace Dbord.View.User
             txtSearchStartDateTo.Text = string.Empty;
             txtSearchEndDateFrom.Text = string.Empty;
             txtSearchEndDateTo.Text = string.Empty;
-            // Clear search filters
-            ViewState["SearchValues"] = null;
-           
 
-            // Clear all header textboxes only if HeaderRow exists
+            Session["SearchValues"] = null;
+
             if (GridView1.HeaderRow != null)
             {
                 foreach (TableCell cell in GridView1.HeaderRow.Cells)
-                {
                     foreach (Control ctl in cell.Controls)
-                    {
-                        if (ctl is TextBox txt)
-                            txt.Text = string.Empty;
-                        
-                    }
-                }
+                        if (ctl is TextBox txt) txt.Text = string.Empty;
             }
 
-            // Reset page and bind full data
             GridView1.PageIndex = 0;
-            BindPolicies();
+            BindPolicies(1, GridView1.PageSize);
         }
-
     }
 }

@@ -84,7 +84,7 @@
     CssClass="form-control" AutoPostBack="true" OnTextChanged="SearchTextChanged" /></td>
         </tr>
     </table>
-        
+        <br />
 
 
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
@@ -98,6 +98,7 @@
                             CssClass="table grid-wrap"
                             AllowPaging="true"
                             PageSize="5"
+                            AllowCustomPaging="True"
                             ShowFooter="true"
                             OnPageIndexChanging="GridView1_PageIndexChanging"
                             OnRowDataBound="GridView1_RowDataBound"
