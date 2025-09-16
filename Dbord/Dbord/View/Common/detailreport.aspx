@@ -92,16 +92,17 @@
                         <ContentTemplate>
                             <div class="table-responsive">
                                 <asp:GridView ID="Gvrepot" runat="server"
-                                    AutoGenerateColumns="false"
-                                    CssClass="table grid-wrap"
-                                    AllowPaging="true"
-                                    PageSize="5"
-                                    ShowFooter="true"
-                                    OnPageIndexChanging="Gvrepot_PageIndexChanging"
-                                    OnRowDataBound="Gvrepot_RowDataBound"
-                                    PagerSettings-Mode="NumericFirstLast"
-                                    PagerStyle-CssClass="grid-pager"
-                                    DataKeyNames="PolicyID">
+    AutoGenerateColumns="false"
+    CssClass="table grid-wrap"
+    AllowPaging="true"
+    AllowCustomPaging="true"
+    PageSize="5"
+    ShowFooter="true"
+    OnPageIndexChanging="Gvrepot_PageIndexChanging"
+    OnRowDataBound="Gvrepot_RowDataBound"
+    PagerSettings-Mode="NumericFirstLast"
+    PagerStyle-CssClass="grid-pager"
+    DataKeyNames="PolicyID">
                                     <Columns>
                                         <asp:TemplateField HeaderText="S.No">
                                             <ItemTemplate>
@@ -159,9 +160,9 @@
                 }, 1000);
                 var iframe = document.getElementById("downloadFrame");
                 iframe.src = '<%= ResolveUrl("~/View/Common/detailreport.aspx") %>?download=1&token=' + token
-                   + '&CompanyID=' + encodeURIComponent('<%= ViewState["Company"] ?? "" %>')
-        + '&CategoryID=' + encodeURIComponent('<%= ViewState["Category"] ?? "" %>')
-                    + '&defaultvalue=' + encodeURIComponent('<%= ViewState["DefValue"] ?? "" %>');
+                    + '&CompanyID=' + encodeURIComponent('<%= Session["Company"] ?? "" %>')
+        + '&CategoryID=' + encodeURIComponent('<%= Session["Category"] ?? "" %>')
+                    + '&defaultvalue=' + encodeURIComponent('<%= Session["DefValue"] ?? "" %>');
             }
 
 

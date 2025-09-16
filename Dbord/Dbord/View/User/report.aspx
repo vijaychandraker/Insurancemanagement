@@ -97,7 +97,7 @@
                             AutoGenerateColumns="false"
                             CssClass="table grid-wrap"
                             AllowPaging="true"
-                            PageSize="10"
+                            PageSize="5"
                             ShowFooter="true"
                             OnPageIndexChanging="GridView1_PageIndexChanging"
                             OnRowDataBound="GridView1_RowDataBound"

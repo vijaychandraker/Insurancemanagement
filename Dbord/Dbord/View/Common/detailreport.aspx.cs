@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClosedXML.Excel;
 using System.IO;
@@ -19,22 +18,17 @@ namespace Dbord.View.Common
             string categoryId = Request.QueryString["CategoryID"];
             string defValue = Request.QueryString["defaultvalue"];
 
-            // Handle download BEFORE binding
             if (Request.QueryString["download"] == "1")
             {
-                // ✅ Pass query string values directly
                 ExportExcel(companyId, categoryId, defValue);
                 return;
             }
 
             if (!IsPostBack)
             {
-                // Store values in ViewState for reuse in paging
-                ViewState["DefValue"] = defValue;
-                ViewState["Company"] = companyId;
-                ViewState["Category"] = categoryId;
-
-                // Initial bind
+                Session["DefValue"] = defValue;
+                Session["Company"] = companyId;
+                Session["Category"] = categoryId;
                 BindPolicies(companyId, categoryId, defValue);
             }
         }
@@ -43,10 +37,8 @@ namespace Dbord.View.Common
         {
             if (defVal == "1")
             {
-                // Expiring policies SP
                 return new DatabaseHelper().ExecuteQuery("GetCurrentMonthExpiringPolicies", new SqlParameter[] { });
             }
-
             var parameters = new List<SqlParameter>
             {
                 new SqlParameter("@CompanyID", string.IsNullOrEmpty(companyId) ? (object)DBNull.Value : companyId),
@@ -55,15 +47,52 @@ namespace Dbord.View.Common
 
             return new DatabaseHelper().ExecuteQuery("GetcategoryCompany", parameters.ToArray());
         }
-
-        private void BindPolicies(string companyId, string categoryId, string defValue)
+        private void BindPolicies(string companyId, string categoryId, string defValue, int pageIndex = 0)
         {
-            DataTable dt = GetPolicies(companyId, categoryId, defValue);
+            int pageSize = Gvrepot.PageSize;
+            int totalCount = 0;
+
+            DataTable dt = GetPoliciesPaged(companyId, categoryId, defValue, pageIndex, pageSize, out totalCount);
+
             Gvrepot.DataSource = dt;
+            Gvrepot.VirtualItemCount = totalCount; // important for correct paging
             Gvrepot.DataBind();
 
             if (dt.Rows.Count > 0)
-                SetFooterTotal(dt.Rows.Count);
+                SetFooterTotal(totalCount);
+        }
+
+        private DataTable GetPoliciesPaged(string companyId, string categoryId, string defVal, int pageIndex, int pageSize, out int totalCount)
+        {
+            totalCount = 0;
+
+            // Prepare parameters for both procedures
+            var parameters = new List<SqlParameter>
+    {
+        new SqlParameter("@CompanyID", string.IsNullOrEmpty(companyId) ? (object)DBNull.Value : companyId),
+        new SqlParameter("@CategoryID", string.IsNullOrEmpty(categoryId) ? (object)DBNull.Value : categoryId),
+        new SqlParameter("@PageIndex", pageIndex),
+        new SqlParameter("@PageSize", pageSize),
+        new SqlParameter("@TotalCount", SqlDbType.Int) { Direction = ParameterDirection.Output }
+    };
+
+            DataTable dt;
+
+            if (defVal == "1")
+            {
+                // Call current month expiring policies stored procedure
+                dt = new DatabaseHelper().ExecuteQuery("GetCurrentMonthExpiringPolicies", parameters.ToArray());
+            }
+            else
+            {
+                // Call category-company policies stored procedure
+                dt = new DatabaseHelper().ExecuteQuery("GetcategoryCompany", parameters.ToArray());
+            }
+
+            // Read the output parameter for total count
+            totalCount = Convert.ToInt32(parameters[4].Value);
+
+            return dt;
         }
 
         private void SetFooterTotal(int total)
@@ -80,16 +109,15 @@ namespace Dbord.View.Common
                 footerCell.CssClass = "grid-footer";
             }
         }
-
         protected void Gvrepot_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             Gvrepot.PageIndex = e.NewPageIndex;
 
-            string companyId = ViewState["Company"] as string;
-            string categoryId = ViewState["Category"] as string;
-            string defValue = ViewState["DefValue"] as string;
+            string companyId = Session["Company"] as string;
+            string categoryId = Session["Category"] as string;
+            string defValue = Session["DefValue"] as string;
 
-            BindPolicies(companyId, categoryId, defValue);
+            BindPolicies(companyId, categoryId, defValue, e.NewPageIndex);
         }
 
         protected void Gvrepot_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -102,12 +130,9 @@ namespace Dbord.View.Common
                     lblSerial.Text = serial.ToString();
             }
         }
-
         private void ExportExcel(string companyId, string categoryId, string defValue)
         {
-            // ✅ Always fetch fresh data using query string values
             DataTable dt = GetPolicies(companyId, categoryId, defValue);
-
             if (dt != null && dt.Rows.Count > 0)
             {
                 using (XLWorkbook wb = new XLWorkbook())
@@ -115,14 +140,11 @@ namespace Dbord.View.Common
                 {
                     wb.Worksheets.Add(dt, "Policies");
                     wb.SaveAs(ms);
-
                     string token = Request.QueryString["token"];
-
                     Response.Clear();
                     Response.Buffer = true;
                     Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     Response.AddHeader("content-disposition", "attachment;filename=PoliciesReport.xlsx");
-
                     if (!string.IsNullOrEmpty(token))
                     {
                         Response.Cookies.Add(new HttpCookie("downloadToken", token)
@@ -131,7 +153,6 @@ namespace Dbord.View.Common
                             HttpOnly = false
                         });
                     }
-
                     Response.BinaryWrite(ms.ToArray());
                     Response.Flush();
                     Response.End();
