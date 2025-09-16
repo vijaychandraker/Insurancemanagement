@@ -1,4 +1,5 @@
 using Dbord.helpers;
+using Dbord.Helpers;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -45,7 +46,8 @@ namespace Dbord.View.Admin
             }
             catch (Exception ex)
             {
-                ShowError("Error loading data: " + ex.Message);
+                
+                AlertHelper.ShowError(this, "Error loading data: " + ex.Message);
             }
         }
 
@@ -112,11 +114,12 @@ namespace Dbord.View.Admin
 
                 gvPolicies.EditIndex = -1;
                 BindGrid(txtSearch.Text.Trim()); // ✅ reload with current filter
-                ShowSuccess("Record updated successfully.");
+                ClearPolicyCache(null);
+                AlertHelper.ShowSuccess(this, "Policy saved successfully!");
             }
             catch (Exception ex)
             {
-                ShowError("Error updating record: " + ex.Message);
+                AlertHelper.ShowError(this, "Error updating record: " + ex.Message);
             }
         }
 
@@ -167,11 +170,13 @@ namespace Dbord.View.Admin
                 db.ExecuteNonQuery("sp_DeletePolicyScheme", parameters);
 
                 BindGrid(txtSearch.Text.Trim());
-                ShowSuccess("Record deleted successfully.");
+               // ShowSuccess("Record deleted successfully.");
+                AlertHelper.ShowSuccess(this, "Policy saved successfully!");
             }
             catch (Exception ex)
             {
-                ShowError("Error deleting record: " + ex.Message);
+               // ShowError("Error deleting record: " + ex.Message);
+                AlertHelper.ShowError(this, "Error deleting record: " + ex.Message);
             }
         }
 
@@ -207,24 +212,20 @@ namespace Dbord.View.Admin
         }
 
         // Alerts
-        private void ShowSuccess(string message)
+       
+        private void ClearPolicyCache(string searchText = null)
         {
-            ScriptManager.RegisterStartupScript(this, GetType(), "successAlert", $@"
-                Swal.fire({{
-                    icon: 'success',
-                    title: 'Success',
-                    text: '{message}'
-                }});", true);
-        }
+            // Clear main policies cache
+            Cache.Remove("AllPolicies_All");
+            if (!string.IsNullOrEmpty(searchText))
+                Cache.Remove("AllPolicies_" + searchText);
 
-        private void ShowError(string message)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert", $@"
-                Swal.fire({{
-                    icon: 'error',
-                    title: 'Error',
-                    text: '{message}'
-                }});", true);
+            // Clear Category-Company cache
+            Cache.Remove("CategoryCompanyData");
+
+            // Optionally clear charts cache if needed
+            Cache.Remove("CompanyChartData");
+            Cache.Remove("CategoryChartData");
         }
     }
 }

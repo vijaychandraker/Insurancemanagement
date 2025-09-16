@@ -23,7 +23,6 @@ namespace Dbord.View.Common
                 ExportExcel(companyId, categoryId, defValue);
                 return;
             }
-
             if (!IsPostBack)
             {
                 Session["DefValue"] = defValue;
@@ -32,7 +31,6 @@ namespace Dbord.View.Common
                 BindPolicies(companyId, categoryId, defValue);
             }
         }
-
         private DataTable GetPolicies(string companyId = null, string categoryId = null, string defVal = null)
         {
             if (defVal == "1")

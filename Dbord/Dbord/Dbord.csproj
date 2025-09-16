@@ -818,6 +818,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="helpers\AlertHelper.cs" />
     <Compile Include="helpers\Captcha.ashx.cs">
       <DependentUpon>Captcha.ashx</DependentUpon>
     </Compile>

@@ -1,16 +1,18 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using Dbord.helpers;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Dbord.helpers;
 
 namespace Dbord.View.Admin
 {
     public partial class Dashboard : System.Web.UI.Page
     {
         private readonly DatabaseHelper db = new DatabaseHelper();
-        private const int PageSize = 5; // Number of rows per page
+        private const int PageSize = 5; // Rows per page
+        private const int CacheMinutes = 10;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,46 +21,79 @@ namespace Dbord.View.Admin
                 BindCharts();
                 BindCards();
                 BindCategoryCompanyGrid();
-                BindGrid(0, ""); // Load first page
+                BindPoliciesGrid(0, txtSearch.Text.Trim());
             }
         }
 
-        #region Grid Bindings
+        #region Main Policies Grid
 
-        private void BindGrid(int pageIndex, string searchText)
+        private void BindPoliciesGrid(int pageIndex, string searchText)
         {
             try
             {
-                SqlParameter[] parameters = {
-                    new SqlParameter("@PageIndex", pageIndex),
-                    new SqlParameter("@PageSize", PageSize),
-                    new SqlParameter("@SearchText", string.IsNullOrEmpty(searchText) ? DBNull.Value : (object)searchText),
-                    new SqlParameter("@TotalCount", SqlDbType.Int) { Direction = ParameterDirection.Output }
-                };
-
-                DataTable dt = db.ExecuteQuery("sp_GetAllPolicies_Paged", parameters);
-
-                int totalRecords = (int)parameters[3].Value;
-                Session["TotalRecords"] = totalRecords;
-
-                gvdashboard.DataSource = dt;
-                gvdashboard.PageSize = PageSize;
+                int safePageIndex = pageIndex < 0 ? 0 : pageIndex;
+                DataTable dt = GetPoliciesCached(searchText);
+                int totalRecords = dt.Rows.Count;
+                DataTable pagedDt;
+                if (totalRecords > 0)
+                {
+                    var rows = dt.AsEnumerable()
+                                 .Skip(safePageIndex * PageSize)
+                                 .Take(PageSize);
+                    pagedDt = rows.Any() ? rows.CopyToDataTable() : dt.Clone();
+                }
+                else{pagedDt = dt.Clone();}
+                gvdashboard.DataSource = pagedDt;
                 gvdashboard.VirtualItemCount = totalRecords;
+                gvdashboard.PageSize = PageSize;
                 gvdashboard.DataBind();
-
-                lblMessage.Visible = dt.Rows.Count == 0;
-                lblMessage.Text = dt.Rows.Count == 0 ? "No data found." : "";
+                lblMessage.Visible = (totalRecords == 0);
+                lblMessage.Text = (totalRecords == 0) ? "No data found." : "";
             }
             catch (Exception ex)
             {
                 ShowError("Error loading data: " + ex.Message);
-            }
+            }}
+        private DataTable GetPoliciesCached(string searchText)
+        {
+            string cacheKey = "AllPolicies_" + (string.IsNullOrEmpty(searchText) ? "All" : searchText);
+
+            if (Cache[cacheKey] != null)
+                return (DataTable)Cache[cacheKey];
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@PageIndex", 0), // get all rows for caching
+                new SqlParameter("@PageSize", int.MaxValue),
+                new SqlParameter("@SearchText", string.IsNullOrEmpty(searchText) ? DBNull.Value : (object)searchText),
+                new SqlParameter("@TotalCount", SqlDbType.Int) { Direction = ParameterDirection.Output }
+            };
+
+            DataTable dt = db.ExecuteQuery("sp_GetAllPolicies_Paged", parameters);
+            Cache.Insert(cacheKey, dt, null, DateTime.Now.AddMinutes(CacheMinutes), System.Web.Caching.Cache.NoSlidingExpiration);
+
+            return dt;
         }
 
         protected void gvdashboard_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvdashboard.PageIndex = e.NewPageIndex;
-            BindGrid(e.NewPageIndex, txtSearch.Text.Trim());
+            BindPoliciesGrid(e.NewPageIndex, txtSearch.Text.Trim());
+        }
+
+        protected void gvdashboard_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.Footer)
+            {
+                int totalRecords = gvdashboard.VirtualItemCount;
+                e.Row.Cells[0].ColumnSpan = gvdashboard.Columns.Count;
+
+                for (int i = 1; i < gvdashboard.Columns.Count; i++)
+                    e.Row.Cells[i].Visible = false;
+                e.Row.Cells[0].Text = "Total Records: " + totalRecords;
+                e.Row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
+                e.Row.Font.Bold = true;
+                e.Row.BackColor = System.Drawing.Color.LightGray;
+            }
         }
 
         #endregion
@@ -67,25 +102,24 @@ namespace Dbord.View.Admin
 
         private void BindCategoryCompanyGrid()
         {
+            string cacheKey = "CategoryCompanyData";
+            if (Cache[cacheKey] != null)
+            {
+                gvCategoryCompany.DataSource = (DataTable)Cache[cacheKey];
+                gvCategoryCompany.DataBind();
+                return;
+            }
+
             DataTable dt = db.ExecuteQuery("sp_GetCategoryCompanyPolicies", null);
             gvCategoryCompany.DataSource = dt;
             gvCategoryCompany.DataBind();
-            Session["CategoryCompanyData"] = dt;
+            Cache.Insert(cacheKey, dt, null, DateTime.Now.AddMinutes(CacheMinutes), System.Web.Caching.Cache.NoSlidingExpiration);
         }
 
         protected void gvCategoryCompany_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvCategoryCompany.PageIndex = e.NewPageIndex;
-
-            if (Session["CategoryCompanyData"] != null)
-            {
-                gvCategoryCompany.DataSource = (DataTable)Session["CategoryCompanyData"];
-                gvCategoryCompany.DataBind();
-            }
-            else
-            {
-                BindCategoryCompanyGrid();
-            }
+            BindCategoryCompanyGrid();
         }
 
         #endregion
@@ -94,8 +128,14 @@ namespace Dbord.View.Admin
 
         private void BindCharts()
         {
-            Session["CompanyData"] = db.ExecuteQuery("sp_GetCompanyWisePolicyCount", null);
-            Session["CategoryData"] = db.ExecuteQuery("sp_GetCategoryWisePolicyCount", null);
+            if (Cache["CompanyChartData"] == null)
+                Cache.Insert("CompanyChartData", db.ExecuteQuery("sp_GetCompanyWisePolicyCount", null), null, DateTime.Now.AddMinutes(CacheMinutes), System.Web.Caching.Cache.NoSlidingExpiration);
+
+            if (Cache["CategoryChartData"] == null)
+                Cache.Insert("CategoryChartData", db.ExecuteQuery("sp_GetCategoryWisePolicyCount", null), null, DateTime.Now.AddMinutes(CacheMinutes), System.Web.Caching.Cache.NoSlidingExpiration);
+
+            Session["CompanyData"] = Cache["CompanyChartData"];
+            Session["CategoryData"] = Cache["CategoryChartData"];
         }
 
         private void BindCards()
@@ -107,50 +147,19 @@ namespace Dbord.View.Admin
 
         #endregion
 
-        #region Footer & Error
-
-        protected void gvdashboard_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.Footer)
-            {
-                int totalRecords = Session["TotalRecords"] != null ? (int)Session["TotalRecords"] : 0;
-                e.Row.Cells[0].ColumnSpan = gvdashboard.Columns.Count;
-
-                for (int i = 1; i < gvdashboard.Columns.Count; i++)
-                    e.Row.Cells[i].Visible = false;
-
-                e.Row.Cells[0].Text = "Total Records: " + totalRecords;
-                e.Row.Cells[0].HorizontalAlign = HorizontalAlign.Right;
-                e.Row.Font.Bold = true;
-                e.Row.BackColor = System.Drawing.Color.LightGray;
-            }
-        }
-
-        private void ShowError(string message)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert", $@"
-                Swal.fire({{
-                    icon: 'error',
-                    title: 'Error',
-                    text: '{message}'
-                }});", true);
-        }
-
-        #endregion
-
         #region Search
 
         protected void btnSearch_dash_Click(object sender, EventArgs e)
         {
             gvdashboard.PageIndex = 0;
-            BindGrid(0, txtSearch.Text.Trim());
+            BindPoliciesGrid(0, txtSearch.Text.Trim());
         }
 
         protected void btnClearSearch_dash_Click(object sender, EventArgs e)
         {
             txtSearch.Text = string.Empty;
             gvdashboard.PageIndex = 0;
-            BindGrid(0, "");
+            BindPoliciesGrid(0, "");
         }
 
         #endregion
@@ -160,14 +169,11 @@ namespace Dbord.View.Admin
         private void ExportToExcel(DataTable dt, string fileName, string[] removeCols = null)
         {
             DataTable exportTable = dt.Copy();
-
             if (removeCols != null)
             {
                 foreach (var col in removeCols)
-                {
                     if (exportTable.Columns.Contains(col))
                         exportTable.Columns.Remove(col);
-                }
             }
 
             Response.Clear();
@@ -177,19 +183,14 @@ namespace Dbord.View.Admin
             Response.ContentType = "application/vnd.ms-excel";
 
             using (System.IO.StringWriter sw = new System.IO.StringWriter())
+            using (HtmlTextWriter hw = new HtmlTextWriter(sw))
             {
-                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
-                {
-                    GridView gvExport = new GridView();
-                    gvExport.DataSource = exportTable;
-                    gvExport.DataBind();
-
-                    gvExport.RenderControl(hw);
-                    Response.Output.Write(sw.ToString());
-
-                    Response.Flush();
-                    Response.End();
-                }
+                GridView gvExport = new GridView { DataSource = exportTable };
+                gvExport.DataBind();
+                gvExport.RenderControl(hw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
             }
         }
 
@@ -211,9 +212,23 @@ namespace Dbord.View.Admin
 
         protected void lnkcompanywiseCategory_Click(object sender, EventArgs e)
         {
-            DataTable dt = Session["CategoryCompanyData"] as DataTable;
+            DataTable dt = Cache["CategoryCompanyData"] as DataTable;
             if (dt == null || dt.Rows.Count == 0) { ShowError("No data to export."); return; }
             ExportToExcel(dt, "CategoryCompanyWisePolicy.xls", new[] { "CompanyID", "CategoryID" });
+        }
+
+        #endregion
+
+        #region Error Handling
+
+        private void ShowError(string message)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "errorAlert", $@"
+                Swal.fire({{
+                    icon: 'error',
+                    title: 'Error',
+                    text: '{message}'
+                }});", true);
         }
 
         #endregion
