@@ -86,5 +86,22 @@ namespace Dbord.helpers
                 return cmd.ExecuteScalar(); // returns first column of first row
             }
         }
+
+        public DataSet ExecuteQueryDS(string spName, SqlParameter[] parameters = null)
+        {
+            DataSet ds = new DataSet();
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(spName, con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (parameters != null) cmd.Parameters.AddRange(parameters);
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    da.Fill(ds);
+                }
+            }
+            return ds;
+        }
+
     }
 }

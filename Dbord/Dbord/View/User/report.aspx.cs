@@ -16,11 +16,12 @@ namespace Dbord.View.User
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                BindPolicies(1, 5); // Load first page
+                BindPolicies(1, GridView1.PageSize); // Load first page
         }
 
-        private void BindPolicies(int pageIndex = 1, int pageSize = 5)
+        private void BindPolicies(int pageIndex, int pageSize)
         {
+            // Get filters from session
             Dictionary<string, string> searchValues = Session["SearchValues"] as Dictionary<string, string> ?? new Dictionary<string, string>();
 
             List<SqlParameter> parameters = new List<SqlParameter>
@@ -40,14 +41,17 @@ namespace Dbord.View.User
                 parameters.Add(new SqlParameter("@" + key, string.IsNullOrWhiteSpace(value) ? DBNull.Value : (object)value));
             }
 
+            // Execute SP (returns single DataTable)
             DataTable dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", parameters.ToArray());
 
             if (dt.Rows.Count > 0)
             {
                 int totalRecords = Convert.ToInt32(dt.Rows[0]["TotalCount"]);
+
+                GridView1.VirtualItemCount = totalRecords; // Required for server paging
                 GridView1.DataSource = dt;
-                GridView1.VirtualItemCount = totalRecords;
                 GridView1.DataBind();
+
                 SetFooterTotal(totalRecords);
             }
             else
@@ -73,7 +77,8 @@ namespace Dbord.View.User
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
-            BindPolicies(e.NewPageIndex + 1, GridView1.PageSize);
+            int pageIndex = e.NewPageIndex + 1; // GridView is 0-based
+            BindPolicies(pageIndex, GridView1.PageSize);
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -88,6 +93,7 @@ namespace Dbord.View.User
 
         protected void SearchTextChanged(object sender, EventArgs e)
         {
+            // Save all search filters into session
             Dictionary<string, string> searchValues = new Dictionary<string, string>
             {
                 ["Name"] = ((TextBox)GridView1.HeaderRow.FindControl("txtSearchName"))?.Text.Trim() ?? "",
@@ -112,12 +118,32 @@ namespace Dbord.View.User
             BindPolicies(1, GridView1.PageSize);
         }
 
+        protected void btnRefresh_Click(object sender, EventArgs e)
+        {
+            txtSearchStartDateFrom.Text = string.Empty;
+            txtSearchStartDateTo.Text = string.Empty;
+            txtSearchEndDateFrom.Text = string.Empty;
+            txtSearchEndDateTo.Text = string.Empty;
+
+            Session["SearchValues"] = null;
+
+            if (GridView1.HeaderRow != null)
+            {
+                foreach (TableCell cell in GridView1.HeaderRow.Cells)
+                    foreach (Control ctl in cell.Controls)
+                        if (ctl is TextBox txt) txt.Text = string.Empty;
+            }
+
+            GridView1.PageIndex = 0;
+            BindPolicies(1, GridView1.PageSize);
+        }
+
         protected void btnExportExcel_Click(object sender, EventArgs e)
         {
+            // Export all filtered data
             Dictionary<string, string> searchValues = Session["SearchValues"] as Dictionary<string, string> ?? new Dictionary<string, string>();
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-
             string[] keys = { "Name","OwnerName","Address","VehicleNo","Particular","SumInsured","Premium",
                               "NCB","PolicyNo","CompanyName","CategoryName",
                               "StartDateFrom","StartDateTo","EndDateFrom","EndDateTo" };
@@ -128,9 +154,8 @@ namespace Dbord.View.User
                 parameters.Add(new SqlParameter("@" + key, string.IsNullOrWhiteSpace(value) ? DBNull.Value : (object)value));
             }
 
-            // Use large number for export to get all records
             parameters.Add(new SqlParameter("@PageNumber", 1));
-            parameters.Add(new SqlParameter("@PageSize", 1000000));
+            parameters.Add(new SqlParameter("@PageSize", 1000000)); // large number to get all records
 
             DataTable dt = new DatabaseHelper().ExecuteQuery("GetAllInsurancePolicies", parameters.ToArray());
 
@@ -163,26 +188,6 @@ namespace Dbord.View.User
                     HttpContext.Current.ApplicationInstance.CompleteRequest();
                 }
             }
-        }
-
-        protected void btnRefresh_Click(object sender, EventArgs e)
-        {
-            txtSearchStartDateFrom.Text = string.Empty;
-            txtSearchStartDateTo.Text = string.Empty;
-            txtSearchEndDateFrom.Text = string.Empty;
-            txtSearchEndDateTo.Text = string.Empty;
-
-            Session["SearchValues"] = null;
-
-            if (GridView1.HeaderRow != null)
-            {
-                foreach (TableCell cell in GridView1.HeaderRow.Cells)
-                    foreach (Control ctl in cell.Controls)
-                        if (ctl is TextBox txt) txt.Text = string.Empty;
-            }
-
-            GridView1.PageIndex = 0;
-            BindPolicies(1, GridView1.PageSize);
         }
     }
 }
