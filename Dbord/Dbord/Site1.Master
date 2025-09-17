@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Dbord.Site1" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Dbord.Site1" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +16,13 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <form id="form1" runat="server">
+                    <!-- Loader -->
+<div id="loading" style="display:none; position:fixed; inset:0; background:rgba(255,255,255,0.7); z-index:9999; align-items:center; justify-content:center;">
+    <div style="text-align:center;">
+        <div class="spinner"></div>
+        <p style="margin-top:8px; font-weight:600; color:#333;">Loading, please wait...</p>
+    </div>
+</div>
         <div class="wrapper">
             <!-- Navbar -->
             <nav class="main-header navbar navbar-expand navbar-white navbar-light glass-nav">
@@ -54,25 +61,30 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                             <li id="lnkDashboard" runat="server" class="nav-item">
-                                <a href="<%= ResolveUrl("~/View/Admin/Dashboard.aspx") %>" class="nav-link">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Dashboard</p>
-                                </a>
+                                <asp:LinkButton 
+    ID="LinkButton1" 
+    runat="server" 
+    CssClass="nav-link"
+    PostBackUrl="~/View/Admin/Dashboard.aspx"
+    OnClientClick="ShowLoading();">
+    <i class="nav-icon fas fa-tachometer-alt"></i>
+    <p>Dashboard</p>
+</asp:LinkButton>
                             </li>
                             <li id="lnkUser" runat="server" class="nav-item">
-                                <a href="<%= ResolveUrl("~/View/User/user.aspx") %>" class="nav-link">
+                                <a href="<%= ResolveUrl("~/View/User/user.aspx") %>" onclick="ShowLoading();" class="nav-link">
                                     <i class="nav-icon fas fa-user-plus"></i>
                                     <p>Add New Record</p>
                                 </a>
                             </li>
                             <li id="lnkShowData" runat="server" class="nav-item">
-                                <a href="<%= ResolveUrl("~/View/Admin/showdata.aspx") %>" class="nav-link">
+                                <a href="<%= ResolveUrl("~/View/Admin/showdata.aspx") %>" onclick="ShowLoading();" class="nav-link">
                                     <i class="nav-icon fas fa-edit"></i>
                                     <p>Update/Delete Record</p>
                                 </a>
                             </li>
                             <li id="lnkReport" runat="server" class="nav-item">
-                                <a href="<%= ResolveUrl("~/View/User/report.aspx") %>" class="nav-link">
+                                <a href="<%= ResolveUrl("~/View/User/report.aspx") %>" onclick="ShowLoading();" class="nav-link">
                                     <i class="nav-icon fas fa-file-alt"></i>
                                     <p>Report</p>
                                 </a>
@@ -107,10 +119,8 @@
 
     <!-- Page-specific scripts -->
     <asp:ContentPlaceHolder ID="PageScripts" runat="server" />
-
     <!-- SweetAlert2 (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <!-- Active Menu Highlight -->
     <script>
         $(document).ready(function () {
@@ -121,6 +131,14 @@
                 }
             });
         });
+    </script>
+    <script type="text/javascript">
+        function ShowLoading() { document.getElementById("loading").style.display = "flex"; }
+        function HideLoading() { document.getElementById("loading").style.display = "none"; }
+
+        // ✅ Automatically show/hide loader for UpdatePanels
+        Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(function () { ShowLoading(); });
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () { HideLoading(); });
     </script>
 </body>
 </html>

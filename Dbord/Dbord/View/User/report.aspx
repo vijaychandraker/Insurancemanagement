@@ -47,7 +47,13 @@
            <br />
     <section class="content">
         <div class="container-fluid">
-            
+             <!-- Loader -->
+ <div id="loading" style="display:none; position:fixed; inset:0; background:rgba(255,255,255,0.7); z-index:9999; align-items:center; justify-content:center;">
+     <div style="text-align:center;">
+         <div class="spinner"></div>
+         <p style="margin-top:8px; font-weight:600; color:#333;">Loading, please wait...</p>
+     </div>
+ </div>
 
             <div class="card card-info">
 <div class="card-header d-flex justify-content-between align-items-center">
@@ -61,7 +67,7 @@
 
         <asp:LinkButton ID="btnRefresh" runat="server" 
             CssClass="btn btn-secondary" 
-            OnClick="btnRefresh_Click" ToolTip="Refresh">
+            OnClick="btnRefresh_Click" OnClientClick="ShowLoading();" ToolTip="Refresh">
             <i class="fas fa-sync-alt"></i> 
         </asp:LinkButton>
     </div>
@@ -251,5 +257,13 @@
             document.getElementById("txtSearchStartDateFrom").value = "";
             document.getElementById("txtSearchStartDateTo").value = "";
         }
+    </script>
+    <script type="text/javascript">
+        function ShowLoading() { document.getElementById("loading").style.display = "flex"; }
+        function HideLoading() { document.getElementById("loading").style.display = "none"; }
+
+        // ✅ Automatically show/hide loader for UpdatePanels
+        Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(function () { ShowLoading(); });
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () { HideLoading(); });
     </script>
 </asp:Content>

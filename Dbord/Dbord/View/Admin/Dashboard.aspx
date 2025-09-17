@@ -47,7 +47,7 @@
                             <p>Total Policies</p>
                         </div>
                         <div class="icon"><i class="far fa-envelope"></i></div>
-                        <a href="<%= ResolveUrl("~/View/User/report.aspx") %>" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<%= ResolveUrl("~/View/User/report.aspx") %>" onclick="ShowLoading();" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@
                             <p>Expire in one Month</p>
                         </div>
                         <div class="icon"><i class="far fa-file"></i></div>
-                       <a href='<%= ResolveUrl("~/View/Common/detailreport.aspx?defaultvalue=1") %>' 
+                       <a href='<%= ResolveUrl("~/View/Common/detailreport.aspx?defaultvalue=1") %>'  onclick="ShowLoading();"
    class="small-box-footer">
     See Details <i class="fas fa-arrow-circle-right"></i>
 </a>

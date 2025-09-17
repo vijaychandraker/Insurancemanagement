@@ -1,22 +1,13 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Dbord.login.Login" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
-
+<%@ Import Namespace="System.Web.Optimization" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Login</title>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"/>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/fontawesome-free/css/all.min.css") %>" />
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/Admin/icheck-bootstrap/icheck-bootstrap.min.css") %>" />
-    <!-- Theme style -->
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/dist/css/adminlte.min.css") %>" />
-    <!-- Glassmorphism theme overrides -->
-    <link rel="stylesheet" href="<%= ResolveUrl("~/Assets/css/glassmorphism.css") %>" />
-    <link href="<%= ResolveUrl("~/Assets/Scripts/sweetalert.css") %>" rel="stylesheet" />
+    <!-- Bundled CSS -->
+  <%: Styles.Render("~/bundles/css") %>
 
     <style>
     #loader {
@@ -111,16 +102,13 @@
         <div id="loader" style="display:none;">
     <div class="loader"></div>
 </div>
-  <!-- Scripts -->
-  <script src="<%= ResolveUrl("~/Assets/Admin/jquery/jquery.min.js") %>"></script>
-  <script src="<%= ResolveUrl("~/Assets/Admin/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
-  <script src="<%= ResolveUrl("~/Assets/dist/js/adminlte.min.js") %>"></script>
-  <script src="<%= ResolveUrl("~/Assets/Scripts/jquery.unobtrusive-ajax.min.js") %>"></script>
-  <script src="<%= ResolveUrl("~/Assets/Scripts/sweetalert.js") %>"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="<%= ResolveUrl("~/Assets/plugins/jquery-validation/jquery.validate.min.js") %>"></script>
-  <script src="<%= ResolveUrl("~/Assets/plugins/jquery-validation/additional-methods.min.js") %>"></script>
-
+   <%: Scripts.Render("~/bundles/jquery") %>
+  <script>
+      if (typeof window.jQuery === 'undefined') {
+          document.write('<script src="<%= ResolveUrl("~/Assets/Admin/jquery/jquery.min.js") %>"><\/script>');
+      }
+  </script>
+  <%: Scripts.Render("~/bundles/js") %>
          <script>
              $(document).ready(function () {
                  $("form").on("submit", function () {
