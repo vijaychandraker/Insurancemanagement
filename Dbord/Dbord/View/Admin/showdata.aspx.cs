@@ -14,6 +14,12 @@ namespace Dbord.View.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Allow only Admin
+            if (Session["RoleID"] == null || Session["RoleID"].ToString() != "1")
+            {
+                Response.Redirect("~/View/Error/AccessDenied.aspx");
+                return;
+            }
             ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
 
             if (!IsPostBack)

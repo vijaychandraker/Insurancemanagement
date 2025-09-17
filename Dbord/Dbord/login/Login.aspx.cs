@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.SessionState;
 using Dbord.helpers;
 
 namespace Dbord.login
@@ -15,7 +15,8 @@ namespace Dbord.login
             string enteredCaptcha = txtCaptcha.Text.Trim();
             string sessionCaptcha = Session["CaptchaCode"] as string;
 
-            if (string.IsNullOrEmpty(sessionCaptcha) || !string.Equals(enteredCaptcha, sessionCaptcha, StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(sessionCaptcha) ||
+                !string.Equals(enteredCaptcha, sessionCaptcha, StringComparison.OrdinalIgnoreCase))
             {
                 ShowMessage("Invalid captcha. Please try again.");
                 return;
@@ -24,11 +25,32 @@ namespace Dbord.login
             string usernameOrEmail = txtEmail.Text.Trim();
             string password = txtPassword.Text.Trim();
 
-            DatabaseHelper db = new DatabaseHelper();
-            SqlParameter[] parameters = {
-                new SqlParameter("@UsernameOrEmail", usernameOrEmail)
-            };
+            if (string.IsNullOrWhiteSpace(usernameOrEmail) || string.IsNullOrWhiteSpace(password))
+            {
+                ShowMessage("Username/Email and Password are required.");
+                return;
+            }
 
+            // 2. Detect whether input is email or username
+            SqlParameter[] parameters;
+            if (IsValidEmail(usernameOrEmail))
+            {
+                parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@Email", usernameOrEmail),
+                    new SqlParameter("@Username", DBNull.Value)
+                };
+            }
+            else
+            {
+                parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@Username", usernameOrEmail),
+                    new SqlParameter("@Email", DBNull.Value)
+                };
+            }
+
+            DatabaseHelper db = new DatabaseHelper();
             DataTable dt = db.ExecuteQuery("sp_GetUserByUsernameOrEmail", parameters);
 
             if (dt.Rows.Count == 0)
@@ -51,33 +73,36 @@ namespace Dbord.login
                 return;
             }
 
-            // 2. Hash password using a secure algorithm (PBKDF2/bcrypt)
+            // 3. Hash password
             string hashedPassword = PasswordHelper.HashPassword(password, salt);
 
             if (SecureEquals(dbHash, hashedPassword))
             {
-                // 3. Update last login
+                // 4. Update last login
                 SqlParameter[] updateParams = { new SqlParameter("@UserID", userId) };
                 db.ExecuteNonQuery("sp_UpdateLastLogin", updateParams);
 
-                // 4. Prevent session fixation (regenerate SessionID)
+                // 5. Prevent session fixation
                 Session.Clear();
-              
-                // 5. Store user info in session
+
+                // 6. Store user info in session
                 Session["UserID"] = userId;
                 Session["RoleID"] = role;
                 Session["Username"] = username;
 
-                if (isActive) 
-                {
-                    Response.Redirect("~/View/Admin/Dashboard.aspx", false);
-                    Context.ApplicationInstance.CompleteRequest();
-                }
+                Response.Redirect("~/View/Admin/Dashboard.aspx", false);
+                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 ShowMessage("Invalid username or password.");
             }
+        }
+
+        // Check if input is valid email
+        private bool IsValidEmail(string input)
+        {
+            return Regex.IsMatch(input, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
         }
 
         // Constant-time string comparison to avoid timing attacks
