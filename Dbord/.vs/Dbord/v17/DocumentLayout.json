@@ -3,6 +3,34 @@
   "WorkspaceRootPath": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|c:\\users\\ql968pk\\onedrive - ey\\documents\\insurancemanagement\\dbord\\dbord\\login\\regristration.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\login\\regristration.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\admin\\showdata.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\showdata.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\app_start\\bundleconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\app_start\\bundleconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\site1.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\site1.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\user\\report.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\report.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\admin\\dashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\dashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\login\\login.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\login\\login.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,7 +39,7 @@
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\showdata.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|c:\\users\\ql968pk\\onedrive - ey\\documents\\insurancemanagement\\dbord\\dbord\\view\\error\\accessdenied.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\error\\accessdenied.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\error\\accessdenied.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
@@ -19,36 +47,16 @@
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\user.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|c:\\users\\ql968pk\\onedrive - ey\\documents\\insurancemanagement\\dbord\\dbord\\login\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\login\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\admin\\dashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\dashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|c:\\users\\ql968pk\\onedrive - ey\\documents\\insurancemanagement\\dbord\\dbord\\site1.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\site1.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\user\\report.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\report.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\admin\\dashboard.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\dashboard.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|c:\\users\\ql968pk\\onedrive - ey\\documents\\insurancemanagement\\dbord\\dbord\\view\\user\\report.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\user\\report.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\report.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\common\\detailreport.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\common\\detailreport.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\admin\\showdata.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\admin\\showdata.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\common\\detailreport.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
@@ -57,10 +65,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\view\\user\\user.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\view\\user\\user.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\login\\regristration.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|solutionrelative:dbord\\login\\regristration.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03AFFCFC-3BE7-42AC-8DE0-DE5DF749AB3E}|Dbord\\Dbord.csproj|C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\dbord\\site1.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -81,114 +85,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Login.aspx",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Login.aspx",
-              "RelativeDocumentMoniker": "Dbord\\login\\Login.aspx",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Login.aspx",
-              "RelativeToolTip": "Dbord\\login\\Login.aspx",
+              "DocumentIndex": 0,
+              "Title": "Regristration.aspx",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Regristration.aspx",
+              "RelativeDocumentMoniker": "Dbord\\login\\Regristration.aspx",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Regristration.aspx",
+              "RelativeToolTip": "Dbord\\login\\Regristration.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-09-17T12:59:24.403Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Site1.Master",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\Site1.Master",
-              "RelativeDocumentMoniker": "Dbord\\Site1.Master",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\Site1.Master",
-              "RelativeToolTip": "Dbord\\Site1.Master",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-09-17T12:40:23.357Z",
+              "WhenOpened": "2025-08-16T04:10:12.962Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Dashboard.aspx",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx",
-              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\Dashboard.aspx",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx",
-              "RelativeToolTip": "Dbord\\View\\Admin\\Dashboard.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-08-15T06:22:35.569Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "User.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\User.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\View\\User\\User.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\User.aspx.cs",
-              "RelativeToolTip": "Dbord\\View\\User\\User.aspx.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-15T10:36:30.091Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "detailreport.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Common\\detailreport.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\View\\Common\\detailreport.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Common\\detailreport.aspx.cs",
-              "RelativeToolTip": "Dbord\\View\\Common\\detailreport.aspx.cs",
-              "ViewState": "AgIAAI0AAAAAAAAAAAAQwJoAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T09:17:47.319Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Login.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Login.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\login\\Login.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Login.aspx.cs",
-              "RelativeToolTip": "Dbord\\login\\Login.aspx.cs",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAQwH4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-16T04:17:14.021Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "showdata.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\showdata.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\showdata.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\showdata.aspx.cs",
-              "RelativeToolTip": "Dbord\\View\\Admin\\showdata.aspx.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABMAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-15T13:46:22.348Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AccessDenied.aspx",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Error\\AccessDenied.aspx",
-              "RelativeDocumentMoniker": "Dbord\\View\\Error\\AccessDenied.aspx",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Error\\AccessDenied.aspx",
-              "RelativeToolTip": "Dbord\\View\\Error\\AccessDenied.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-09-17T15:07:36.256Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "report.aspx",
               "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\report.aspx",
               "RelativeDocumentMoniker": "Dbord\\View\\User\\report.aspx",
@@ -196,38 +110,36 @@
               "RelativeToolTip": "Dbord\\View\\User\\report.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-08-16T13:21:29.374Z",
+              "WhenOpened": "2025-08-16T13:21:29.374Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\Web.config",
+              "RelativeDocumentMoniker": "Dbord\\Web.config",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\Web.config",
+              "RelativeToolTip": "Dbord\\Web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-09-25T18:11:45.149Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Dashboard.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\Dashboard.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx.cs",
-              "RelativeToolTip": "Dbord\\View\\Admin\\Dashboard.aspx.cs",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAhwKMAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "User.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\User.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\View\\User\\User.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\User.aspx.cs",
+              "RelativeToolTip": "Dbord\\View\\User\\User.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-15T10:40:28.067Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-15T10:36:30.091Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "report.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\report.aspx.cs",
-              "RelativeDocumentMoniker": "Dbord\\View\\User\\report.aspx.cs",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\report.aspx.cs",
-              "RelativeToolTip": "Dbord\\View\\User\\report.aspx.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAAAFwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-30T16:38:54.143Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 2,
               "Title": "showdata.aspx",
               "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\showdata.aspx",
               "RelativeDocumentMoniker": "Dbord\\View\\Admin\\showdata.aspx",
@@ -239,7 +151,115 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "showdata.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\showdata.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\showdata.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\showdata.aspx.cs",
+              "RelativeToolTip": "Dbord\\View\\Admin\\showdata.aspx.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABMAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-15T13:46:22.348Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BundleConfig.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\App_Start\\BundleConfig.cs",
+              "RelativeDocumentMoniker": "Dbord\\App_Start\\BundleConfig.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\App_Start\\BundleConfig.cs",
+              "RelativeToolTip": "Dbord\\App_Start\\BundleConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T06:42:22.759Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Login.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Login.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\login\\Login.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Login.aspx.cs",
+              "RelativeToolTip": "Dbord\\login\\Login.aspx.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAQwH4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T04:17:14.021Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Site1.Master",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\Site1.Master",
+              "RelativeDocumentMoniker": "Dbord\\Site1.Master",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\Site1.Master",
+              "RelativeToolTip": "Dbord\\Site1.Master",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-09-17T12:40:23.357Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "detailreport.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Common\\detailreport.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\View\\Common\\detailreport.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Common\\detailreport.aspx.cs",
+              "RelativeToolTip": "Dbord\\View\\Common\\detailreport.aspx.cs",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAQwJoAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T09:17:47.319Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Dashboard.aspx",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx",
+              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\Dashboard.aspx",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx",
+              "RelativeToolTip": "Dbord\\View\\Admin\\Dashboard.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-08-15T06:22:35.569Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AccessDenied.aspx",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Error\\AccessDenied.aspx",
+              "RelativeDocumentMoniker": "Dbord\\View\\Error\\AccessDenied.aspx",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Error\\AccessDenied.aspx",
+              "RelativeToolTip": "Dbord\\View\\Error\\AccessDenied.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-09-17T15:07:36.256Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Dashboard.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\View\\Admin\\Dashboard.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Admin\\Dashboard.aspx.cs",
+              "RelativeToolTip": "Dbord\\View\\Admin\\Dashboard.aspx.cs",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAhwKMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-15T10:40:28.067Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 12,
+              "Title": "report.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\report.aspx.cs",
+              "RelativeDocumentMoniker": "Dbord\\View\\User\\report.aspx.cs",
+              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\report.aspx.cs",
+              "RelativeToolTip": "Dbord\\View\\User\\report.aspx.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAAFwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-30T16:38:54.143Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "detailreport.aspx",
               "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\Common\\detailreport.aspx",
               "RelativeDocumentMoniker": "Dbord\\View\\Common\\detailreport.aspx",
@@ -251,7 +271,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "User.aspx",
               "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\View\\User\\User.aspx",
               "RelativeDocumentMoniker": "Dbord\\View\\User\\User.aspx",
@@ -263,7 +283,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Site1.Master.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\Site1.Master.cs",
               "RelativeDocumentMoniker": "Dbord\\Site1.Master.cs",
@@ -275,19 +295,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Regristration.aspx",
-              "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Regristration.aspx",
-              "RelativeDocumentMoniker": "Dbord\\login\\Regristration.aspx",
-              "ToolTip": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Regristration.aspx",
-              "RelativeToolTip": "Dbord\\login\\Regristration.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-08-16T04:10:12.962Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "report.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\AppData\\Local\\Temp\\.vsdbgsrc\\bc4444e838425e166378449a2d689bf9cdf745ffca45fe688a9d99a4162a7e10\\report.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\bc4444e838425e166378449a2d689bf9cdf745ffca45fe688a9d99a4162a7e10\\report.cs",
@@ -299,7 +307,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "Regristration.aspx.cs",
               "DocumentMoniker": "C:\\Users\\QL968PK\\OneDrive - EY\\Documents\\Insurancemanagement\\Dbord\\Dbord\\login\\Regristration.aspx.cs",
               "RelativeDocumentMoniker": "Dbord\\login\\Regristration.aspx.cs",

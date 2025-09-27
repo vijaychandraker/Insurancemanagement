@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAwttXu0AtO0yArdf/rgh4pwAAAAACAAAAAAAQZgAAAAEAACAAAACFT3IFlYyGKpb4KvFMddTAKf7Ngo+WN3UmbwBZgnLH9AAAAAAOgAAAAAIAACAAAABdyiowTS+gfOTKdDcDSk74F8K71rEfT6+qUnswGnYXijAAAADZvE3iOLHJ6fmVmZFY8KLk7Aiddqhu7yhKGd1UGWmah4jcEB0QHOK0AHdSH5qRrpxAAAAApXc+90RW/qNGIMEiKAu6xL4fB9H9+jQLwekzuByhSS4WXajbat7h9z8RtPczWMBQNEr6RXhmDG+uQe7jSDNl0g==</EncryptedPassword>
+    <_PublishTargetUrl>ftp://199.79.62.231</_PublishTargetUrl>
+    <History>False|2025-09-25T18:36:08.8245207Z||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Assets/Admin/bootstrap/js/bootstrap.bundle.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/bootstrap/js/bootstrap.bundle.js.map">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/bootstrap/js/bootstrap.bundle.min.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/bootstrap/js/bootstrap.bundle.min.js.map">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/bootstrap/js/bootstrap.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/bootstrap/js/bootstrap.js.map">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/bootstrap/js/bootstrap.min.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/bootstrap/js/bootstrap.min.js.map">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/chart.js/Chart.bundle.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/chart.js/Chart.bundle.min.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/chart.js/Chart.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/chart.js/Chart.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/chart.js/Chart.min.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/chart.js/Chart.min.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/daterangepicker/daterangepicker.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/daterangepicker/daterangepicker.js">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/all.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/all.min.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/brands.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/brands.min.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/fontawesome.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/fontawesome.min.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/regular.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/regular.min.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/solid.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/solid.min.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/svg-with-js.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/svg-with-js.min.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/v4-shims.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/css/v4-shims.min.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-brands-400.eot">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-brands-400.svg">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-brands-400.ttf">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-brands-400.woff">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-brands-400.woff2">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-regular-400.eot">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-regular-400.svg">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-regular-400.ttf">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-regular-400.woff">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-regular-400.woff2">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-solid-900.eot">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-solid-900.svg">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-solid-900.ttf">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-solid-900.woff">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/fontawesome-free/webfonts/fa-solid-900.woff2">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Assets/Admin/icheck-bootstrap/icheck-bootstrap.css">
+      <publishTime>08/15/2025 10:40:04</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>08/16/2025 10:07:45</publishTime>
+    </File>
+    <File Include="libman.json">
+      <publishTime>08/30/2025 22:07:01</publishTime>
+    </File>
+    <File Include="Site1.Master">
+      <publishTime>09/17/2025 18:18:10</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>09/25/2025 23:57:53</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
